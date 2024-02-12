@@ -1,0 +1,32 @@
+{
+  "name": "trafficbox_ui_kit_v4",
+  "version": "1.0.2",
+  "main": "dist/index.js",
+  "module": "dist/index.esm.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "pub": "npm run build && npm version patch && npm publish",
+    "build": "rollup -c",
+    "build_watch": "rollup -c -w",
+    "prepublishOnly": "npm run build"
+  },
+  "peerDependencies": {
+    "react": "*",
+    "react-dom": "*"
+  },
+  "devDependencies": {
+    "@rollup/plugin-commonjs": "^22.0.1",
+    "@rollup/plugin-node-resolve": "^13.0.4",
+    "@rollup/plugin-typescript": "^10.0.0",
+    "@types/lodash": "^4.14.202",
+    "@types/react": "^18.2.55",
+    "rollup": "^2.70.0",
+    "tslib": "^2.6.2",
+    "typescript": "^5.2.2"
+  },
+  "dependencies": {
+    "@material-tailwind/react": "^2.1.9",
+    "lodash": "^4.17.21",
+    "react-icons": "^5.0.1"
+  }
+}
