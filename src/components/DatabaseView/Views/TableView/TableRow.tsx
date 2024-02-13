@@ -17,8 +17,9 @@ type props_type = {
 export function TableRow (props: props_type) {
 	const context = useContext(TableViewContext)
 	const isSelected = !!context.selected.find(s => s === props.row.id)
+
 	const onSelected = (e: any) => {
-		context.onSelect(
+		context.actions.onSelect(
 			isSelected
 				? context.selected.filter(s => s !== props.row.id)
 				: [...context.selected, props.row.id]
@@ -50,7 +51,7 @@ export function TableRow (props: props_type) {
 						<ColumnValueTypeSwitcher
 							column={column}
 							row={props.row}
-							onEdit={context.onEdit}
+							onEdit={context.actions.onEdit}
 						/>
 					</TableCellItem>
 				</TableCell>

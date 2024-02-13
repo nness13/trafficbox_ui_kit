@@ -16,7 +16,7 @@ export function TableHeaderRow (props: props_type) {
 	const context = useContext(TableViewContext)
 
 	function onSelectedAll () {
-		context.onSelect(
+		context.actions.onSelect(
 			context.selected?.length! > 0 ? [] : context.rows.map(row => row.id)
 		)
 	}
@@ -29,7 +29,7 @@ export function TableHeaderRow (props: props_type) {
 						checked={context.selected?.length! > 0}
 						onChange={onSelectedAll}
 					/>
-					{context.selected?.filter(n => typeof n === "number").length}
+					{context.selected.length}
 				</TableCellItem>
 			</TableCell>
 			{props.columns.map(column => (

@@ -30,7 +30,7 @@ export function TableGroupRow (props: props_type) {
 			props.row.id,
 			...getTrustItemID(props.row.children, 0)
 		]
-		context.onSelect(
+		context.actions.onSelect(
 			isSelected
 				? context.selected.filter(s => !selected_id.includes(s))
 				: [...context.selected, ...selected_id]
@@ -74,7 +74,7 @@ export function TableGroupRow (props: props_type) {
 							<ColumnValueTypeSwitcher
 								column={column}
 								row={props.row}
-								onEdit={context.onEdit}
+								onEdit={context.actions.onEdit}
 							/>
 						</TableCellItem>
 					</TableCell>

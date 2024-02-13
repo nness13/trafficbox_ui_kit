@@ -1,11 +1,20 @@
 import { useReducer } from 'react'
 import { action_dispatcher } from '@/utils/reducer.utils'
 import { TableViewContextProps } from '@/components/DatabaseView/Views/TableView/TableView'
+import { produce } from "immer"
 
 const actions = {
-	onSelect: (state, action) => ({
-		...state,
-		selected: action.payload
+	onSelect: (state, action) => produce(state, draft => {
+		draft.selected = action.payload
+	}),
+	toggle_filter_panel_status: (state, action) => produce(state, draft => {
+		draft.filter_panel_status = action.payload
+	}),
+	toggle_sort_panel_status: (state, action) => produce(state, draft => {
+		draft.sort_panel_status = action.payload
+	}),
+	set_search: (state, action) => produce(state, draft => {
+		draft.search.value = action.payload
 	}),
 } satisfies Record<string, (state: TableViewContextProps, action: ActionType) => TableViewContextProps>
 
@@ -26,10 +35,9 @@ export const useTableViewReducer = (initialState: TableViewContextProps): TableV
 		initialState
 	)
 
-	const dispatch_actions = action_dispatcher(actions, dispatch)
 
 	return {
 		...state,
-		...dispatch_actions
+		actions: action_dispatcher(actions, dispatch, state.name) as any
 	}
 }

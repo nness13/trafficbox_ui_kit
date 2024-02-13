@@ -1,18 +1,20 @@
 import { useReducer } from 'react'
 import { DatabaseViewContextProps } from '@/components/DatabaseView/DatabaseView'
 import { action_dispatcher } from '@/utils/reducer.utils'
+import { produce } from 'immer'
 
 const actions = {
-	onSelect: (state, action) => ({
-		...state,
-		selected: action.payload
-	}),
+	on_create_view: (state, action) => produce(state, draft => {}),
+	on_edit_view: (state, action) => produce(state, draft => {}),
+	on_delete_view: (state, action) => produce(state, draft => {}),
+	onSelectView: (state, action) => produce(state, draft => {}),
 } satisfies Record<string, (state: DatabaseViewContextProps, action: ActionType) => DatabaseViewContextProps>
 
 type ActionEnum = keyof typeof actions
-type ActionType = {
+export type ActionType = {
 	type: ActionEnum
-	payload: any
+	view_name: string
+	payload: any,
 }
 
 export const useDatabaseViewReducer = (initialState: DatabaseViewContextProps): DatabaseViewContextProps => {
@@ -26,10 +28,7 @@ export const useDatabaseViewReducer = (initialState: DatabaseViewContextProps): 
 		initialState
 	)
 
-	const dispatch_actions = action_dispatcher(actions, dispatch)
-
-	return {
-		...state,
-		...dispatch_actions
-	}
+	return produce(state, draft => {
+		draft.actions = action_dispatcher(actions, dispatch) as any
+	})
 }

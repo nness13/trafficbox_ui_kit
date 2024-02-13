@@ -5,6 +5,7 @@ import { TableRow } from '@/components/DatabaseView/Views/TableView/TableRow'
 import { TableHeaderRow } from '@/components/DatabaseView/Views/TableView/TableHeaderRow'
 import { useTableViewReducer } from '@/components/DatabaseView/Views/TableView/TableViewReducer'
 import { ColumnType } from '@/components/DatabaseView/DatabaseView'
+import _ from 'lodash'
 
 export type TableViewProps = Partial<TableViewContextProps> & {
 	rows: Record<string, any>[]
@@ -33,8 +34,18 @@ export type TableViewContextProps = {
 		showSizeChanger: boolean,
 	},
 
-	onSelect: Function
-	onEdit: Function
+	filter_panel_status: boolean
+	sort_panel_status: boolean
+	groups_panel_status: boolean
+
+	actions: {
+		onSelect: Function
+		onEdit: Function
+		set_search: Function
+		toggle_filter_panel_status: Function
+		toggle_sort_panel_status: Function
+		toggle_group_panel_status: Function
+	}
 }
 export const initialTableViewContext: TableViewContextProps = {
 	name: "Table",  // unique property
@@ -58,37 +69,49 @@ export const initialTableViewContext: TableViewContextProps = {
 		showSizeChanger: false,
 	},
 
-	onSelect: () => {},
-	onEdit: () => {}
+	filter_panel_status: false,
+	sort_panel_status: false,
+	groups_panel_status: false,
+
+	actions: {
+		onSelect: () => {},
+		onEdit: () => {},
+		set_search: () => {},
+		toggle_filter_panel_status: () => {},
+		toggle_sort_panel_status: () => {},
+		toggle_group_panel_status: () => {},
+	}
 }
 
 export const TableViewContext = createContext<TableViewContextProps>(initialTableViewContext)
 
-export const TableView = (props: TableViewContextProps) => (
-	<div className="overflow-auto max-h-[900px] min-h-[700px]">
-		<TableContainer>
-			<TableHeaderRow columns={props.columns}/>
-			{props.rows.map((row, key) => (
-				row?.children
-					? <TableGroupRow
-						group_id={0}
-						key={key}
-						row={row}
-						columns={props.columns}
-					/>
-					: <TableRow
-						key={key}
-						row={row}
-						columns={props.columns}
-					/>
-			))}
-		</TableContainer>
-	</div>
-)
+export const TableView = (props: TableViewContextProps) => {
+	return (
+		<div className="overflow-auto max-h-[900px] min-h-[700px]">
+			<TableContainer>
+				<TableHeaderRow columns={props.columns}/>
+				{props.rows.map((row, key) => (
+					row?.children
+						? <TableGroupRow
+							group_id={0}
+							key={key}
+							row={row}
+							columns={props.columns}
+						/>
+						: <TableRow
+							key={key}
+							row={row}
+							columns={props.columns}
+						/>
+				))}
+			</TableContainer>
+		</div>
+	)
+}
 
 export const TableViewWithContext: FC<TableViewProps> = ({ ...props }) => {
-	const state = useTableViewReducer({ ...initialTableViewContext, ...props })
-	console.log({ state })
+	const state = useTableViewReducer({...initialTableViewContext, ...props})
+	console.log(`Table State: `, state)
 
 	return (
 		<TableViewContext.Provider value={state}>

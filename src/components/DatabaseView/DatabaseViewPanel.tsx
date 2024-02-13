@@ -1,7 +1,13 @@
 import React, { FC, ReactNode, useContext } from 'react'
 import { DatabaseViewContext } from '@/components/DatabaseView/DatabaseView'
-import { Tooltip } from '@material-tailwind/react'
 import { Button } from '@/components/Button'
+import { ViewPopoverEditor } from '@/components/DatabaseView/ViewPopoverEditor'
+import { ViewsIcon } from '@/components/DatabaseView/ViewIcon'
+import { ViewPopoverCreator } from '@/components/DatabaseView/ViewPopoverCreator'
+import { HiChevronDown, HiEllipsisHorizontal, HiPlus } from 'react-icons/hi2'
+import { SortPopoverCreator } from '@/components/DatabaseView/sort/SortPopoverCreator'
+import { SearchInput } from '@/components/DatabaseView/search/SearchInput'
+import { GroupPopoverCreator } from '@/components/DatabaseView/group/GroupPopoverCreator'
 
 export interface DatabaseViewPanelProps {
 	children?: ReactNode;
@@ -10,90 +16,91 @@ export interface DatabaseViewPanelProps {
 export const DatabaseViewPanel: FC<DatabaseViewPanelProps> = ({ children }) => {
 	const context = useContext(DatabaseViewContext)
 
+	const active_view = context.views.find(view => view.name === context.selected_view)!
+
 	return (
 		<div>
-			DatabaseViewPanel
 			<div className="w-full flex justify-between border-b border-border_line">
 				<div className="flex">
-			{/*		{context.views.map(view => {*/}
-			{/*			const is_select = view.id === context.select_view*/}
-			{/*			return (*/}
-			{/*				<ViewPopoverEditor*/}
-			{/*					key={view.id}*/}
-			{/*					view={view}*/}
-			{/*					isActive={is_select}*/}
-			{/*				>*/}
-			{/*					<Tab*/}
-			{/*						className={`${is_select ? 'text-text_passive border-b-2 border-solid border-gray-900 dark:border-[#4e4d4b]' : ''}`}*/}
-			{/*						onClick={() => context.onSelectView(view.id)}*/}
-			{/*					>*/}
-			{/*						<ViewsIcon type={view.view}/>*/}
-			{/*						{view.name}*/}
-			{/*					</Tab>*/}
-			{/*				</ViewPopoverEditor>*/}
-			{/*			)*/}
-			{/*		})}*/}
-			{/*		<ViewPopoverCreator>*/}
-			{/*			<Tab>*/}
-			{/*				<PlusIcon className="h-5 w-5"/>*/}
-			{/*			</Tab>*/}
-			{/*		</ViewPopoverCreator>*/}
+					{context.views.map(view => {
+						const is_select = view.name === context.selected_view
+						return (
+							<ViewPopoverEditor
+								key={view.name}
+								view={view}
+								isActive={is_select}
+							>
+								<Tab
+									className={`${is_select ? 'text-text_passive border-b-2 border-solid border-gray-900 dark:border-[#4e4d4b]' : ''}`}
+									onClick={() => context.actions.onSelectView(view.name)}
+								>
+									<ViewsIcon type={view.type}/>
+									{view.name}
+								</Tab>
+							</ViewPopoverEditor>
+						)
+					})}
+					<ViewPopoverCreator>
+						<Tab>
+							<HiPlus className="h-5 w-5"/>
+						</Tab>
+					</ViewPopoverCreator>
 				</div>
 				<div className="flex">
-			{/*		<Tab*/}
-			{/*			className={`${context.view.filters.panel_status ? '!text-blue-500' : ''}`}*/}
-			{/*			onClick={toggle_filter_panel_status}*/}
-			{/*		>*/}
-			{/*			Filter*/}
-			{/*		</Tab>*/}
+					<Tab
+						className={`${active_view.filter_panel_status ? '!text-blue-500' : ''}`}
+						onClick={() => active_view.actions.toggle_filter_panel_status(!active_view.filter_panel_status)}
+					>
+						Filter
+					</Tab>
 
-			{/*		<SortPopoverCreator>*/}
-			{/*			<Tab className={`${context.view.sort.panel_status ? "!text-blue-500" : ''}`}>*/}
-			{/*				Sort*/}
-			{/*			</Tab>*/}
-			{/*		</SortPopoverCreator>*/}
+					<SortPopoverCreator>
+						<Tab className={`${active_view.sort_panel_status ? "!text-blue-500" : ''}`}>
+							Sort
+						</Tab>
+					</SortPopoverCreator>
 
-			{/*		{context.view.groups.list.length === 0*/}
-			{/*			? <GroupPopoverCreator>*/}
-			{/*				<Tab*/}
-			{/*					className={`${context.view.groups.panel_status ? '!text-blue-500' : ''}`}*/}
-			{/*					onClick={toggle_group_panel_status}*/}
-			{/*				>*/}
-			{/*					Group*/}
-			{/*				</Tab>*/}
-			{/*			</GroupPopoverCreator>*/}
-			{/*			: <Tab*/}
-			{/*				className={`${context.view.groups.panel_status ? '!text-blue-500' : ''}`}*/}
-			{/*				onClick={toggle_group_panel_status}*/}
-			{/*			>*/}
-			{/*				Group*/}
-			{/*			</Tab>*/}
-			{/*		}*/}
+					{active_view.groups.length === 0
+						? <GroupPopoverCreator>
+							<Tab
+								className={`${active_view.groups_panel_status ? '!text-blue-500' : ''}`}
+								onClick={() => active_view.actions.toggle_group_panel_status()}
+							>
+								Group
+							</Tab>
+						</GroupPopoverCreator>
+						: <Tab
+							className={`${active_view.groups_panel_status ? '!text-blue-500' : ''}`}
+							onClick={() => active_view.actions.toggle_group_panel_status()}
+						>
+							Group
+						</Tab>
+					}
 
-			{/*		<SearchInput/>*/}
-			{/*		<DatabaseFloatEditPanel/>*/}
 
-			{/*		<Tab>*/}
-			{/*			<EllipsisHorizontalIcon className="h-5 w-5"/>*/}
-			{/*		</Tab>*/}
-			{/*		<Tab*/}
-			{/*			onClick={() => context.onLoad()}*/}
-			{/*			className={select_view?.viewChanged ? "bg-light-green-600 hover:bg-light-green-700 hover:bg-opacity-100" : ""}*/}
-			{/*		>*/}
-			{/*			<Tooltip content={`Остання загрузка: ${moment(context.last_load_database_datetime).format(date_format)}`}>*/}
-			{/*				{select_view?.viewChanged*/}
-			{/*					? <CheckIcon className="h-5 w-5 text-white"/>*/}
-			{/*					: <ArrowPathIcon className="h-5 w-5"/>*/}
-			{/*				}*/}
-			{/*			</Tooltip>*/}
-			{/*		</Tab>*/}
+					<SearchInput/>
 
-			{/*		<ActionMenuPopover>*/}
-			{/*			<Button className="w-fit">*/}
-			{/*				<ChevronDownIcon className="w-5 h-5"/>*/}
-			{/*				Дії*/}
-			{/*			</Button>*/}
-			{/*		</ActionMenuPopover>*/}
+					<Tab>
+						<HiEllipsisHorizontal className="h-5 w-5"/>
+					</Tab>
+					{/*<Tab*/}
+					{/*	onClick={() => context.onLoad()}*/}
+					{/*	className={select_view?.viewChanged ? "bg-light-green-600 hover:bg-light-green-700 hover:bg-opacity-100" : ""}*/}
+					{/*>*/}
+					{/*	<Tooltip content={`Остання загрузка: ${moment(context.last_load_database_datetime).format(date_format)}`}>*/}
+					{/*		{select_view?.viewChanged*/}
+					{/*			? <HiCheck className="h-5 w-5 text-white"/>*/}
+					{/*			: <HiArrowPath className="h-5 w-5"/>*/}
+					{/*		}*/}
+					{/*	</Tooltip>*/}
+					{/*</Tab>*/}
+
+					{/*<ActionMenuPopover>*/}
+						<Button className="w-fit">
+							<HiChevronDown className="w-5 h-5"/>
+							Дії
+						</Button>
+					{/*</ActionMenuPopover>*/}
 				</div>
 			</div>
 			{/*<FilterPanel/>*/}
