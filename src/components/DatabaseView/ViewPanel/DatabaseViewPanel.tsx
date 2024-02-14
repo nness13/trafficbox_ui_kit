@@ -1,4 +1,4 @@
-import React, { FC, ReactNode, useContext } from 'react'
+import React, { FC, memo, ReactNode, useContext } from 'react'
 import { DatabaseViewContext } from '@/components/DatabaseView/DatabaseViewContext'
 import { Button } from '@/components/Button'
 import { ViewPopoverEditor } from '@/components/DatabaseView/ViewPopoverEditor'
@@ -10,44 +10,21 @@ import { SearchInput } from '@/components/DatabaseView/search/SearchInput'
 import { GroupPopoverCreator } from '@/components/DatabaseView/group/GroupPopoverCreator'
 import { Tab } from '@/components/Buttons/Tab'
 import { DatabaseViewContextProps } from '@/components/DatabaseView/DatabaseViewTypes'
+import { ViewPanel } from '@/components/DatabaseView/ViewPanel/ViewPanel'
 
 export interface DatabaseViewPanelProps {
 	children?: ReactNode;
 }
 
-export const DatabaseViewPanel: FC<DatabaseViewPanelProps> = ({ children }) => {
+export const DatabaseViewPanel: FC<DatabaseViewPanelProps> = memo(({ children }) => {
 	const context = useContext<DatabaseViewContextProps>(DatabaseViewContext)
-
 	const active_view = context.views.find(view => view.id === context.selected_view)!
 
 	return (
 		<div>
 			<div className="w-full flex justify-between border-b border-border_line">
-				<div className="flex">
-					{context.views.map(view => {
-						const is_select = view.id === context.selected_view
-						return (
-							<ViewPopoverEditor
-								key={view.name}
-								view={view}
-								isActive={is_select}
-							>
-								<Tab
-									className={`${is_select ? 'text-text_passive border-b-2 border-solid border-gray-900 dark:border-[#4e4d4b]' : ''}`}
-									onClick={() => context.actions.onSelectView(view.id)}
-								>
-									<ViewsIcon type={view.type}/>
-									{view.name}
-								</Tab>
-							</ViewPopoverEditor>
-						)
-					})}
-					<ViewPopoverCreator>
-						<Tab>
-							<HiPlus className="h-5 w-5"/>
-						</Tab>
-					</ViewPopoverCreator>
-				</div>
+				<ViewPanel/>
+
 				<div className="flex">
 					<Tab
 						className={`${active_view.filter_panel_status ? '!text-blue-500' : ''}`}
@@ -109,4 +86,4 @@ export const DatabaseViewPanel: FC<DatabaseViewPanelProps> = ({ children }) => {
 			{/*<GroupPanel/>*/}
 		</div>
 	);
-};
+});

@@ -1,5 +1,5 @@
 import React, { FC, useContext } from 'react'
-import { DatabaseViewPanel } from '@/components/DatabaseView/DatabaseViewPanel'
+import { DatabaseViewPanel } from '@/components/DatabaseView/ViewPanel/DatabaseViewPanel'
 import { CardView } from '@/components/DatabaseView/Views/CardView'
 import { TableView } from '@/components/DatabaseView/Views/TableView/TableView'
 import { useDatabaseViewReducer } from '@/components/DatabaseView/DatabaseViewReducer'
