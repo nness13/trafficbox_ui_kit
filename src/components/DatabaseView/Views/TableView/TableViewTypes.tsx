@@ -1,12 +1,12 @@
 import { ReactNode } from 'react'
 import { ColumnCase, ColumnType } from '@/components/DatabaseView/DatabaseViewTypes'
 
-export type TableViewProps = Partial<TableViewContextProps> & {
+export type TableViewProps = Partial<ViewStateType> & {
 	rows: Record<string, any>[]
 	columns: ColumnType[]
 }
 
-export type TableViewContextProps = {
+export type ViewStateType = {
 	id: string, // unique property
 	name: string, // unique property
 	type: "table",
@@ -33,14 +33,4 @@ export type TableViewContextProps = {
 	filter_panel_status: boolean
 	sort_panel_status: boolean
 	groups_panel_status: boolean
-
-	actions: {
-		on_edit_view: Function
-		onSelect: Function
-		onEdit: Function
-		set_search: Function
-		toggle_filter_panel_status: Function
-		toggle_sort_panel_status: Function
-		toggle_group_panel_status: Function
-	}
 }

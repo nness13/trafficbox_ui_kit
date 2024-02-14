@@ -1,34 +1,35 @@
 import React, { FC, memo, ReactNode, useContext } from 'react'
-import { DatabaseViewContext } from '@/components/DatabaseView/DatabaseViewContext'
+import {
+	DatabaseViewContext,
+	useActiveViewContext,
+	useDatabaseViewContext
+} from '@/components/DatabaseView/DatabaseViewContext'
 import { Button } from '@/components/Button'
-import { ViewPopoverEditor } from '@/components/DatabaseView/ViewPopoverEditor'
-import { ViewsIcon } from '@/components/DatabaseView/ViewIcon'
-import { ViewPopoverCreator } from '@/components/DatabaseView/ViewPopoverCreator'
-import { HiChevronDown, HiEllipsisHorizontal, HiPlus } from 'react-icons/hi2'
+import { HiChevronDown, HiEllipsisHorizontal } from 'react-icons/hi2'
 import { SortPopoverCreator } from '@/components/DatabaseView/sort/SortPopoverCreator'
 import { SearchInput } from '@/components/DatabaseView/search/SearchInput'
 import { GroupPopoverCreator } from '@/components/DatabaseView/group/GroupPopoverCreator'
 import { Tab } from '@/components/Buttons/Tab'
-import { DatabaseViewContextProps } from '@/components/DatabaseView/DatabaseViewTypes'
-import { ViewPanel } from '@/components/DatabaseView/ViewPanel/ViewPanel'
+import { DatabaseViewStateType } from '@/components/DatabaseView/DatabaseViewTypes'
+import { ViewSwitcherPanel } from '@/components/DatabaseView/ViewPanel/ViewSwitcherPanel'
 
 export interface DatabaseViewPanelProps {
 	children?: ReactNode;
 }
 
 export const DatabaseViewPanel: FC<DatabaseViewPanelProps> = memo(({ children }) => {
-	const context = useContext<DatabaseViewContextProps>(DatabaseViewContext)
-	const active_view = context.views.find(view => view.id === context.selected_view)!
+	const context = useDatabaseViewContext()
+	const active_view = useActiveViewContext()
 
 	return (
 		<div>
 			<div className="w-full flex justify-between border-b border-border_line">
-				<ViewPanel/>
+				<ViewSwitcherPanel/>
 
 				<div className="flex">
 					<Tab
 						className={`${active_view.filter_panel_status ? '!text-blue-500' : ''}`}
-						onClick={() => active_view.actions.toggle_filter_panel_status(!active_view.filter_panel_status)}
+						onClick={() => context.actions.toggle_filter_panel_status(!active_view.filter_panel_status)}
 					>
 						Filter
 					</Tab>
@@ -43,14 +44,14 @@ export const DatabaseViewPanel: FC<DatabaseViewPanelProps> = memo(({ children })
 						? <GroupPopoverCreator>
 							<Tab
 								className={`${active_view.groups_panel_status ? '!text-blue-500' : ''}`}
-								onClick={() => active_view.actions.toggle_group_panel_status()}
+								onClick={() => context.actions.toggle_group_panel_status()}
 							>
 								Group
 							</Tab>
 						</GroupPopoverCreator>
 						: <Tab
 							className={`${active_view.groups_panel_status ? '!text-blue-500' : ''}`}
-							onClick={() => active_view.actions.toggle_group_panel_status()}
+							onClick={() => context.actions.toggle_group_panel_status()}
 						>
 							Group
 						</Tab>

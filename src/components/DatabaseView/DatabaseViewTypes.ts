@@ -1,7 +1,8 @@
 import { FC } from 'react'
-import { TableViewContextProps } from '@/components/DatabaseView/Views/TableView/TableViewTypes'
+import { ViewStateType } from '@/components/DatabaseView/Views/TableView/TableViewTypes'
+import { ActionType } from '@/components/DatabaseView/DatabaseViewReducer'
 
-export type DatabaseViewProps = Partial<DatabaseViewContextProps> & {
+export type DatabaseViewProps = Partial<DatabaseViewStateType> & {
 	rows: RowType[]
 	columns: ColumnType[]
 }
@@ -24,15 +25,22 @@ export const ViewTypesEnum = {
 
 export type ColumnCase = Record<string, { Icon: FC<any> }>
 
-export type DatabaseViewContextProps = {
+export type DatabaseViewStateType = {
 	selected_view: string,
 	columns: ColumnType[],
 	rows: RowType[],
-	views: TableViewContextProps[],
+	views: ViewStateType[],
 
 	actions: {
 		on_create_view: Function,
 		on_delete_view: Function,
 		onSelectView: Function,
+		on_edit_view: Function
+		onSelect: Function
+		set_search: Function
+		onEdit: Function
+		toggle_filter_panel_status: Function
+		toggle_sort_panel_status: Function
+		toggle_group_panel_status: Function
 	}
 }

@@ -5,18 +5,19 @@ import {
 	TableCheckbox,
 	TableRowContainer
 } from '@/components/DatabaseView/Views/TableView/TableContainers'
-import { useTableViewContext } from '@/components/DatabaseView/Views/TableView/TableViewContext'
 import { ColumnType } from '@/components/DatabaseView/DatabaseViewTypes'
+import { useActiveViewContext, useDatabaseViewContext } from '@/components/DatabaseView/DatabaseViewContext'
 
 type props_type = {
 	columns: ColumnType[]
 }
 export function TableHeaderRow (props: props_type) {
-	const context = useTableViewContext()
+	const viewState = useActiveViewContext()
+	const context = useDatabaseViewContext()
 
 	function onSelectedAll () {
 		context.actions.onSelect(
-			context.selected.length > 0 ? [] : context.rows.map(row => row.id)
+			viewState.selected.length > 0 ? [] : context.rows.map(row => row.id)
 		)
 	}
 
@@ -25,15 +26,15 @@ export function TableHeaderRow (props: props_type) {
 			<TableCell>
 				<TableCellItem>
 					<TableCheckbox
-						checked={context.selected?.length! > 0}
+						checked={viewState.selected?.length! > 0}
 						onChange={onSelectedAll}
 					/>
-					{context.selected.length}
+					{viewState.selected.length}
 				</TableCellItem>
 			</TableCell>
 			{props.columns.map(column => {
 				// console.log(context.column_case, column.type.type)
-				const { Icon } = context.column_case[column.type.type]
+				const { Icon } = viewState.column_case[column.type.type]
 				return (
 					<TableCell key={column.key}>
 						<TableCellItem>

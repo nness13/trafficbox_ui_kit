@@ -1,20 +1,11 @@
-import { DatabaseViewContextProps } from '@/components/DatabaseView/DatabaseViewTypes'
 import { createContext, useContext } from 'react'
+import { initialDatabaseViewState } from '@/components/DatabaseView/DatabaseViewReducer'
 
-export const initialDatabaseViewContext: DatabaseViewContextProps = {
-	selected_view: "1",
-	columns: [],
-	rows: [],
-	views: [
-		// useTableViewReducer(initialTableViewContext)
-	],
-
-	actions: {
-		on_create_view: () => {},
-		on_delete_view: () => {},
-		onSelectView: () => {},
-	}
-}
-
-export const DatabaseViewContext = createContext(initialDatabaseViewContext)
+export const DatabaseViewContext = createContext(initialDatabaseViewState)
 export const useDatabaseViewContext = () => useContext(DatabaseViewContext)
+export const useActiveViewContext = () => {
+	const context = useDatabaseViewContext()
+	const active_view = context.views.find(view => view.id === context.selected_view)
+	if(!active_view) throw new Error("Active view")
+	return active_view
+}

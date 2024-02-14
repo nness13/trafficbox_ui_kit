@@ -7,7 +7,7 @@ import {
 } from '@/components/DatabaseView/Views/TableView/TableContainers'
 import { ColumnValueTypeSwitcher } from '@/components/DatabaseView/Views/TableView/ColumnValueTypeSwitcher'
 import { ColumnType, RowType } from '@/components/DatabaseView/DatabaseViewTypes'
-import { useTableViewContext } from '@/components/DatabaseView/Views/TableView/TableViewContext'
+import { useActiveViewContext, useDatabaseViewContext } from '@/components/DatabaseView/DatabaseViewContext'
 
 type props_type = {
 	row: RowType
@@ -15,14 +15,15 @@ type props_type = {
 }
 
 export function TableRow (props: props_type) {
-	const context = useTableViewContext()
-	const isSelected = !!context.selected.find(s => s === props.row.id)
+	const viewState = useActiveViewContext()
+	const context = useDatabaseViewContext()
+	const isSelected = !!viewState.selected.find(s => s === props.row.id)
 
 	const onSelected = (e: any) => {
 		context.actions.onSelect(
 			isSelected
-				? context.selected.filter(s => s !== props.row.id)
-				: [...context.selected, props.row.id]
+				? viewState.selected.filter(s => s !== props.row.id)
+				: [...viewState.selected, props.row.id]
 		)
 	}
 

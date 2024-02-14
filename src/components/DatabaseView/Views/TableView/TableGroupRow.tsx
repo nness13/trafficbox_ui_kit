@@ -9,8 +9,8 @@ import { TableRow } from '@/components/DatabaseView/Views/TableView/TableRow'
 import { getAllCount, getTrustItemID } from '@/components/DatabaseView/DatabaseView.utils'
 import { HiChevronDown, HiChevronRight } from 'react-icons/hi2'
 import { ColumnValueTypeSwitcher } from '@/components/DatabaseView/Views/TableView/ColumnValueTypeSwitcher'
-import { useTableViewContext } from '@/components/DatabaseView/Views/TableView/TableViewContext'
 import { ColumnType, RowType } from '@/components/DatabaseView/DatabaseViewTypes'
+import { useActiveViewContext, useDatabaseViewContext } from '@/components/DatabaseView/DatabaseViewContext'
 
 type props_type = {
 	group_id: number
@@ -19,8 +19,9 @@ type props_type = {
 }
 
 export function TableGroupRow (props: props_type) {
-	const context = useTableViewContext()
-	const isSelected = !!context.selected.find(s => s === props.row.id)
+	const context = useDatabaseViewContext()
+	const view_state = useActiveViewContext()
+	const isSelected = !!view_state.selected.find(s => s === props.row.id)
 	const onSelected = (e: any) => {
 		const selected_id = [
 			props.row.id,
@@ -28,8 +29,8 @@ export function TableGroupRow (props: props_type) {
 		]
 		context.actions.onSelect(
 			isSelected
-				? context.selected.filter(s => !selected_id.includes(s))
-				: [...context.selected, ...selected_id]
+				? view_state.selected.filter(s => !selected_id.includes(s))
+				: [...view_state.selected, ...selected_id]
 		)
 	}
 

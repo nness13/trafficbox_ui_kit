@@ -3,15 +3,15 @@ import { Input, Popover, PopoverContent, PopoverHandler } from '@material-tailwi
 import { HiTrash } from 'react-icons/hi2'
 import { DatabaseViewContext } from '@/components/DatabaseView/DatabaseViewContext'
 import { SimpleLightButton } from '@/components/Buttons/SimpleLightButton'
-import { TableViewContextProps } from '@/components/DatabaseView/Views/TableView/TableViewTypes'
+import { ViewStateType } from '@/components/DatabaseView/Views/TableView/TableViewTypes'
 
-export function ViewPopoverEditor ( props: { children: React.ReactNode, view: TableViewContextProps, isActive: boolean } ) {
+export function ViewPopoverEditor ( props: { children: React.ReactNode, view: ViewStateType, isActive: boolean } ) {
 	const context = useContext(DatabaseViewContext)
 	const [status, set_status] = useState(false)
 
 	const select_view = context.views.find(view => view.id === context.selected_view)
 	const on_edit_view = (name: string) => {
-		select_view?.actions.on_edit_view({ name })
+		context.actions.on_edit_view({ name })
 	}
 	const on_delete_view = () => {
 		set_status(false)

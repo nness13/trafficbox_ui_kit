@@ -3,11 +3,10 @@ import { TableContainer } from '@/components/DatabaseView/Views/TableView/TableC
 import { TableGroupRow } from '@/components/DatabaseView/Views/TableView/TableGroupRow'
 import { TableRow } from '@/components/DatabaseView/Views/TableView/TableRow'
 import { TableHeaderRow } from '@/components/DatabaseView/Views/TableView/TableHeaderRow'
-import { initialTableViewState, useTableViewReducer } from '@/components/DatabaseView/Views/TableView/TableViewReducer'
-import { TableViewContextProps, TableViewProps } from '@/components/DatabaseView/Views/TableView/TableViewTypes'
-import { TableViewContext } from '@/components/DatabaseView/Views/TableView/TableViewContext'
+import { TableViewProps, ViewStateType } from '@/components/DatabaseView/Views/TableView/TableViewTypes'
+import { useActiveViewContext } from '@/components/DatabaseView/DatabaseViewContext'
 
-export const TableView = (props: TableViewContextProps) => {
+export const TableView = (props: ViewStateType) => {
 	return (
 		<div className="overflow-auto max-h-[900px] min-h-[700px]">
 			<TableContainer>
@@ -32,12 +31,13 @@ export const TableView = (props: TableViewContextProps) => {
 }
 
 export const TableViewWithContext: FC<TableViewProps> = ({ ...props }) => {
-	const state = useTableViewReducer({...initialTableViewState, ...props})
+	const viewState = useActiveViewContext()
+	// const state = useTableViewReducer({...initialTableViewState, ...props})
 	// console.log(`Table State: `, state)
 
 	return (
-		<TableViewContext.Provider value={state}>
-			<TableView {...state}/>
-		</TableViewContext.Provider>
+		// <TableViewContext.Provider value={state}>
+			<TableView {...viewState}/>
+		// </TableViewContext.Provider>
 	)
 }
