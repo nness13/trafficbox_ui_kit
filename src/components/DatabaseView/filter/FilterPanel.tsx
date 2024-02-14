@@ -6,10 +6,12 @@ import { FilterPopoverEditor } from '@/components/DatabaseView/filter/FilterPopo
 import { FilterTag } from '@/components/DatabaseView/filter/FilterTag'
 import { FilterTagAdd } from '@/components/DatabaseView/filter/FilterTagAdd'
 import { FilterPopoverCreator } from '@/components/DatabaseView/filter/FilterPopoverCreator'
+import { TableViewContextProps } from '@/components/DatabaseView/Views/TableView/TableViewTypes'
+import { DatabaseViewContextProps } from '@/components/DatabaseView/DatabaseViewTypes'
 
 export function FilterPanel () {
-	const context = useContext(DatabaseViewContext)
-	const active_view = context.views.find(view => view.name === context.selected_view)!
+	const context = useContext<DatabaseViewContextProps>(DatabaseViewContext)
+	const active_view = context.views.find(view => view.id === context.selected_view)!
 
 	// useEffect(() => {
 	// 	context.onLoad()

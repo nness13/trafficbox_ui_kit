@@ -9,22 +9,23 @@ import { SortPopoverCreator } from '@/components/DatabaseView/sort/SortPopoverCr
 import { SearchInput } from '@/components/DatabaseView/search/SearchInput'
 import { GroupPopoverCreator } from '@/components/DatabaseView/group/GroupPopoverCreator'
 import { Tab } from '@/components/Buttons/Tab'
+import { DatabaseViewContextProps } from '@/components/DatabaseView/DatabaseViewTypes'
 
 export interface DatabaseViewPanelProps {
 	children?: ReactNode;
 }
 
 export const DatabaseViewPanel: FC<DatabaseViewPanelProps> = ({ children }) => {
-	const context = useContext(DatabaseViewContext)
+	const context = useContext<DatabaseViewContextProps>(DatabaseViewContext)
 
-	const active_view = context.views.find(view => view.name === context.selected_view)!
+	const active_view = context.views.find(view => view.id === context.selected_view)!
 
 	return (
 		<div>
 			<div className="w-full flex justify-between border-b border-border_line">
 				<div className="flex">
 					{context.views.map(view => {
-						const is_select = view.name === context.selected_view
+						const is_select = view.id === context.selected_view
 						return (
 							<ViewPopoverEditor
 								key={view.name}
@@ -33,7 +34,7 @@ export const DatabaseViewPanel: FC<DatabaseViewPanelProps> = ({ children }) => {
 							>
 								<Tab
 									className={`${is_select ? 'text-text_passive border-b-2 border-solid border-gray-900 dark:border-[#4e4d4b]' : ''}`}
-									onClick={() => context.actions.onSelectView(view.name)}
+									onClick={() => context.actions.onSelectView(view.id)}
 								>
 									<ViewsIcon type={view.type}/>
 									{view.name}

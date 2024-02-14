@@ -1,22 +1,22 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import {
 	TableCell,
 	TableCellItem,
 	TableCheckbox,
 	TableRowContainer
 } from '@/components/DatabaseView/Views/TableView/TableContainers'
-import { TableViewContext } from '@/components/DatabaseView/Views/TableView/TableViewContext'
+import { useTableViewContext } from '@/components/DatabaseView/Views/TableView/TableViewContext'
 import { ColumnType } from '@/components/DatabaseView/DatabaseViewTypes'
 
 type props_type = {
 	columns: ColumnType[]
 }
 export function TableHeaderRow (props: props_type) {
-	const context = useContext(TableViewContext)
+	const context = useTableViewContext()
 
 	function onSelectedAll () {
 		context.actions.onSelect(
-			context.selected?.length! > 0 ? [] : context.rows.map(row => row.id)
+			context.selected.length > 0 ? [] : context.rows.map(row => row.id)
 		)
 	}
 
@@ -32,7 +32,7 @@ export function TableHeaderRow (props: props_type) {
 				</TableCellItem>
 			</TableCell>
 			{props.columns.map(column => {
-				console.log(context.column_case, column.type.type)
+				// console.log(context.column_case, column.type.type)
 				const { Icon } = context.column_case[column.type.type]
 				return (
 					<TableCell key={column.key}>

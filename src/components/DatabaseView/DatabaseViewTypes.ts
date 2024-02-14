@@ -32,7 +32,6 @@ export type DatabaseViewContextProps = {
 
 	actions: {
 		on_create_view: Function,
-		on_edit_view: Function,
 		on_delete_view: Function,
 		onSelectView: Function,
 	}

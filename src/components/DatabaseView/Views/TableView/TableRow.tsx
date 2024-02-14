@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import {
 	TableCell,
 	TableCellItem,
@@ -6,8 +6,8 @@ import {
 	TableRowContainer
 } from '@/components/DatabaseView/Views/TableView/TableContainers'
 import { ColumnValueTypeSwitcher } from '@/components/DatabaseView/Views/TableView/ColumnValueTypeSwitcher'
-import { TableViewContext } from '@/components/DatabaseView/Views/TableView/TableViewContext'
 import { ColumnType, RowType } from '@/components/DatabaseView/DatabaseViewTypes'
+import { useTableViewContext } from '@/components/DatabaseView/Views/TableView/TableViewContext'
 
 type props_type = {
 	row: RowType
@@ -15,7 +15,7 @@ type props_type = {
 }
 
 export function TableRow (props: props_type) {
-	const context = useContext(TableViewContext)
+	const context = useTableViewContext()
 	const isSelected = !!context.selected.find(s => s === props.row.id)
 
 	const onSelected = (e: any) => {

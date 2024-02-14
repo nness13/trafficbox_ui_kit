@@ -9,11 +9,9 @@ export function ViewPopoverEditor ( props: { children: React.ReactNode, view: Ta
 	const context = useContext(DatabaseViewContext)
 	const [status, set_status] = useState(false)
 
+	const select_view = context.views.find(view => view.id === context.selected_view)
 	const on_edit_view = (name: string) => {
-		context.actions.on_edit_view({
-			name: props.view.name,
-			new_name: name
-		})
+		select_view?.actions.on_edit_view({ name })
 	}
 	const on_delete_view = () => {
 		set_status(false)

@@ -5,11 +5,12 @@ import { GroupPopoverEditor } from '@/components/DatabaseView/group/GroupPopover
 import { GroupTag } from '@/components/DatabaseView/group/GroupTag'
 import { GroupPopoverCreator } from '@/components/DatabaseView/group/GroupPopoverCreator'
 import { GroupTagAdd } from '@/components/DatabaseView/group/GroupTagAdd'
+import { DatabaseViewContextProps } from '@/components/DatabaseView/DatabaseViewTypes'
 
 
 export function GroupPanel () {
-	const context = useContext(DatabaseViewContext)
-	const active_view = context.views.find(view => view.name === context.selected_view)!
+	const context = useContext<DatabaseViewContextProps>(DatabaseViewContext)
+	const active_view = context.views.find(view => view.id === context.selected_view)!
 
 	const dragProps = {
 		onDragEnd(fromIndex: number, toIndex:number) {

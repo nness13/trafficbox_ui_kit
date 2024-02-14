@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useState } from 'react'
 import {
 	TableCell,
 	TableCellItem,
@@ -9,9 +9,8 @@ import { TableRow } from '@/components/DatabaseView/Views/TableView/TableRow'
 import { getAllCount, getTrustItemID } from '@/components/DatabaseView/DatabaseView.utils'
 import { HiChevronDown, HiChevronRight } from 'react-icons/hi2'
 import { ColumnValueTypeSwitcher } from '@/components/DatabaseView/Views/TableView/ColumnValueTypeSwitcher'
-import { TableViewContext } from '@/components/DatabaseView/Views/TableView/TableViewContext'
+import { useTableViewContext } from '@/components/DatabaseView/Views/TableView/TableViewContext'
 import { ColumnType, RowType } from '@/components/DatabaseView/DatabaseViewTypes'
-
 
 type props_type = {
 	group_id: number
@@ -20,7 +19,7 @@ type props_type = {
 }
 
 export function TableGroupRow (props: props_type) {
-	const context = useContext(TableViewContext)
+	const context = useTableViewContext()
 	const isSelected = !!context.selected.find(s => s === props.row.id)
 	const onSelected = (e: any) => {
 		const selected_id = [

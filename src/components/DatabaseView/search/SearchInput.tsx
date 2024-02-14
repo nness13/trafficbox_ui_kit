@@ -1,11 +1,13 @@
 import { HiMagnifyingGlass } from 'react-icons/hi2'
 import React, { useContext, useState } from 'react'
 import { Input } from '@material-tailwind/react'
-import { TableViewContext } from '@/components/DatabaseView/Views/TableView/TableViewContext'
+import { TableViewContext, useTableViewContext } from '@/components/DatabaseView/Views/TableView/TableViewContext'
 import { Tab } from '@/components/Buttons/Tab'
+import { TableViewContextProps } from '@/components/DatabaseView/Views/TableView/TableViewTypes'
+import { DatabaseViewContext } from '@/components/DatabaseView/DatabaseViewContext'
 
 export function SearchInput () {
-	const context = useContext(TableViewContext)
+	const context = useTableViewContext()
 	const [status, set_status] = useState(true)
 	const on_search = (e: any) => {
 		context.actions.set_search(e.currentTarget.value)
@@ -41,7 +43,7 @@ export function SearchInput () {
 }
 
 export function useDatabaseSearch (rows: any[]) {
-	const context = useContext(TableViewContext)
+	const context = useTableViewContext()
 
 	return rows.filter((row ) =>
 		Object.entries(row).find(([key, property]) => {

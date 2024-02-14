@@ -1,4 +1,3 @@
-
 import { ReactNode } from 'react'
 import { ColumnCase, ColumnType } from '@/components/DatabaseView/DatabaseViewTypes'
 
@@ -8,6 +7,7 @@ export type TableViewProps = Partial<TableViewContextProps> & {
 }
 
 export type TableViewContextProps = {
+	id: string, // unique property
 	name: string, // unique property
 	type: "table",
 	column_case: ColumnCase,
@@ -35,6 +35,7 @@ export type TableViewContextProps = {
 	groups_panel_status: boolean
 
 	actions: {
+		on_edit_view: Function
 		onSelect: Function
 		onEdit: Function
 		set_search: Function

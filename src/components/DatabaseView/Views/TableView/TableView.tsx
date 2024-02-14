@@ -3,9 +3,9 @@ import { TableContainer } from '@/components/DatabaseView/Views/TableView/TableC
 import { TableGroupRow } from '@/components/DatabaseView/Views/TableView/TableGroupRow'
 import { TableRow } from '@/components/DatabaseView/Views/TableView/TableRow'
 import { TableHeaderRow } from '@/components/DatabaseView/Views/TableView/TableHeaderRow'
-import { useTableViewReducer } from '@/components/DatabaseView/Views/TableView/TableViewReducer'
+import { initialTableViewState, useTableViewReducer } from '@/components/DatabaseView/Views/TableView/TableViewReducer'
 import { TableViewContextProps, TableViewProps } from '@/components/DatabaseView/Views/TableView/TableViewTypes'
-import { initialTableViewContext, TableViewContext } from '@/components/DatabaseView/Views/TableView/TableViewContext'
+import { TableViewContext } from '@/components/DatabaseView/Views/TableView/TableViewContext'
 
 export const TableView = (props: TableViewContextProps) => {
 	return (
@@ -32,8 +32,8 @@ export const TableView = (props: TableViewContextProps) => {
 }
 
 export const TableViewWithContext: FC<TableViewProps> = ({ ...props }) => {
-	const state = useTableViewReducer({...initialTableViewContext, ...props})
-	console.log(`Table State: `, state)
+	const state = useTableViewReducer({...initialTableViewState, ...props})
+	// console.log(`Table State: `, state)
 
 	return (
 		<TableViewContext.Provider value={state}>
