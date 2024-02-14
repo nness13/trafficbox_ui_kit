@@ -1,13 +1,12 @@
 import React, { useContext } from 'react'
-// import { IconColumnType } from '@/app/[components]/[components_layout]/main_layout/views/components/IconColumnSwitcher'
 import {
 	TableCell,
 	TableCellItem,
 	TableCheckbox,
 	TableRowContainer
 } from '@/components/DatabaseView/Views/TableView/TableContainers'
-import { TableViewContext } from '@/components/DatabaseView/Views/TableView/TableView'
-import { ColumnType } from '@/components/DatabaseView/DatabaseView'
+import { TableViewContext } from '@/components/DatabaseView/Views/TableView/TableViewContext'
+import { ColumnType } from '@/components/DatabaseView/DatabaseViewTypes'
 
 type props_type = {
 	columns: ColumnType[]
@@ -32,14 +31,18 @@ export function TableHeaderRow (props: props_type) {
 					{context.selected.length}
 				</TableCellItem>
 			</TableCell>
-			{props.columns.map(column => (
-				<TableCell key={column.key}>
-					<TableCellItem>
-						{/*<IconColumnType type={column.type.type}/>*/}
-						<div className="whitespace-nowrap">{column.label}</div>
-					</TableCellItem>
-				</TableCell>
-			))}
+			{props.columns.map(column => {
+				console.log(context.column_case, column.type.type)
+				const { Icon } = context.column_case[column.type.type]
+				return (
+					<TableCell key={column.key}>
+						<TableCellItem>
+							<Icon className={"w-4 h-4"}/>
+							<div className="whitespace-nowrap">{column.label}</div>
+						</TableCellItem>
+					</TableCell>
+				)
+			})}
 		</TableRowContainer>
 	)
 }

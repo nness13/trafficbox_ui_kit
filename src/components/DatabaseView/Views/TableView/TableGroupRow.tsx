@@ -1,8 +1,4 @@
-// import {
-// 	ColumnValueTypeSwitcher
-// } from '@/app/[components]/[components_layout]/main_layout/views/components/ColumnValueTypeSwitcher'
 import React, { useContext, useState } from 'react'
-import { ColumnType, DatabaseViewContext, RowType } from '@/components/DatabaseView/DatabaseView'
 import {
 	TableCell,
 	TableCellItem,
@@ -13,7 +9,8 @@ import { TableRow } from '@/components/DatabaseView/Views/TableView/TableRow'
 import { getAllCount, getTrustItemID } from '@/components/DatabaseView/DatabaseView.utils'
 import { HiChevronDown, HiChevronRight } from 'react-icons/hi2'
 import { ColumnValueTypeSwitcher } from '@/components/DatabaseView/Views/TableView/ColumnValueTypeSwitcher'
-import { TableViewContext } from '@/components/DatabaseView/Views/TableView/TableView'
+import { TableViewContext } from '@/components/DatabaseView/Views/TableView/TableViewContext'
+import { ColumnType, RowType } from '@/components/DatabaseView/DatabaseViewTypes'
 
 
 type props_type = {

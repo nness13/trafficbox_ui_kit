@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import { DatabaseViewContext } from '@/components/DatabaseView/DatabaseView'
+import { DatabaseViewContext } from '@/components/DatabaseView/DatabaseViewContext'
 import { SortPopoverEditor } from '@/components/DatabaseView/sort/SortPopoverEditor'
 import { SortTag } from '@/components/DatabaseView/sort/SortTag'
 import { FilterPopoverEditor } from '@/components/DatabaseView/filter/FilterPopoverEditor'

@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import { DatabaseViewContext } from '@/components/DatabaseView/DatabaseView'
+import { DatabaseViewContext } from '@/components/DatabaseView/DatabaseViewContext'
 import ReactDragListView from 'react-drag-listview'
 import { GroupPopoverEditor } from '@/components/DatabaseView/group/GroupPopoverEditor'
 import { GroupTag } from '@/components/DatabaseView/group/GroupTag'

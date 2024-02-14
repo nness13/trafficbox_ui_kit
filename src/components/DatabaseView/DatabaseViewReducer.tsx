@@ -1,7 +1,7 @@
 import { useReducer } from 'react'
-import { DatabaseViewContextProps } from '@/components/DatabaseView/DatabaseView'
 import { action_dispatcher } from '@/utils/reducer.utils'
 import { produce } from 'immer'
+import { DatabaseViewContextProps } from '@/components/DatabaseView/DatabaseViewTypes'
 
 const actions = {
 	on_create_view: (state, action) => produce(state, draft => {}),

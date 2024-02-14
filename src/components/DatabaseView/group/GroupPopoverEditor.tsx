@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
 import { Popover, PopoverContent, PopoverHandler } from '@material-tailwind/react'
-import { DatabaseViewContext } from '@/components/DatabaseView/DatabaseView'
+import { DatabaseViewContext } from '@/components/DatabaseView/DatabaseViewContext'
 import { GroupEditorSwitcher } from '@/components/DatabaseView/group/GroupEditorSwitcher'
 export function GroupPopoverEditor ( props: { children: React.ReactNode, group: any } ) {
 	const context = useContext(DatabaseViewContext)

@@ -1,9 +1,9 @@
 import React, { useContext, useState } from 'react'
 import { Input, Popover, PopoverContent, PopoverHandler } from '@material-tailwind/react'
 import { HiTrash } from 'react-icons/hi2'
-import { DatabaseViewContext } from '@/components/DatabaseView/DatabaseView'
-import { TableViewContextProps } from '@/components/DatabaseView/Views/TableView/TableView'
+import { DatabaseViewContext } from '@/components/DatabaseView/DatabaseViewContext'
 import { SimpleLightButton } from '@/components/Buttons/SimpleLightButton'
+import { TableViewContextProps } from '@/components/DatabaseView/Views/TableView/TableViewTypes'
 
 export function ViewPopoverEditor ( props: { children: React.ReactNode, view: TableViewContextProps, isActive: boolean } ) {
 	const context = useContext(DatabaseViewContext)

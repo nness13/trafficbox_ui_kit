@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { Input, ListItem, Popover, PopoverContent, PopoverHandler } from '@material-tailwind/react'
 import { v4 as uuidv4 } from 'uuid';
-import { DatabaseViewContext } from '@/components/DatabaseView/DatabaseView'
+import { DatabaseViewContext } from '@/components/DatabaseView/DatabaseViewContext'
 
 
 export function FilterPopoverCreator ( props: { children: React.ReactNode } ) {

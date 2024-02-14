@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react'
 import { Input, ListItem, Popover, PopoverContent, PopoverHandler } from '@material-tailwind/react'
-import { DatabaseViewContext } from '@/components/DatabaseView/DatabaseView'
+import { DatabaseViewContext } from '@/components/DatabaseView/DatabaseViewContext'
 
 export function SortPopoverCreator ( props: { children: React.ReactNode } ) {
 	const context = useContext(DatabaseViewContext)

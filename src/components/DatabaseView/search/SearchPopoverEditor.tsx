@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
 import { Popover, PopoverContent, PopoverHandler } from '@material-tailwind/react'
-import { DatabaseViewContext } from '@/components/DatabaseView/DatabaseView'
+import { DatabaseViewContext } from '@/components/DatabaseView/DatabaseViewContext'
 
 export function SearchPopoverEditor ( props: { children: React.ReactNode, sort: any } ) {
 	const context = useContext(DatabaseViewContext)

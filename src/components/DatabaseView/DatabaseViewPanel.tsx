@@ -1,5 +1,5 @@
 import React, { FC, ReactNode, useContext } from 'react'
-import { DatabaseViewContext } from '@/components/DatabaseView/DatabaseView'
+import { DatabaseViewContext } from '@/components/DatabaseView/DatabaseViewContext'
 import { Button } from '@/components/Button'
 import { ViewPopoverEditor } from '@/components/DatabaseView/ViewPopoverEditor'
 import { ViewsIcon } from '@/components/DatabaseView/ViewIcon'
@@ -8,6 +8,7 @@ import { HiChevronDown, HiEllipsisHorizontal, HiPlus } from 'react-icons/hi2'
 import { SortPopoverCreator } from '@/components/DatabaseView/sort/SortPopoverCreator'
 import { SearchInput } from '@/components/DatabaseView/search/SearchInput'
 import { GroupPopoverCreator } from '@/components/DatabaseView/group/GroupPopoverCreator'
+import { Tab } from '@/components/Buttons/Tab'
 
 export interface DatabaseViewPanelProps {
 	children?: ReactNode;
@@ -108,25 +109,3 @@ export const DatabaseViewPanel: FC<DatabaseViewPanelProps> = ({ children }) => {
 		</div>
 	);
 };
-
-
-
-type propsType = React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivElement>, HTMLDivElement>
-
-export const Tab = ({ className = '', ...rest_props }: propsType) =>
-	<div
-		{...rest_props}
-		className={className+`
-			flex
-			flex-row
-			items-center
-			cursor-pointer
-			p-2
-			h-full
-			rounded-tl-md
-			rounded-tr-md
-			text-text_passive
-			hover:bg-gray-500
-			hover:bg-opacity-20
-		`}
-	/>

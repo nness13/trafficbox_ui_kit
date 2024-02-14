@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { v4 as uuidv4 } from 'uuid';
-import { DatabaseViewContext } from '@/components/DatabaseView/DatabaseView'
+import { DatabaseViewContext } from '@/components/DatabaseView/DatabaseViewContext'
 import { Input, ListItem, Popover, PopoverContent, PopoverHandler } from '@material-tailwind/react'
 
 

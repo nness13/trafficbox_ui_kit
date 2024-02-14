@@ -6,8 +6,8 @@ import {
 	HiTableCells,
 	HiViewColumns
 } from 'react-icons/hi2'
-import { ViewTypesType } from '@/components/DatabaseView/DatabaseView'
 import React from 'react'
+import { ViewTypesType } from '@/components/DatabaseView/DatabaseViewTypes'
 
 export function ViewsIcon(props: { type: ViewTypesType }) {
 	switch (props.type) {

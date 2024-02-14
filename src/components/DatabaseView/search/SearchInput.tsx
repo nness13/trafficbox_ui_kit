@@ -1,15 +1,14 @@
 import { HiMagnifyingGlass } from 'react-icons/hi2'
 import React, { useContext, useState } from 'react'
 import { Input } from '@material-tailwind/react'
-import { DatabaseViewContext } from '@/components/DatabaseView/DatabaseView'
-import { Tab } from '@/components/DatabaseView/DatabaseViewPanel'
+import { TableViewContext } from '@/components/DatabaseView/Views/TableView/TableViewContext'
+import { Tab } from '@/components/Buttons/Tab'
 
 export function SearchInput () {
-	const context = useContext(DatabaseViewContext)
-	const active_view = context.views.find(view => view.name === context.selected_view)!
+	const context = useContext(TableViewContext)
 	const [status, set_status] = useState(true)
 	const on_search = (e: any) => {
-		active_view.actions.set_search(active_view.search.value+e.currentTarget.value)
+		context.actions.set_search(e.currentTarget.value)
 	}
 
 	return (
@@ -25,10 +24,10 @@ export function SearchInput () {
 						containerProps={{
 							className: "h-9 flex flex-row items-center"
 						}}
-						value={active_view.search.value}
+						value={context.search.value}
 						onChange={on_search}
 						autoFocus
-						onBlur={() => active_view.search.value.length === 0 && set_status(true)}
+						onBlur={() => context.search.value.length === 0 && set_status(true)}
 						icon={
 							<HiMagnifyingGlass className="h-5 w-5 cursor-pointer" onClick={() => set_status(true)}/>
 						}
@@ -42,13 +41,12 @@ export function SearchInput () {
 }
 
 export function useDatabaseSearch (rows: any[]) {
-	const context = useContext(DatabaseViewContext)
-	const active_view = context.views.find(view => view.name === context.selected_view)!
+	const context = useContext(TableViewContext)
 
 	return rows.filter((row ) =>
 		Object.entries(row).find(([key, property]) => {
 			return typeof property === 'string'
-				? property.toLowerCase().includes(active_view.search.value.toLowerCase())
+				? property.toLowerCase().includes(context.search.value.toLowerCase())
 				: false
 		})
 	)

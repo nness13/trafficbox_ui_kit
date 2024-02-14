@@ -6,8 +6,8 @@ import {
 	TableRowContainer
 } from '@/components/DatabaseView/Views/TableView/TableContainers'
 import { ColumnValueTypeSwitcher } from '@/components/DatabaseView/Views/TableView/ColumnValueTypeSwitcher'
-import { TableViewContext } from '@/components/DatabaseView/Views/TableView/TableView'
-import { ColumnType, RowType } from '@/components/DatabaseView/DatabaseView'
+import { TableViewContext } from '@/components/DatabaseView/Views/TableView/TableViewContext'
+import { ColumnType, RowType } from '@/components/DatabaseView/DatabaseViewTypes'
 
 type props_type = {
 	row: RowType

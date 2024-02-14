@@ -1,5 +1,5 @@
 import React from 'react'
-import { TableViewProps } from '@/components/DatabaseView/Views/TableView/TableView'
+import { TableViewProps } from '@/components/DatabaseView/Views/TableView/TableViewTypes'
 
 type propsType = {
 	column: TableViewProps["columns"][number]

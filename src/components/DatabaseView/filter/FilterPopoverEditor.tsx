@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
 import { Popover, PopoverContent, PopoverHandler } from '@material-tailwind/react'
-import { DatabaseViewContext } from '@/components/DatabaseView/DatabaseView'
+import { DatabaseViewContext } from '@/components/DatabaseView/DatabaseViewContext'
 import { FilterEditorSwitcher } from '@/components/DatabaseView/filter/FilterEditorSwitcher'
 
 export function FilterPopoverEditor ( props: { children: React.ReactNode, filter: any } ) {

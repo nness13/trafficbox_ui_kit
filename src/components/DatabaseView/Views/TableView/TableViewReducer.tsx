@@ -1,7 +1,7 @@
 import { useReducer } from 'react'
 import { action_dispatcher } from '@/utils/reducer.utils'
-import { TableViewContextProps } from '@/components/DatabaseView/Views/TableView/TableView'
 import { produce } from "immer"
+import { TableViewContextProps } from '@/components/DatabaseView/Views/TableView/TableViewTypes'
 
 const actions = {
 	onSelect: (state, action) => produce(state, draft => {
