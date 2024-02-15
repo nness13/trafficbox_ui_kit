@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { memo } from 'react'
 import {
 	TableCell,
 	TableCellItem,
@@ -11,7 +11,7 @@ import { useActiveViewContext, useDatabaseViewContext } from '@/components/Datab
 type props_type = {
 	columns: ColumnType[]
 }
-export function TableHeaderRow (props: props_type) {
+export const TableHeaderRow = memo((props: props_type) => {
 	const viewState = useActiveViewContext()
 	const context = useDatabaseViewContext()
 
@@ -33,7 +33,6 @@ export function TableHeaderRow (props: props_type) {
 				</TableCellItem>
 			</TableCell>
 			{props.columns.map(column => {
-				// console.log(context.column_case, column.type.type)
 				const { Icon } = viewState.column_case[column.type.type]
 				return (
 					<TableCell key={column.key}>
@@ -46,4 +45,4 @@ export function TableHeaderRow (props: props_type) {
 			})}
 		</TableRowContainer>
 	)
-}
+})

@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import { DatabaseViewContext } from '@/components/DatabaseView/DatabaseViewContext'
+import { DatabaseViewContext, useDatabaseViewContext } from '@/components/DatabaseView/DatabaseViewContext'
 import ReactDragListView from 'react-drag-listview'
 import { GroupPopoverEditor } from '@/components/DatabaseView/group/GroupPopoverEditor'
 import { GroupTag } from '@/components/DatabaseView/group/GroupTag'
@@ -9,7 +9,7 @@ import { DatabaseViewStateType } from '@/components/DatabaseView/DatabaseViewTyp
 
 
 export function GroupPanel () {
-	const context = useContext<DatabaseViewStateType>(DatabaseViewContext)
+	const context = useDatabaseViewContext()
 	const active_view = context.views.find(view => view.id === context.selected_view)!
 
 	const dragProps = {

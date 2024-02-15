@@ -1,12 +1,12 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { v4 as uuidv4 } from 'uuid';
-import { DatabaseViewContext } from '@/components/DatabaseView/DatabaseViewContext'
+import { DatabaseViewContext, useDatabaseViewContext } from '@/components/DatabaseView/DatabaseViewContext'
 import { Input, ListItem, Popover, PopoverContent, PopoverHandler } from '@material-tailwind/react'
 import { DatabaseViewStateType } from '@/components/DatabaseView/DatabaseViewTypes'
 
 
 export function GroupPopoverCreator ( props: { children: React.ReactNode } ) {
-	const context = useContext<DatabaseViewStateType>(DatabaseViewContext)
+	const context = useDatabaseViewContext()
 	const active_view = context.views.find(view => view.id === context.selected_view)!
 	const [status, set_status] = useState(false)
 	const [option_list, set_option_list] = useState(active_view.columns)

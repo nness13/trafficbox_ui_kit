@@ -1,12 +1,11 @@
-import React, { FC } from 'react'
+import React, { memo } from 'react'
 import { TableContainer } from '@/components/DatabaseView/Views/TableView/TableContainers'
 import { TableGroupRow } from '@/components/DatabaseView/Views/TableView/TableGroupRow'
 import { TableRow } from '@/components/DatabaseView/Views/TableView/TableRow'
 import { TableHeaderRow } from '@/components/DatabaseView/Views/TableView/TableHeaderRow'
-import { TableViewProps, ViewStateType } from '@/components/DatabaseView/Views/TableView/TableViewTypes'
-import { useActiveViewContext } from '@/components/DatabaseView/DatabaseViewContext'
+import { ViewStateType } from '@/components/DatabaseView/Views/TableView/TableViewTypes'
 
-export const TableView = (props: ViewStateType) => {
+export const TableView = memo((props: ViewStateType) => {
 	return (
 		<div className="overflow-auto max-h-[900px] min-h-[700px]">
 			<TableContainer>
@@ -28,16 +27,4 @@ export const TableView = (props: ViewStateType) => {
 			</TableContainer>
 		</div>
 	)
-}
-
-export const TableViewWithContext: FC<TableViewProps> = ({ ...props }) => {
-	const viewState = useActiveViewContext()
-	// const state = useTableViewReducer({...initialTableViewState, ...props})
-	// console.log(`Table State: `, state)
-
-	return (
-		// <TableViewContext.Provider value={state}>
-			<TableView {...viewState}/>
-		// </TableViewContext.Provider>
-	)
-}
+})

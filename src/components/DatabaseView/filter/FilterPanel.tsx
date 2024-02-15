@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import { DatabaseViewContext } from '@/components/DatabaseView/DatabaseViewContext'
+import { DatabaseViewContext, useDatabaseViewContext } from '@/components/DatabaseView/DatabaseViewContext'
 import { SortPopoverEditor } from '@/components/DatabaseView/sort/SortPopoverEditor'
 import { SortTag } from '@/components/DatabaseView/sort/SortTag'
 import { FilterPopoverEditor } from '@/components/DatabaseView/filter/FilterPopoverEditor'
@@ -10,7 +10,7 @@ import { ViewStateType } from '@/components/DatabaseView/Views/TableView/TableVi
 import { DatabaseViewStateType } from '@/components/DatabaseView/DatabaseViewTypes'
 
 export function FilterPanel () {
-	const context = useContext<DatabaseViewStateType>(DatabaseViewContext)
+	const context = useDatabaseViewContext()
 	const active_view = context.views.find(view => view.id === context.selected_view)!
 
 	// useEffect(() => {

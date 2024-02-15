@@ -5,10 +5,10 @@ import { ViewPopoverCreator } from '@/components/DatabaseView/ViewPopoverCreator
 import { HiPlus } from 'react-icons/hi2'
 import React, { useContext } from 'react'
 import { DatabaseViewStateType } from '@/components/DatabaseView/DatabaseViewTypes'
-import { DatabaseViewContext } from '@/components/DatabaseView/DatabaseViewContext'
+import { DatabaseViewContext, useDatabaseViewContext } from '@/components/DatabaseView/DatabaseViewContext'
 
 export const ViewSwitcherPanel = () => {
-	const context = useContext<DatabaseViewStateType>(DatabaseViewContext)
+	const context = useContext(DatabaseViewContext)
 
 	return (
 		<div className="flex">

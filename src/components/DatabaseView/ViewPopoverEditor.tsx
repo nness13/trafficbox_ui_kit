@@ -1,15 +1,14 @@
-import React, { useContext, useState } from 'react'
+import React, { memo, useContext, useState } from 'react'
 import { Input, Popover, PopoverContent, PopoverHandler } from '@material-tailwind/react'
 import { HiTrash } from 'react-icons/hi2'
-import { DatabaseViewContext } from '@/components/DatabaseView/DatabaseViewContext'
+import { DatabaseViewContext, useDatabaseViewContext } from '@/components/DatabaseView/DatabaseViewContext'
 import { SimpleLightButton } from '@/components/Buttons/SimpleLightButton'
 import { ViewStateType } from '@/components/DatabaseView/Views/TableView/TableViewTypes'
 
-export function ViewPopoverEditor ( props: { children: React.ReactNode, view: ViewStateType, isActive: boolean } ) {
-	const context = useContext(DatabaseViewContext)
+export const ViewPopoverEditor = memo(( props: { children: React.ReactNode, view: ViewStateType, isActive: boolean } ) => {
+	const context = useDatabaseViewContext()
 	const [status, set_status] = useState(false)
-
-	const select_view = context.views.find(view => view.id === context.selected_view)
+	console.log(status)
 	const on_edit_view = (name: string) => {
 		context.actions.on_edit_view({ name })
 	}
@@ -30,7 +29,7 @@ export function ViewPopoverEditor ( props: { children: React.ReactNode, view: Vi
 		<Popover
 			placement="bottom-start"
 			open={status}
-			handler={(s) => status && set_status(s)}
+			// handler={(s) => status && set_status(s)}
 		>
 			<PopoverHandler
 				onClick={open}
@@ -55,4 +54,4 @@ export function ViewPopoverEditor ( props: { children: React.ReactNode, view: Vi
 			</PopoverContent>
 		</Popover>
 	)
-}
+})

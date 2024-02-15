@@ -1,16 +1,11 @@
-import React, { FC, memo, ReactNode, useContext } from 'react'
-import {
-	DatabaseViewContext,
-	useActiveViewContext,
-	useDatabaseViewContext
-} from '@/components/DatabaseView/DatabaseViewContext'
+import React, { FC, memo, ReactNode } from 'react'
+import { useActiveViewContext, useDatabaseViewContext } from '@/components/DatabaseView/DatabaseViewContext'
 import { Button } from '@/components/Button'
 import { HiChevronDown, HiEllipsisHorizontal } from 'react-icons/hi2'
 import { SortPopoverCreator } from '@/components/DatabaseView/sort/SortPopoverCreator'
 import { SearchInput } from '@/components/DatabaseView/search/SearchInput'
 import { GroupPopoverCreator } from '@/components/DatabaseView/group/GroupPopoverCreator'
 import { Tab } from '@/components/Buttons/Tab'
-import { DatabaseViewStateType } from '@/components/DatabaseView/DatabaseViewTypes'
 import { ViewSwitcherPanel } from '@/components/DatabaseView/ViewPanel/ViewSwitcherPanel'
 
 export interface DatabaseViewPanelProps {
