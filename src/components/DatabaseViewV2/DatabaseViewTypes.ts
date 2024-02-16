@@ -1,7 +1,7 @@
 import { FC } from 'react'
 import { ViewStateType } from '@/components/DatabaseView/Views/TableView/TableViewTypes'
 import { ActionType } from '@/components/DatabaseView/DatabaseViewReducer'
-import { Signal } from '@preact/signals'
+import { Signal } from '@preact/signals-react'
 
 export type DatabaseViewProps = Partial<DatabaseViewStateType> & {
 	rows: RowType[]

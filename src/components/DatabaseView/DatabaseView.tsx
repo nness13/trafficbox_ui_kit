@@ -14,7 +14,7 @@ import {
 	useDatabaseViewContext
 } from '@/components/DatabaseView/DatabaseViewContext'
 import { ViewStateType } from '@/components/DatabaseView/Views/TableView/TableViewTypes'
-import { signal } from '@preact/signals';
+import { signal } from '@preact/signals-react';
 
 const views = {
 	table: TableView,

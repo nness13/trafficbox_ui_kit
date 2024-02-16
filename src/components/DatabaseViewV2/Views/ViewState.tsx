@@ -1,5 +1,5 @@
-import { signal } from '@preact/signals'
-import type { Signal } from '@preact/signals'
+import { signal } from '@preact/signals-react'
+import type { Signal } from '@preact/signals-react'
 import { DefaultColumnCase } from '@/components/DatabaseView/ColumnCase'
 import { ViewStateType } from '@/components/DatabaseViewV2/Views/TableViewTypes'
 

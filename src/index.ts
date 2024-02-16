@@ -7,3 +7,4 @@ export * from './components/Button';
 export * from './components/DatabaseViewV2/DatabaseView';
 export * from './components/DatabaseViewV2/DatabaseViewTypes';
 export * from './components/DatabaseViewV2/Views/TableViewTypes';
+export * from './components/TestSignal/TestSignal';
