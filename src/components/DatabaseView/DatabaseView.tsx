@@ -14,12 +14,14 @@ import {
 	useDatabaseViewContext
 } from '@/components/DatabaseView/DatabaseViewContext'
 import { ViewStateType } from '@/components/DatabaseView/Views/TableView/TableViewTypes'
+import { signal } from '@preact/signals';
 
 const views = {
 	table: TableView,
 	card: CardView,
 } satisfies Record<NonNullable<DatabaseViewStateType["selected_view"]>, any>
 export const DatabaseViewWithContext: FC<DatabaseViewProps> = ({ ...props }) => {
+
 	const context = useMemo(() => ({
 		...initialDatabaseViewState,
 		views: [
@@ -28,12 +30,9 @@ export const DatabaseViewWithContext: FC<DatabaseViewProps> = ({ ...props }) => 
 		...props
 	}), [initialDatabaseViewState, props])
 
-	const databaseState = useDatabaseViewReducer(context)
 
 	return (
-		<DatabaseViewContext.Provider value={databaseState}>
 			<DatabaseView/>
-		</DatabaseViewContext.Provider>
 	)
 }
 
@@ -42,7 +41,7 @@ export const DatabaseView: FC = () => {
 	const view_props = useActiveViewContext()
 	const {rows, columns} = context
 	const [View, setView] = useState<{div: FC<ViewStateType>}>({div: () => <div></div>})
-	console.log(View)
+	// console.log(View)
 
 	useEffect(() => {
 		if(views[view_props.type]) setView({ div: views[view_props.type] })

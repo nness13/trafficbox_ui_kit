@@ -4,17 +4,23 @@ import { HiTrash } from 'react-icons/hi2'
 import { DatabaseViewContext, useDatabaseViewContext } from '@/components/DatabaseView/DatabaseViewContext'
 import { SimpleLightButton } from '@/components/Buttons/SimpleLightButton'
 import { ViewStateType } from '@/components/DatabaseView/Views/TableView/TableViewTypes'
+import { databaseState } from '@/components/DatabaseViewV2/DatabaseState'
+import { effect, Signal } from '@preact/signals'
 
-export const ViewPopoverEditor = memo(( props: { children: React.ReactNode, view: ViewStateType, isActive: boolean } ) => {
-	const context = useDatabaseViewContext()
+export const ViewPopoverEditor = ( props: { children: React.ReactNode, view: Signal<ViewStateType>, isActive: boolean } ) => {
+	const context = databaseState.value
 	const [status, set_status] = useState(false)
-	const on_edit_view = (name: string) => {
-		context.actions.on_edit_view({ name })
+	console.log(context.selected_view)
+	// effect(() => console.log(context.selected_view))
+	const on_edit_view = (id: string) => {
+		console.log(id)
+		context.selected_view = id
+		// context.actions.on_edit_view({ name })
 	}
 	const on_delete_view = () => {
 		set_status(false)
-		const {name} = props.view
-		context.actions.on_delete_view({ name })
+		const {name} = props.view.value
+		// context.actions.on_delete_view({ name })
 	}
 	const open = (e: any) => {
 		if(props.isActive){
@@ -28,7 +34,7 @@ export const ViewPopoverEditor = memo(( props: { children: React.ReactNode, view
 		<Popover
 			placement="bottom-start"
 			open={status}
-			// handler={(s) => status && set_status(s)}
+			handler={(s) => status && set_status(s)}
 		>
 			<PopoverHandler
 				onClick={open}
@@ -42,7 +48,7 @@ export const ViewPopoverEditor = memo(( props: { children: React.ReactNode, view
 					<Input
 						name="name"
 						label="Name view"
-						value={props.view.name}
+						value={props.view.value.name}
 						onInput={(e) => on_edit_view(e.currentTarget.value)}
 						crossOrigin={undefined}
 					/>
@@ -53,4 +59,4 @@ export const ViewPopoverEditor = memo(( props: { children: React.ReactNode, view
 			</PopoverContent>
 		</Popover>
 	)
-})
+}
