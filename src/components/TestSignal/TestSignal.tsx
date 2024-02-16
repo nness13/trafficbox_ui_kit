@@ -16,6 +16,7 @@ export const TestSignal = () => {
 				onClick={increment}
 			>Додати лічильник</div>
 			<div>
+
 				Кількість: {value}
 			</div>
 		</div>
