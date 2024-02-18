@@ -1,26 +1,17 @@
-import React, { memo, useContext, useState } from 'react'
+import React, { memo, useState } from 'react'
 import { Input, Popover, PopoverContent, PopoverHandler } from '@material-tailwind/react'
 import { HiTrash } from 'react-icons/hi2'
-import { DatabaseViewContext, useDatabaseViewContext } from '@/components/DatabaseView/DatabaseViewContext'
 import { SimpleLightButton } from '@/components/Buttons/SimpleLightButton'
-import { ViewStateType } from '@/components/DatabaseView/Views/TableView/TableViewTypes'
-import { activeViewState, databaseState } from '@/components/DatabaseViewV2/DatabaseState'
-import { effect, Signal } from '@preact/signals-react'
+import { useActiveViewSelector, useDatabaseViewStore } from '@/components/DatabaseViewV2/DatabaseViewStore'
 
-export const ViewPopoverEditor = ( props: { children: React.ReactNode, view: Signal<ViewStateType>, isActive: boolean } ) => {
-	const context = databaseState.value
-	const active_view = activeViewState()
-	const [status, set_status] = useState(false)
-	console.log(context.selected_view)
-	// effect(() => console.log(context.selected_view))
-	const on_edit_view = (name: string) => {
-		console.log(name)
-		active_view.name = name
-		// context.actions.on_edit_view({ name })
-	}
+export const ViewPopoverEditor = memo(( props: { children: React.ReactNode, isActive: boolean } ) => {
+	const on_edit_view = useDatabaseViewStore(state => state.on_edit_view)
+	const status = useDatabaseViewStore(state => state.view_editable_status)
+	const set_status = useDatabaseViewStore(state => state.toggle_view_editable_status)
+	const active_view_name = useDatabaseViewStore(state => useActiveViewSelector(state).name)
+
 	const on_delete_view = () => {
 		set_status(false)
-		const {name} = props.view.value
 		// context.actions.on_delete_view({ name })
 	}
 	const open = (e: any) => {
@@ -49,8 +40,8 @@ export const ViewPopoverEditor = ( props: { children: React.ReactNode, view: Sig
 					<Input
 						name="name"
 						label="Name view"
-						value={props.view.value.name}
-						onInput={(e) => on_edit_view(e.currentTarget.value)}
+						value={active_view_name}
+						onInput={(e) => on_edit_view({ name: e.currentTarget.value })}
 						crossOrigin={undefined}
 					/>
 					<SimpleLightButton onClick={on_delete_view}>
@@ -60,4 +51,4 @@ export const ViewPopoverEditor = ( props: { children: React.ReactNode, view: Sig
 			</PopoverContent>
 		</Popover>
 	)
-}
+})

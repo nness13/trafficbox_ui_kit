@@ -1,19 +1,15 @@
-import React, { useContext, useEffect, useState } from 'react'
-import { v4 as uuidv4 } from 'uuid';
-import { DatabaseViewContext, useDatabaseViewContext } from '@/components/DatabaseView/DatabaseViewContext'
+import React, { useEffect, useState } from 'react'
+import { v4 as uuidv4 } from 'uuid'
 import { Input, ListItem, Popover, PopoverContent, PopoverHandler } from '@material-tailwind/react'
-import { DatabaseViewStateType } from '@/components/DatabaseView/DatabaseViewTypes'
-import { activeViewState, databaseState } from '@/components/DatabaseViewV2/DatabaseState'
-
+import { useViewState } from '@/components/DatabaseViewV2/Views/ViewState'
 
 export function GroupPopoverCreator ( props: { children: React.ReactNode } ) {
-	const context = databaseState.value
-	const active_view = activeViewState()
+	const columns = useViewState(state => state.columns)
 	const [status, set_status] = useState(false)
-	const [option_list, set_option_list] = useState(active_view.columns)
+	const [option_list, set_option_list] = useState(columns)
 	useEffect(() => {
-		set_option_list(active_view.columns)
-	}, [active_view.columns])
+		set_option_list(columns)
+	}, [columns])
 	const on_create_group = (group: any) => {
 		set_status(false)
 		// dispatch(context.actions.add_group(group))
@@ -22,9 +18,10 @@ export function GroupPopoverCreator ( props: { children: React.ReactNode } ) {
 	const onGroup = (e: any) => {
 		set_group_text(e.currentTarget.value)
 		set_option_list(
-			active_view.columns.filter(c => c.label.includes(e.currentTarget.value))
+			columns.filter(c => c.label.includes(e.currentTarget.value))
 		)
 	}
+
 
 	return (
 		<Popover placement="bottom-start" open={status} handler={() => set_status(!status)}>

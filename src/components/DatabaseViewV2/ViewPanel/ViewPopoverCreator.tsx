@@ -1,9 +1,9 @@
-import React, { useState } from 'react'
+import React, { memo, useState } from 'react'
 import { Input, ListItem, Popover, PopoverContent, PopoverHandler } from '@material-tailwind/react'
 import { ViewsIcon } from '@/components/DatabaseView/ViewIcon'
 import { ViewTypesEnum, ViewTypesType } from '@/components/DatabaseView/DatabaseViewTypes'
 
-export function ViewPopoverCreator ( props: { children: React.ReactNode } ) {
+export const ViewPopoverCreator = memo(( props: { children: React.ReactNode } ) => {
 	const [status, set_status] = useState(false)
 	const on_create_view = (type: ViewTypesType ) => {
 		set_status(false)
@@ -34,4 +34,4 @@ export function ViewPopoverCreator ( props: { children: React.ReactNode } ) {
 			</PopoverContent>
 		</Popover>
 	)
-}
+})

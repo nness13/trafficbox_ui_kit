@@ -1,13 +1,11 @@
-import React, { useContext } from 'react'
-import { DatabaseViewContext, useDatabaseViewContext } from '@/components/DatabaseView/DatabaseViewContext'
+import React from 'react'
+import { useDatabaseViewContext } from '@/components/DatabaseView/DatabaseViewContext'
 import { SortPopoverEditor } from '@/components/DatabaseView/sort/SortPopoverEditor'
 import { SortTag } from '@/components/DatabaseView/sort/SortTag'
 import { FilterPopoverEditor } from '@/components/DatabaseView/filter/FilterPopoverEditor'
 import { FilterTag } from '@/components/DatabaseView/filter/FilterTag'
 import { FilterTagAdd } from '@/components/DatabaseView/filter/FilterTagAdd'
 import { FilterPopoverCreator } from '@/components/DatabaseView/filter/FilterPopoverCreator'
-import { ViewStateType } from '@/components/DatabaseView/Views/TableView/TableViewTypes'
-import { DatabaseViewStateType } from '@/components/DatabaseView/DatabaseViewTypes'
 
 export function FilterPanel () {
 	const context = useDatabaseViewContext()

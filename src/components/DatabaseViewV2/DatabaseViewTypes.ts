@@ -1,7 +1,6 @@
 import { FC } from 'react'
-import { ViewStateType } from '@/components/DatabaseView/Views/TableView/TableViewTypes'
-import { ActionType } from '@/components/DatabaseView/DatabaseViewReducer'
-import { Signal } from '@preact/signals-react'
+import { ViewStateType } from '@/components/DatabaseViewV2/Views/TableView/TableViewTypes'
+import { ViewStateActions } from '@/components/DatabaseViewV2/Views/TableView/TableViewTypes'
 
 export type DatabaseViewProps = Partial<DatabaseViewStateType> & {
 	rows: RowType[]
@@ -30,18 +29,13 @@ export type DatabaseViewStateType = {
 	selected_view: string,
 	columns: ColumnType[],
 	rows: RowType[],
-	views: Signal<ViewStateType>[],
-
-	// actions: {
-	// 	on_create_view: Function,
-	// 	on_delete_view: Function,
-	// 	onSelectView: Function,
-	// 	on_edit_view: Function
-	// 	onSelect: Function
-	// 	set_search: Function
-	// 	onEdit: Function
-	// 	toggle_filter_panel_status: Function
-	// 	toggle_sort_panel_status: Function
-	// 	toggle_group_panel_status: Function
-	// }
+	views: (ViewStateType & ViewStateActions)[],
+	view_editable_status: boolean,
 }
+export type DatabaseViewActionsType = {
+	on_select_view: (payload?: any) => void
+	on_edit_view: (payload: {name: string}) => void
+	toggle_view_editable_status: (status: boolean ) => void,
+}
+
+export type DatabaseViewStateAndActionsType = DatabaseViewStateType & DatabaseViewActionsType

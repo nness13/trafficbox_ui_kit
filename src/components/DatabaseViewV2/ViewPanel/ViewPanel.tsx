@@ -5,53 +5,54 @@ import { SortPopoverCreator } from '@/components/DatabaseViewV2/ViewPanel/sort/S
 import { SearchInput } from '@/components/DatabaseViewV2/ViewPanel/search/SearchInput'
 import { GroupPopoverCreator } from '@/components/DatabaseViewV2/ViewPanel/group/GroupPopoverCreator'
 import { Tab } from '@/components/Buttons/Tab'
-import { ViewSwitcherPanel } from '@/components/DatabaseViewV2/ViewPanel/ViewSwitcherPanel'
-import { activeViewState, databaseState } from '@/components/DatabaseViewV2/DatabaseState'
+import { useViewState } from '@/components/DatabaseViewV2/Views/ViewState'
 
 export interface DatabaseViewPanelProps {
 	children?: ReactNode;
 }
 
-export const DatabaseViewPanel: FC<DatabaseViewPanelProps> = memo(({ children }) => {
-	const context = databaseState.value
-	const active_view = activeViewState()
+export const ViewPanel: FC<DatabaseViewPanelProps> = memo(() => {
+	const filter_panel_status = useViewState(state => state.filter_panel_status)
+	const toggle_filter_panel_status = useViewState(state => state.toggle_filter_panel_status)
+	const sort_panel_status = useViewState(state => state.sort_panel_status)
+	const groups = useViewState(state => state.groups)
+	const groups_panel_status = useViewState(state => state.groups_panel_status)
+	const toggle_group_panel_status = useViewState(state => state.toggle_group_panel_status)
+
 
 	return (
 		<div>
-			<div className="w-full flex justify-between border-b border-border_line">
-				<ViewSwitcherPanel/>
-
+			<div className="w-full flex justify-end border-b border-border_line">
 				<div className="flex">
 					<Tab
-						className={`${active_view.filter_panel_status ? '!text-blue-500' : ''}`}
-						// onClick={() => context.actions.toggle_filter_panel_status(!active_view.filter_panel_status)}
+						className={`${filter_panel_status ? '!text-blue-500' : ''}`}
+						onClick={() => toggle_filter_panel_status(!filter_panel_status)}
 					>
 						Filter
 					</Tab>
 
 					<SortPopoverCreator>
-						<Tab className={`${active_view.sort_panel_status ? "!text-blue-500" : ''}`}>
+						<Tab className={`${sort_panel_status ? "!text-blue-500" : ''}`}>
 							Sort
 						</Tab>
 					</SortPopoverCreator>
 
-					{active_view.groups.length === 0
+					{groups.length === 0
 						? <GroupPopoverCreator>
 							<Tab
-								className={`${active_view.groups_panel_status ? '!text-blue-500' : ''}`}
-								// onClick={() => context.actions.toggle_group_panel_status()}
+								className={`${groups_panel_status ? '!text-blue-500' : ''}`}
+								onClick={() => toggle_group_panel_status()}
 							>
 								Group
 							</Tab>
 						</GroupPopoverCreator>
 						: <Tab
-							className={`${active_view.groups_panel_status ? '!text-blue-500' : ''}`}
-							// onClick={() => context.actions.toggle_group_panel_status()}
+							className={`${groups_panel_status ? '!text-blue-500' : ''}`}
+							onClick={() => toggle_group_panel_status()}
 						>
 							Group
 						</Tab>
 					}
-
 
 					<SearchInput/>
 

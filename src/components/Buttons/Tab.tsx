@@ -1,8 +1,8 @@
-import React from 'react'
+import React, { memo } from 'react'
 
 type propsType = React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivElement>, HTMLDivElement>
 
-export const Tab = ({ className = '', ...rest_props }: propsType) =>
+export const Tab = memo(({ className = '', ...rest_props }: propsType) =>
 	<div
 		{...rest_props}
 		className={className+`
@@ -18,4 +18,4 @@ export const Tab = ({ className = '', ...rest_props }: propsType) =>
 			hover:bg-gray-500
 			hover:bg-opacity-20
 		`}
-	/>
+	/>)

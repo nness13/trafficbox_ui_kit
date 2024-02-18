@@ -3,24 +3,23 @@ import { Tab } from '@/components/Buttons/Tab'
 import { ViewsIcon } from '@/components/DatabaseView/ViewIcon'
 import { ViewPopoverCreator } from '@/components/DatabaseViewV2/ViewPanel/ViewPopoverCreator'
 import { HiPlus } from 'react-icons/hi2'
-import React from 'react'
-import { databaseState } from '@/components/DatabaseViewV2/DatabaseState'
+import React, { memo } from 'react'
+import { useDatabaseViewStore } from '@/components/DatabaseViewV2/DatabaseViewStore'
 
-export const ViewSwitcherPanel = () => {
-	const context = databaseState.value
+export const ViewSwitcherPanel = memo(() => {
+	const selected_view = useDatabaseViewStore(state => state.selected_view)
+	const views = useDatabaseViewStore(state => state.views)
 	const onSelectView = (id: string) => {
-		context.selected_view = id
+		// selected_view = id
 	}
 
 	return (
 		<div className="flex">
-			{context.views.map(v => {
-				const view = v.value
-				const is_select = view.id === context.selected_view
+			{views.map(view => {
+				const is_select = view.id === selected_view
 				return (
 					<ViewPopoverEditor
 						key={view.name}
-						view={v}
 						isActive={is_select}
 					>
 						<Tab
@@ -40,4 +39,4 @@ export const ViewSwitcherPanel = () => {
 			</ViewPopoverCreator>
 		</div>
 	)
-}
+})

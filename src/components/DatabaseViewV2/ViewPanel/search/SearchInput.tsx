@@ -2,12 +2,10 @@ import { HiMagnifyingGlass } from 'react-icons/hi2'
 import React, { useState } from 'react'
 import { Input } from '@material-tailwind/react'
 import { Tab } from '@/components/Buttons/Tab'
-import { useActiveViewContext, useDatabaseViewContext } from '@/components/DatabaseView/DatabaseViewContext'
-import { activeViewState, databaseState } from '@/components/DatabaseViewV2/DatabaseState'
+import { useViewState } from '@/components/DatabaseViewV2/Views/ViewState'
 
 export function SearchInput () {
-	const context = databaseState
-	const viewState = activeViewState()
+	const search_value = useViewState(state => state.search.value)
 	const [status, set_status] = useState(true)
 	const on_search = (e: any) => {
 		// context.actions.set_search(e.currentTarget.value)
@@ -26,10 +24,10 @@ export function SearchInput () {
 						containerProps={{
 							className: "h-9 flex flex-row items-center"
 						}}
-						value={viewState.search.value}
+						value={search_value}
 						onChange={on_search}
 						autoFocus
-						onBlur={() => viewState.search.value.length === 0 && set_status(true)}
+						onBlur={() => search_value.length === 0 && set_status(true)}
 						icon={
 							<HiMagnifyingGlass className="h-5 w-5 cursor-pointer" onClick={() => set_status(true)}/>
 						}
@@ -43,12 +41,12 @@ export function SearchInput () {
 }
 
 export function useDatabaseSearch (rows: any[]) {
-	const viewState = useActiveViewContext()
+	const search_value = useViewState(state => state.search.value)
 
 	return rows.filter((row ) =>
 		Object.entries(row).find(([key, property]) => {
 			return typeof property === 'string'
-				? property.toLowerCase().includes(viewState.search.value.toLowerCase())
+				? property.toLowerCase().includes(search_value.toLowerCase())
 				: false
 		})
 	)

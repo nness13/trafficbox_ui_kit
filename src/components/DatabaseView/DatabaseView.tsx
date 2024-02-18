@@ -2,19 +2,10 @@ import React, { FC, useEffect, useMemo, useState } from 'react'
 import { DatabaseViewPanel } from '@/components/DatabaseView/ViewPanel/DatabaseViewPanel'
 import { CardView } from '@/components/DatabaseView/Views/CardView'
 import { TableView } from '@/components/DatabaseView/Views/TableView/TableView'
-import {
-	createViewState,
-	initialDatabaseViewState,
-	useDatabaseViewReducer
-} from '@/components/DatabaseView/DatabaseViewReducer'
-import { DatabaseViewStateType, DatabaseViewProps } from '@/components/DatabaseView/DatabaseViewTypes'
-import {
-	DatabaseViewContext,
-	useActiveViewContext,
-	useDatabaseViewContext
-} from '@/components/DatabaseView/DatabaseViewContext'
+import { createViewState, initialDatabaseViewState } from '@/components/DatabaseView/DatabaseViewReducer'
+import { DatabaseViewProps, DatabaseViewStateType } from '@/components/DatabaseView/DatabaseViewTypes'
+import { useActiveViewContext, useDatabaseViewContext } from '@/components/DatabaseView/DatabaseViewContext'
 import { ViewStateType } from '@/components/DatabaseView/Views/TableView/TableViewTypes'
-import { signal } from '@preact/signals-react';
 
 const views = {
 	table: TableView,

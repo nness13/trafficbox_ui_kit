@@ -6,5 +6,5 @@ export * from './components/Test';
 export * from './components/Button';
 export * from './components/DatabaseViewV2/DatabaseView';
 export * from './components/DatabaseViewV2/DatabaseViewTypes';
-export * from './components/DatabaseViewV2/Views/TableViewTypes';
-export * from './components/TestSignal/TestSignal';
+export * from './components/DatabaseViewV2/Views/TableView/TableViewTypes';
+export * from './components/TestView/TestView';
