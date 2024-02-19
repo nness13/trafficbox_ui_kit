@@ -1,9 +1,9 @@
-import React, { memo } from 'react'
+import React from 'react'
 import { Checkbox, CheckboxProps } from '@material-tailwind/react'
 
 type propsType = React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivElement>, HTMLDivElement>
 
-export const TableContainer = memo(({ className = '', ...rest_props }: propsType) =>
+export const TableContainer = ({ className = '', ...rest_props }: propsType) =>
 	<div
 		{...rest_props}
 		className={className+`
@@ -11,19 +11,19 @@ export const TableContainer = memo(({ className = '', ...rest_props }: propsType
 			h-1
 			min-w-full
 		`}
-	/>)
+	/>
 
 
-export const TableRowContainer = memo(({ className = '', ...rest_props }: propsType) =>
+export const TableRowContainer = ({ className = '', ...rest_props }: propsType) =>
 	<div
 		{...rest_props}
 		className={className+`
 			table-row
 			h-full
 		`}
-	/>)
+	/>
 
-export const TableCell = memo(({ className = '', ...rest_props }: propsType) =>
+export const TableCell = ({ className = '', ...rest_props }: propsType) =>
 	<div
 		{...rest_props}
 		className={className+`
@@ -35,9 +35,9 @@ export const TableCell = memo(({ className = '', ...rest_props }: propsType) =>
 			h-full
 			align-top
 		`}
-	/>)
+	/>
 
-export const TableCellItem = memo(({ className = '', ...rest_props }: propsType) =>
+export const TableCellItem = ({ className = '', ...rest_props }: propsType) =>
 	<div
 		{...rest_props}
 		className={className+`
@@ -48,13 +48,13 @@ export const TableCellItem = memo(({ className = '', ...rest_props }: propsType)
 			h-full
 		  min-h-[24px]
 		`}
-	/>)
+	/>
 
-export const TableCheckbox = memo(({ className = '', ...rest_props }: CheckboxProps) =>
+export const TableCheckbox = ({ className = '', ...rest_props }: CheckboxProps) =>
 	<Checkbox
 		{...rest_props}
 		ref={null}
 		ripple={false}
 		className={className+'h-4 w-4 hover:before:rounded-md before:w-8 before:h-8'}
 		crossOrigin={undefined}
-	/>)
+	/>

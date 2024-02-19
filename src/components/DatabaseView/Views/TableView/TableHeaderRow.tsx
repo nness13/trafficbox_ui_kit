@@ -6,18 +6,20 @@ import {
 	TableRowContainer
 } from '@/components/DatabaseView/Views/TableView/TableContainers'
 import { ColumnType } from '@/components/DatabaseView/DatabaseViewTypes'
-import { useActiveViewContext, useDatabaseViewContext } from '@/components/DatabaseView/DatabaseViewContext'
+import { useViewStore } from '@/components/DatabaseView/Views/ViewStore'
 
 type props_type = {
 	columns: ColumnType[]
 }
 export const TableHeaderRow = memo((props: props_type) => {
-	const viewState = useActiveViewContext()
-	const context = useDatabaseViewContext()
+	const onSelect = useViewStore(state => state.onSelect)
+	const selected = useViewStore(state => state.selected)
+	const rows = useViewStore(state => state.rows)
+	const column_case = useViewStore(state => state.column_case)
 
 	function onSelectedAll () {
-		context.actions.onSelect(
-			viewState.selected.length > 0 ? [] : context.rows.map(row => row.id)
+		onSelect(
+			selected.length > 0 ? [] : rows.map(row => row.id)
 		)
 	}
 
@@ -26,14 +28,14 @@ export const TableHeaderRow = memo((props: props_type) => {
 			<TableCell>
 				<TableCellItem>
 					<TableCheckbox
-						checked={viewState.selected?.length! > 0}
+						checked={selected?.length! > 0}
 						onChange={onSelectedAll}
 					/>
-					{viewState.selected.length}
+					{selected.length}
 				</TableCellItem>
 			</TableCell>
 			{props.columns.map(column => {
-				const { Icon } = viewState.column_case[column.type.type]
+				const { Icon } = column_case[column.type.type]
 				return (
 					<TableCell key={column.key}>
 						<TableCellItem>

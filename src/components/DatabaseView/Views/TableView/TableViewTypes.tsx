@@ -20,7 +20,7 @@ export type ViewStateType = {
 	filters: any[]
 	sort: any[]
 	groups: any[],
-	selected: []
+	selected: string[]
 	pagination: {
 		total: number,
 		current: number,
@@ -33,4 +33,13 @@ export type ViewStateType = {
 	filter_panel_status: boolean
 	sort_panel_status: boolean
 	groups_panel_status: boolean
+}
+
+export type ViewStateActions = {
+	on_edit_view: (payload: {name: string}) => void
+	onSelect: (payload: string[]) => void
+	onEdit: (payload: any) => void
+	toggle_filter_panel_status: (payload: any) => void
+	toggle_sort_panel_status: (payload: any) => void
+	toggle_group_panel_status: (payload?: any) => void
 }

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { memo } from 'react'
 import {
 	TableCell,
 	TableCellItem,
@@ -7,23 +7,24 @@ import {
 } from '@/components/DatabaseView/Views/TableView/TableContainers'
 import { ColumnValueTypeSwitcher } from '@/components/DatabaseView/Views/TableView/ColumnValueTypeSwitcher'
 import { ColumnType, RowType } from '@/components/DatabaseView/DatabaseViewTypes'
-import { useActiveViewContext, useDatabaseViewContext } from '@/components/DatabaseView/DatabaseViewContext'
+import { useViewStore } from '@/components/DatabaseView/Views/ViewStore'
 
 type props_type = {
 	row: RowType
 	columns: ColumnType[]
 }
 
-export function TableRow (props: props_type) {
-	const viewState = useActiveViewContext()
-	const context = useDatabaseViewContext()
-	const isSelected = !!viewState.selected.find(s => s === props.row.id)
+export const TableRow = memo((props: props_type) => {
+	const onEdit = useViewStore(state => state.onEdit)
+	const onSelect = useViewStore(state => state.onSelect)
+	const selected = useViewStore(state => state.selected)
+	const isSelected = !!selected.find(s => s === props.row.id)
 
 	const onSelected = (e: any) => {
-		context.actions.onSelect(
+		onSelect(
 			isSelected
-				? viewState.selected.filter(s => s !== props.row.id)
-				: [...viewState.selected, props.row.id]
+				? selected.filter(s => s !== props.row.id)
+				: [...selected, props.row.id]
 		)
 	}
 
@@ -52,11 +53,11 @@ export function TableRow (props: props_type) {
 						<ColumnValueTypeSwitcher
 							column={column}
 							row={props.row}
-							onEdit={context.actions.onEdit}
+							onEdit={onEdit}
 						/>
 					</TableCellItem>
 				</TableCell>
 			)}
 		</TableRowContainer>
 	)
-}
+})

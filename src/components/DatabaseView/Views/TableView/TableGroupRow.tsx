@@ -10,7 +10,7 @@ import { getAllCount, getTrustItemID } from '@/components/DatabaseView/DatabaseV
 import { HiChevronDown, HiChevronRight } from 'react-icons/hi2'
 import { ColumnValueTypeSwitcher } from '@/components/DatabaseView/Views/TableView/ColumnValueTypeSwitcher'
 import { ColumnType, RowType } from '@/components/DatabaseView/DatabaseViewTypes'
-import { useActiveViewContext, useDatabaseViewContext } from '@/components/DatabaseView/DatabaseViewContext'
+import { useViewStore } from '@/components/DatabaseView/Views/ViewStore'
 
 type props_type = {
 	group_id: number
@@ -18,19 +18,21 @@ type props_type = {
 	columns: ColumnType[]
 }
 
-export function TableGroupRow (props: props_type) {
-	const context = useDatabaseViewContext()
-	const view_state = useActiveViewContext()
-	const isSelected = !!view_state.selected.find(s => s === props.row.id)
+export const TableGroupRow = ((props: props_type) => {
+	const selected = useViewStore(state => state.selected)
+	const onSelect = useViewStore(state => state.onSelect)
+	const onEdit = useViewStore(state => state.onEdit)
+
+	const isSelected = !!selected.find(s => s === props.row.id)
 	const onSelected = (e: any) => {
 		const selected_id = [
 			props.row.id,
 			...getTrustItemID(props.row.children, 0)
 		]
-		context.actions.onSelect(
+		onSelect(
 			isSelected
-				? view_state.selected.filter(s => !selected_id.includes(s))
-				: [...view_state.selected, ...selected_id]
+				? selected.filter(s => !selected_id.includes(s))
+				: [...selected, ...selected_id]
 		)
 	}
 
@@ -71,7 +73,7 @@ export function TableGroupRow (props: props_type) {
 							<ColumnValueTypeSwitcher
 								column={column}
 								row={props.row}
-								onEdit={context.actions.onEdit}
+								onEdit={onEdit}
 							/>
 						</TableCellItem>
 					</TableCell>
@@ -95,5 +97,4 @@ export function TableGroupRow (props: props_type) {
 			}
 		</>
 	)
-}
-
+})
