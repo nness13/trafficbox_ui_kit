@@ -34,6 +34,8 @@
     "proxy-deep": "^4.0.0",
     "react-drag-listview": "^2.0.0",
     "react-icons": "^5.0.1",
+    "use_reducer_simple_syntax": "^1.0.1",
+    "use-context-selector": "^1.4.1",
     "uuid": "^9.0.1",
     "zod": "^3.22.4",
     "zustand": "^4.4.7"

@@ -1,21 +1,21 @@
-import React, { memo } from 'react'
+import React, {memo} from 'react'
 import {
 	TableCell,
 	TableCellItem,
 	TableCheckbox,
 	TableRowContainer
 } from '@/components/DatabaseView/Views/TableView/TableContainers'
-import { ColumnType } from '@/components/DatabaseView/DatabaseViewTypes'
-import { useViewStore } from '@/components/DatabaseView/Views/ViewStore'
+import {ColumnType} from '@/components/DatabaseView/DatabaseViewTypes'
+import {useViewContextReducer} from "@/components/DatabaseView/Views/ViewStoreContext";
 
 type props_type = {
 	columns: ColumnType[]
 }
 export const TableHeaderRow = memo((props: props_type) => {
-	const onSelect = useViewStore(state => state.onSelect)
-	const selected = useViewStore(state => state.selected)
-	const rows = useViewStore(state => state.rows)
-	const column_case = useViewStore(state => state.column_case)
+	const onSelect = useViewContextReducer(state => state.onSelect)
+	const selected = useViewContextReducer(state => state.selected)
+	const rows = useViewContextReducer(state => state.rows)
+	const column_case = useViewContextReducer(state => state.column_case)
 
 	function onSelectedAll () {
 		onSelect(

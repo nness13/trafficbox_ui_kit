@@ -7,13 +7,15 @@ import {InputOnBlur} from "@/components/Inputs/InputOnBlur";
 
 export const ViewPopoverEditor = memo(( props: { children: React.ReactNode, isActive: boolean } ) => {
 	const on_edit_view = useDatabaseViewStore(state => state.on_edit_view)
-	const status = useDatabaseViewStore(state => state.view_editable_status)
-	const set_status = useDatabaseViewStore(state => state.toggle_view_editable_status)
 	const active_view_name = useDatabaseViewStore(state => useActiveViewSelector(state).name)
+	const active_view_id = useDatabaseViewStore(state => useActiveViewSelector(state).id)
+	const on_delete_view_action = useDatabaseViewStore(state => state.on_delete_view)
+
+	const [status, set_status] = useState(false)
 
 	const on_delete_view = () => {
 		set_status(false)
-		// context.actions.on_delete_view({ name })
+		on_delete_view_action(active_view_id)
 	}
 	const open = (e: any) => {
 		if(props.isActive){

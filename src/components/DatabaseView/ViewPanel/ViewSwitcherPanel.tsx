@@ -9,9 +9,7 @@ import { useDatabaseViewStore } from '@/components/DatabaseView/DatabaseViewStor
 export const ViewSwitcherPanel = memo(() => {
 	const selected_view = useDatabaseViewStore(state => state.selected_view)
 	const views = useDatabaseViewStore(state => state.views)
-	const onSelectView = (id: string) => {
-		// selected_view = id
-	}
+	const on_select_view = useDatabaseViewStore(state => state.on_select_view)
 
 	return (
 		<div className="flex">
@@ -19,12 +17,12 @@ export const ViewSwitcherPanel = memo(() => {
 				const is_select = view.id === selected_view
 				return (
 					<ViewPopoverEditor
-						key={view.name}
+						key={view.id}
 						isActive={is_select}
 					>
 						<Tab
 							className={`${is_select ? 'text-text_passive border-b-2 border-solid border-gray-900 dark:border-[#4e4d4b]' : ''}`}
-							onClick={() => onSelectView(view.id)}
+							onClick={() => on_select_view(view.id)}
 						>
 							<ViewsIcon type={view.type}/>
 							{view.name}

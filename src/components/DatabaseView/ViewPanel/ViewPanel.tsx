@@ -5,25 +5,31 @@ import { SortPopoverCreator } from '@/components/DatabaseView/ViewPanel/sort/Sor
 import { SearchInput } from '@/components/DatabaseView/ViewPanel/search/SearchInput'
 import { GroupPopoverCreator } from '@/components/DatabaseView/ViewPanel/group/GroupPopoverCreator'
 import { Tab } from '@/components/Buttons/Tab'
-import { useViewStore } from '@/components/DatabaseView/Views/ViewStore'
 import {FilterPanel} from "@/components/DatabaseView/ViewPanel/filter/FilterPanel";
 import {GroupPanel} from "@/components/DatabaseView/ViewPanel/group/GroupPanel";
+import {useViewContextReducer} from "@/components/DatabaseView/Views/ViewStoreContext";
 
 export interface DatabaseViewPanelProps {
 	children?: ReactNode;
 }
 
 export const ViewPanel: FC<DatabaseViewPanelProps> = memo(() => {
-	const filter_panel_status = useViewStore(state => state.filter_panel_status)
-	const toggle_filter_panel_status = useViewStore(state => state.toggle_filter_panel_status)
-	const sort_panel_status = useViewStore(state => state.sort_panel_status)
-	const groups = useViewStore(state => state.groups)
-	const groups_panel_status = useViewStore(state => state.groups_panel_status)
-	const toggle_group_panel_status = useViewStore(state => state.toggle_group_panel_status)
-
+	const filter_panel_status = useViewContextReducer(state => state.filter_panel_status)
+	const toggle_filter_panel_status = useViewContextReducer(state => state.toggle_filter_panel_status)
+	const sort_panel_status = useViewContextReducer(state => state.sort_panel_status)
+	const groups = useViewContextReducer(state => state.groups)
+	const groups_panel_status = useViewContextReducer(state => state.groups_panel_status)
+	const toggle_group_panel_status = useViewContextReducer(state => state.toggle_group_panel_status)
 
 	return (
 		<div>
+			{/*<div*/}
+			{/*	onClick={() => setStatus(true)}*/}
+			{/*	className={"cursor-pointer"}*/}
+			{/*>*/}
+			{/*	Change name: {name}*/}
+			{/*</div>*/}
+
 			<div className="w-full flex justify-end border-b border-border_line">
 				<div className="flex">
 					<Tab
@@ -43,14 +49,14 @@ export const ViewPanel: FC<DatabaseViewPanelProps> = memo(() => {
 						? <GroupPopoverCreator>
 							<Tab
 								className={`${groups_panel_status ? '!text-blue-500' : ''}`}
-								onClick={() => toggle_group_panel_status()}
+								onClick={() => toggle_group_panel_status(!groups_panel_status)}
 							>
 								Group
 							</Tab>
 						</GroupPopoverCreator>
 						: <Tab
 							className={`${groups_panel_status ? '!text-blue-500' : ''}`}
-							onClick={() => toggle_group_panel_status()}
+							onClick={() => toggle_group_panel_status(!groups_panel_status)}
 						>
 							Group
 						</Tab>
@@ -74,10 +80,10 @@ export const ViewPanel: FC<DatabaseViewPanelProps> = memo(() => {
 					{/*</Tab>*/}
 
 					{/*<ActionMenuPopover>*/}
-						<Button className="w-fit">
-							<HiChevronDown className="w-5 h-5"/>
-							Дії
-						</Button>
+					<Button className="w-fit">
+						<HiChevronDown className="w-5 h-5"/>
+						Дії
+					</Button>
 					{/*</ActionMenuPopover>*/}
 				</div>
 			</div>

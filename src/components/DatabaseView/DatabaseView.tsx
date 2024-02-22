@@ -1,14 +1,9 @@
 import React, {FC, memo} from 'react'
-import {DatabaseViewProps, DatabaseViewStateType} from '@/components/DatabaseView/DatabaseViewTypes'
+import {DatabaseViewProps} from '@/components/DatabaseView/DatabaseViewTypes'
 import {ViewSwitcherPanel} from '@/components/DatabaseView/ViewPanel/ViewSwitcherPanel'
 import {useDatabaseViewStore} from '@/components/DatabaseView/DatabaseViewStore'
-import {TableView} from '@/components/DatabaseView/Views/TableView/TableView'
+import {views} from "@/components/DatabaseView/Views/views";
 
-
-const views = {
-	table: TableView,
-	card: () => <div/>,
-} satisfies Record<NonNullable<DatabaseViewStateType["selected_view"]>, any>
 
 export const DatabaseView: FC<DatabaseViewProps> = memo((props) => {
 	const database_views = useDatabaseViewStore(state => state.views)
@@ -19,6 +14,7 @@ export const DatabaseView: FC<DatabaseViewProps> = memo((props) => {
 			<ViewSwitcherPanel/>
 			{database_views.map(view => {
 				const View = views[view.type]
+
 				return (
 					<View
 						{...view}

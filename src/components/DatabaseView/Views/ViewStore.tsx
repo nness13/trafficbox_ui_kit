@@ -3,14 +3,16 @@ import { create, StateCreator } from 'zustand'
 import { ViewStateActions, ViewStateType } from '@/components/DatabaseView/Views/TableView/TableViewTypes'
 import { devtools } from 'zustand/middleware'
 import { immer } from 'zustand/middleware/immer'
+import {v4 as uuid_v4} from "uuid";
+import {ViewTypesType} from "@/components/DatabaseView/DatabaseViewTypes";
 
 type viewType = ViewStateType & ViewStateActions
 type stateCreate = StateCreator<viewType, [["zustand/devtools", never], ["zustand/immer", never]], []>
 
-export const initialViewStore = (name?: string): viewType => ({
-	id: "1",  // unique property
-	name: name || "Table",  // unique property
-	type: "table",
+export const initialViewStore = (type: ViewTypesType = "table"): viewType => ({
+	id: uuid_v4(),  // unique property
+	name: type,  // unique property
+	type: type,
 	column_case: DefaultColumnCase,
 	columns: [],
 	rows: [],
@@ -42,11 +44,11 @@ export const initialViewStore = (name?: string): viewType => ({
 
 	on_edit_view: () => {},
 	onSelect: () => {},
-	onEdit: () => {},
+	onEditRow: () => {},
 })
 
 const initializedViewStore: stateCreate = (set) => ({
-	...initialViewStore("Table"),
+	...initialViewStore(),
 
 	on_edit_view: ({name}) => set((state) => {
 		state.name = name
@@ -57,9 +59,7 @@ const initializedViewStore: stateCreate = (set) => ({
 	toggle_filter_panel_status: (data) => set((state) => {
 		console.log(data)
 		state.filter_panel_status = data
-	}),
-	onEdit: (data) => set((state) => {
-	}),
+	})
 })
 
 export const useViewStore = create<viewType>()(devtools(immer(

@@ -1,6 +1,7 @@
 import { FC } from 'react'
 import { ViewStateType } from '@/components/DatabaseView/Views/TableView/TableViewTypes'
 import { ViewStateActions } from '@/components/DatabaseView/Views/TableView/TableViewTypes'
+import {views} from "@/components/DatabaseView/Views/views";
 
 export type DatabaseViewProps = Partial<DatabaseViewStateType> & {
 	rows: RowType[]
@@ -17,11 +18,8 @@ export type ColumnType = {
 	};
 }
 
-export type ViewTypesType = "table" | "card"
-export const ViewTypesEnum = {
-	"table": "table",
-	"card": "card",
-} satisfies Record<ViewTypesType, ViewTypesType>
+export type ViewTypesType = keyof typeof views
+
 
 export type ColumnCase = Record<string, { Icon: FC<any> }>
 
@@ -30,12 +28,12 @@ export type DatabaseViewStateType = {
 	columns: ColumnType[],
 	rows: RowType[],
 	views: (ViewStateType & ViewStateActions)[],
-	view_editable_status: boolean,
 }
 export type DatabaseViewActionsType = {
 	on_select_view: (payload?: any) => void
+	on_create_view: (type: ViewTypesType) => void
 	on_edit_view: (payload: {name: string}) => void
-	toggle_view_editable_status: (status: boolean ) => void,
+	on_delete_view: (id: string) => void
 }
 
 export type DatabaseViewStateAndActionsType = DatabaseViewStateType & DatabaseViewActionsType

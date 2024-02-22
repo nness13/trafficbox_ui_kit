@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from 'react'
-import { v4 as uuidv4 } from 'uuid'
-import { Input, ListItem, Popover, PopoverContent, PopoverHandler } from '@material-tailwind/react'
-import { useViewStore } from '@/components/DatabaseView/Views/ViewStore'
+import React, {useEffect, useState} from 'react'
+import {v4 as uuidv4} from 'uuid'
+import {Input, ListItem, Popover, PopoverContent, PopoverHandler} from '@material-tailwind/react'
+import {useViewContextReducer} from "@/components/DatabaseView/Views/ViewStoreContext";
 
 export function GroupPopoverCreator ( props: { children: React.ReactNode } ) {
-	const columns = useViewStore(state => state.columns)
+	const columns = useViewContextReducer(state => state.columns)
 	const [status, set_status] = useState(false)
 	const [option_list, set_option_list] = useState(columns)
 	useEffect(() => {

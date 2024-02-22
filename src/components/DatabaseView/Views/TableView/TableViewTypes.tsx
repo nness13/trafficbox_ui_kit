@@ -1,5 +1,5 @@
 import { ReactNode } from 'react'
-import { ColumnCase, ColumnType } from '@/components/DatabaseView/DatabaseViewTypes'
+import {ColumnCase, ColumnType, ViewTypesType} from '@/components/DatabaseView/DatabaseViewTypes'
 
 export type TableViewProps = Partial<ViewStateType> & {
 	rows: Record<string, any>[]
@@ -9,7 +9,7 @@ export type TableViewProps = Partial<ViewStateType> & {
 export type ViewStateType = {
 	id: string, // unique property
 	name: string, // unique property
-	type: "table",
+	type: ViewTypesType,
 	column_case: ColumnCase,
 	columns: ColumnType[]
 	rows: Record<string, any>[]
@@ -38,8 +38,8 @@ export type ViewStateType = {
 export type ViewStateActions = {
 	on_edit_view: (payload: {name: string}) => void
 	onSelect: (payload: string[]) => void
-	onEdit: (payload: any) => void
 	toggle_filter_panel_status: (payload: any) => void
 	toggle_sort_panel_status: (payload: any) => void
 	toggle_group_panel_status: (payload?: any) => void
+	onEditRow: (payload?: any) => void
 }

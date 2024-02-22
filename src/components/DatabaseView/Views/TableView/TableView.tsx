@@ -1,11 +1,15 @@
-import React, { memo } from 'react'
+import React, {memo, useEffect} from 'react'
 import { TableContainer } from '@/components/DatabaseView/Views/TableView/TableContainers'
 import { TableGroupRow } from '@/components/DatabaseView/Views/TableView/TableGroupRow'
 import { TableRow } from '@/components/DatabaseView/Views/TableView/TableRow'
 import { TableHeaderRow } from '@/components/DatabaseView/Views/TableView/TableHeaderRow'
 import { ViewStateType } from '@/components/DatabaseView/Views/TableView/TableViewTypes'
 import { ViewPanel } from '@/components/DatabaseView/ViewPanel/ViewPanel'
-import {ItemProvider} from "@/components/DatabaseView/Views/TableView/ItemTestContext";
+import { createContext, useContextSelector } from 'use-context-selector';
+import {useNsReducer} from "@/components/Utils";
+import {useViewContextReducer, ViewReducerContext} from "@/components/DatabaseView/Views/ViewStoreContext";
+import {ViewStoreProvider} from "@/components/DatabaseView/Views/ViewStoreProvider";
+
 
 export const Table = memo((props: ViewStateType) => {
 	return (
@@ -15,8 +19,9 @@ export const Table = memo((props: ViewStateType) => {
 
 export const TableView = memo((props: ViewStateType) => {
 
+
 	return (
-		<>
+		<ViewStoreProvider>
 			<ViewPanel/>
 			<div className="overflow-auto max-h-[900px] min-h-[700px]">
 				<TableContainer>
@@ -37,6 +42,6 @@ export const TableView = memo((props: ViewStateType) => {
 					))}
 				</TableContainer>
 			</div>
-		</>
+		</ViewStoreProvider>
 	)
 })

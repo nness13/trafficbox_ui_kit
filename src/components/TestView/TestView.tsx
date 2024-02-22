@@ -1,55 +1,48 @@
-import React, { FC, memo } from 'react'
-import { create } from 'zustand'
-import { devtools } from 'zustand/middleware'
-import { immer } from 'zustand/middleware/immer'
+import React, {FC, memo} from 'react'
+import { createContext, useContextSelector } from 'use-context-selector';
+import {useSimpleReducer} from "use_reducer_simple_syntax";
+import {ViewReducerContext} from "@/components/DatabaseView/Views/ViewStoreContext";
 
-export type initValueType = {
-	counter1: number
-	counter2: number
-	set_counter1: () => void
-	set_counter2: () => void
+const initialValues = {
+	counter1: 0,
+	counter2: 0,
 }
-export const useDatabaseViewStore = create<initValueType>()(devtools(immer(
-	(set, getState, store) => ({
-		counter1: 0,
-		set_counter1: () => set(state => {
-			state.counter1++
-		}),
-		counter2: 0,
-		set_counter2: () => set(state => {
-			state.counter2++
-		}),
-	})
-), {
-	name: "TestStore",
-}))
+type initType = typeof initialValues
+type TestContextType = typeof initialValues & typeof actions
+export const actions = {
+	set_counter1: (value: number) => (state: initType) => state,
+	set_counter2: (value: number) => (state: initType) => state,
+}
+export const useDatabaseViewReducer = () => useSimpleReducer(
+	initialValues,
+	actions
+)
 
+const Context = createContext({
+	...initialValues,
+	...actions
+})
 
 export const TestView: FC<any> = () => {
-	const set_counter2 = useDatabaseViewStore(state => state.set_counter2)
+	const reducer = useDatabaseViewReducer()
+
 	return (
-		<div>
-
-			<Counter1Container/>
-
+		<Context.Provider value={reducer}>
 			<div>
-				<div onClick={() => set_counter2()}>
-					Збільшити 2
-				</div>
+				<Counter1Container/>
 				<Counter2/>
 			</div>
-
-		</div>
+		</Context.Provider>
 	)
 }
 
 export const Counter1Container: FC<any> = memo(() => {
-	const set_counter1 = useDatabaseViewStore(state => state.set_counter1)
+	const set_counter1 = useContextSelector(Context, state => state.set_counter1)
 	console.log("Counter1Container")
 
 	return (
 		<div>
-			<div onClick={() => set_counter1()}>
+			<div onClick={() => set_counter1(1)}>
 				Збільшити 1
 			</div>
 			<Counter1/>
@@ -58,7 +51,7 @@ export const Counter1Container: FC<any> = memo(() => {
 })
 
 export const Counter1: FC<any> = memo(() => {
-	const counter1 = useDatabaseViewStore(state => state.counter1)
+	const counter1 = useContextSelector(Context, state => state.counter1)
 	console.log("counter 1")
 	return (
 		<div>
@@ -68,11 +61,17 @@ export const Counter1: FC<any> = memo(() => {
 })
 
 export const Counter2: FC<any> = () => {
-	const counter2 = useDatabaseViewStore(state => state.counter2)
+	const counter2 = useContextSelector(Context, state => state.counter2)
+	const set_counter2 = useContextSelector(Context, state => state.set_counter2)
 	console.log("counter 2")
 	return (
 		<div>
-			Лічильник 2: {counter2}
+			<div onClick={() => set_counter2(2)}>
+				Збільшити 2
+			</div>
+			<div>
+				Лічильник 2: {counter2}
+			</div>
 		</div>
 	)
 }

@@ -1,16 +1,16 @@
-import React, { useState } from 'react'
+import React, {useState} from 'react'
 import {
 	TableCell,
 	TableCellItem,
 	TableCheckbox,
 	TableRowContainer
 } from '@/components/DatabaseView/Views/TableView/TableContainers'
-import { TableRow } from '@/components/DatabaseView/Views/TableView/TableRow'
-import { getAllCount, getTrustItemID } from '@/components/DatabaseView/DatabaseView.utils'
-import { HiChevronDown, HiChevronRight } from 'react-icons/hi2'
-import { ColumnValueTypeSwitcher } from '@/components/DatabaseView/Views/TableView/ColumnValueTypeSwitcher'
-import { ColumnType, RowType } from '@/components/DatabaseView/DatabaseViewTypes'
-import { useViewStore } from '@/components/DatabaseView/Views/ViewStore'
+import {TableRow} from '@/components/DatabaseView/Views/TableView/TableRow'
+import {getAllCount, getTrustItemID} from '@/components/DatabaseView/DatabaseView.utils'
+import {HiChevronDown, HiChevronRight} from 'react-icons/hi2'
+import {ColumnValueTypeSwitcher} from '@/components/DatabaseView/Views/TableView/ColumnValueTypeSwitcher'
+import {ColumnType, RowType} from '@/components/DatabaseView/DatabaseViewTypes'
+import {useViewContextReducer} from "@/components/DatabaseView/Views/ViewStoreContext";
 
 type props_type = {
 	group_id: number
@@ -19,9 +19,9 @@ type props_type = {
 }
 
 export const TableGroupRow = ((props: props_type) => {
-	const selected = useViewStore(state => state.selected)
-	const onSelect = useViewStore(state => state.onSelect)
-	const onEdit = useViewStore(state => state.onEdit)
+	const selected = useViewContextReducer(state => state.selected)
+	const onSelect = useViewContextReducer(state => state.onSelect)
+	const onEdit = useViewContextReducer(state => state.onEditRow)
 
 	const isSelected = !!selected.find(s => s === props.row.id)
 	const onSelected = (e: any) => {

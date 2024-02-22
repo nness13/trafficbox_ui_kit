@@ -1,13 +1,13 @@
-import React, { memo } from 'react'
+import React, {memo} from 'react'
 import {
 	TableCell,
 	TableCellItem,
 	TableCheckbox,
 	TableRowContainer
 } from '@/components/DatabaseView/Views/TableView/TableContainers'
-import { ColumnValueTypeSwitcher } from '@/components/DatabaseView/Views/TableView/ColumnValueTypeSwitcher'
-import { ColumnType, RowType } from '@/components/DatabaseView/DatabaseViewTypes'
-import { useViewStore } from '@/components/DatabaseView/Views/ViewStore'
+import {ColumnValueTypeSwitcher} from '@/components/DatabaseView/Views/TableView/ColumnValueTypeSwitcher'
+import {ColumnType, RowType} from '@/components/DatabaseView/DatabaseViewTypes'
+import {useViewContextReducer} from "@/components/DatabaseView/Views/ViewStoreContext";
 
 type props_type = {
 	row: RowType
@@ -15,9 +15,9 @@ type props_type = {
 }
 
 export const TableRow = memo((props: props_type) => {
-	const onEdit = useViewStore(state => state.onEdit)
-	const onSelect = useViewStore(state => state.onSelect)
-	const selected = useViewStore(state => state.selected)
+	const onSelect = useViewContextReducer(state => state.onSelect)
+	const onEdit = useViewContextReducer(state => state.onEditRow)
+	const selected = useViewContextReducer(state => state.selected)
 	const isSelected = !!selected.find(s => s === props.row.id)
 
 	const onSelected = (e: any) => {
