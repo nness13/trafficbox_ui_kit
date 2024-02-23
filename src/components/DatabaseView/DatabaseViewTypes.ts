@@ -2,6 +2,8 @@ import { FC } from 'react'
 import { ViewStateType } from '@/components/DatabaseView/Views/TableView/TableViewTypes'
 import { ViewStateActions } from '@/components/DatabaseView/Views/TableView/TableViewTypes'
 import {views} from "@/components/DatabaseView/Views/views";
+import {StoreApi, UseBoundStore} from "zustand";
+import {useViewStore} from "@/components/DatabaseView/Views/ViewStore";
 
 export type DatabaseViewProps = Partial<DatabaseViewStateType> & {
 	rows: RowType[]
@@ -27,7 +29,7 @@ export type DatabaseViewStateType = {
 	selected_view: string,
 	columns: ColumnType[],
 	rows: RowType[],
-	views: (ViewStateType & ViewStateActions)[],
+	views: ReturnType<typeof useViewStore>[],
 }
 export type DatabaseViewActionsType = {
 	on_select_view: (payload?: any) => void

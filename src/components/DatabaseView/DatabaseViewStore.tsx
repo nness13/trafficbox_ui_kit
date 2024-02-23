@@ -1,4 +1,4 @@
-import {initialViewStore} from '@/components/DatabaseView/Views/ViewStore'
+import {initialViewStore, useViewStore} from '@/components/DatabaseView/Views/ViewStore'
 import {
 	ColumnType,
 	DatabaseViewStateAndActionsType,
@@ -10,11 +10,11 @@ import {immer} from 'zustand/middleware/immer'
 import {devtools} from 'zustand/middleware'
 import {v4 as uuid_v4} from 'uuid'
 
-const view1 = initialViewStore()
+const view1 = useViewStore()
 
 export const useDatabaseViewStore = create<DatabaseViewStateAndActionsType>()(devtools(immer(
 	(set, getState, store) => ({
-		selected_view: view1.id,
+		selected_view: view1.getState().id,
 		columns: [] as ColumnType[],
 		rows: [] as RowType[],
 		views: [
@@ -23,18 +23,18 @@ export const useDatabaseViewStore = create<DatabaseViewStateAndActionsType>()(de
 
 		on_select_view: (id: string) => set({ selected_view: id }),
 		on_create_view: (type: ViewTypesType) => set((state) => {
-			const view = initialViewStore(type)
+			const view = useViewStore()
 			state.views.push( view )
-			state.selected_view= view.id
+			state.selected_view= view.getState().id
 		}),
 		on_delete_view: (id: string) => set((state) => {
-			state.views = state.views.filter(view => view.id !== id)
+			state.views = state.views.filter(view => view.getState().id !== id)
 			if(state.views.length > 0)
-				state.selected_view = state.views[0].id
+				state.selected_view = state.views[0].getState().id
 		}),
 		on_edit_view: ({ name }) => set((state) => {
 			const active_view = useActiveViewSelector(state)
-			if(active_view) active_view.name = name
+			if(active_view) active_view.getState().name = name
 		}, false, "database/edit_view")
 
 	})
@@ -43,10 +43,10 @@ export const useDatabaseViewStore = create<DatabaseViewStateAndActionsType>()(de
 }))
 
 export const useActiveViewSelector = (state: DatabaseViewStateAndActionsType) => {
-	if(state.views.length <= 0) return initialViewStore()
+	if(state.views.length <= 0) return useViewStore()
 
 	const active_view = state.views.find(view =>
-		view.id === state.selected_view
+		view.getState().id === state.selected_view
 	)
 	if(active_view) return active_view
 

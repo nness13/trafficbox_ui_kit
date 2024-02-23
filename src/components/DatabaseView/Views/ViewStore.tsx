@@ -62,7 +62,7 @@ const initializedViewStore: stateCreate = (set) => ({
 	})
 })
 
-export const useViewStore = create<viewType>()(devtools(immer(
+export const useViewStore = () => create<viewType>()(devtools(immer(
 	initializedViewStore
 ), {
 	name: "ViewStore"

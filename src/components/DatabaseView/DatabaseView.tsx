@@ -13,12 +13,12 @@ export const DatabaseView: FC<DatabaseViewProps> = memo((props) => {
 		<>
 			<ViewSwitcherPanel/>
 			{database_views.map(view => {
-				const View = views[view.type]
+				const View = views[view.getState().type]
 
 				return (
 					<View
-						{...view}
-						key={view.id}
+						{...view.getState()}
+						key={view.getState().id}
 						rows={props.rows}
 						columns={props.columns}
 					/>

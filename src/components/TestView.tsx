@@ -1,7 +1,7 @@
 import React, {FC, memo} from 'react'
 import { createContext, useContextSelector } from 'use-context-selector';
 import {useSimpleReducer} from "use_reducer_simple_syntax";
-import {ViewReducerContext} from "@/components/DatabaseView/Views/ViewStoreContext";
+import produce from "immer";
 
 const initialValues = {
 	counter1: 0,
@@ -10,8 +10,12 @@ const initialValues = {
 type initType = typeof initialValues
 type TestContextType = typeof initialValues & typeof actions
 export const actions = {
-	set_counter1: (value: number) => (state: initType) => state,
-	set_counter2: (value: number) => (state: initType) => state,
+	set_counter1: (value: number) => (state: initType) => produce(state, draft => {
+		draft.counter1 = draft.counter1+value
+	}),
+	set_counter2: (value: number) => (state: initType) => produce(state, draft => {
+		draft.counter2 = draft.counter2+value
+	}),
 }
 export const useDatabaseViewReducer = () => useSimpleReducer(
 	initialValues,
