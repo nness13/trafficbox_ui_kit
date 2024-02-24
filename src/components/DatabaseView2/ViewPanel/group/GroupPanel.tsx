@@ -21,7 +21,7 @@ export const GroupPanel = observer(() => {
 		nodeSelector: "ol"
 	};
 	return (
-		<div className={`flex items-center gap-2 p-1 transition-all overflow-hidden ${!active_view.groups_panel_status && 'h-0 !p-0'}`}>
+		<div className={`flex items-center gap-2 transition-all overflow-hidden ${!active_view.groups_panel_status ? 'h-0 p-0' : 'p-1'}`}>
 			<ReactDragListView.DragColumn {...dragProps}>
 				<div className="flex flex-row gap-2 items-center">
 					{active_view.groups.map((group, key) =>

@@ -5,6 +5,7 @@ import {useViewContext} from "@/components/DatabaseView2/Views/TableView/ViewCon
 import {observer} from "mobx-react-lite";
 
 export const GroupPopoverCreator: FC<{ children: React.ReactNode }> = observer(( props  ) => {
+	const view_state = useViewContext()
 	const columns = useViewContext(state => state.columns)
 	const [status, set_status] = useState(false)
 	const [option_list, set_option_list] = useState(columns)
@@ -22,10 +23,12 @@ export const GroupPopoverCreator: FC<{ children: React.ReactNode }> = observer((
 			columns.filter(c => c.label.includes(e.currentTarget.value))
 		)
 	}
-
+	const handler = () => {
+		if(view_state.groups.length === 0 && view_state.groups_panel_status) set_status(!status)
+	}
 
 	return (
-		<Popover placement="bottom-start" open={status} handler={() => set_status(!status)}>
+		<Popover placement="bottom-start" open={status} handler={handler}>
 			<PopoverHandler>
 				<div>
 					{props.children}

@@ -18,12 +18,9 @@ export const ViewPanel: FC<DatabaseViewPanelProps> = observer(() => {
 	const filter_panel_status = useViewContext(state => state.filter_panel_status)
 	const toggle_filter_panel_status = useViewContext(state => state.toggle_filter_panel_status)
 	const sort_panel_status = useViewContext(state => state.sort_panel_status)
-	const groups = useViewContext(state => state.groups)
 	const groups_panel_status = useViewContext(state => state.groups_panel_status)
 	const toggle_group_panel_status = useViewContext(state => state.toggle_group_panel_status)
-	// const {
-	//
-	// } = useViewContext()
+
 
 	return (
 		<div>
@@ -49,22 +46,14 @@ export const ViewPanel: FC<DatabaseViewPanelProps> = observer(() => {
 						</Tab>
 					</SortPopoverCreator>
 
-					{groups.length === 0
-						? <GroupPopoverCreator>
-							<Tab
-								className={`${groups_panel_status ? '!text-blue-500' : ''}`}
-								onClick={() => toggle_group_panel_status(!groups_panel_status)}
-							>
-								Group
-							</Tab>
-						</GroupPopoverCreator>
-						: <Tab
+					<GroupPopoverCreator>
+						<Tab
 							className={`${groups_panel_status ? '!text-blue-500' : ''}`}
 							onClick={() => toggle_group_panel_status(!groups_panel_status)}
 						>
 							Group
 						</Tab>
-					}
+					</GroupPopoverCreator>
 
 					<SearchInput/>
 

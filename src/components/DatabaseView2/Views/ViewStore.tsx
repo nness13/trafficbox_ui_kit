@@ -48,8 +48,10 @@ export class ViewStore {
 		this.groups_panel_status = value
 	}
 
-	on_edit_view = (data: Partial<{ name: string }>) => {
+	on_edit_view = (data: Partial<ViewStore>) => {
 		if(data.name) this.name = data.name
+		if(data.columns) this.columns = data.columns
+		if(data.rows) this.rows = data.rows
 	}
 	onSelect = (id_list: string[]) => {
 		this.selected = id_list

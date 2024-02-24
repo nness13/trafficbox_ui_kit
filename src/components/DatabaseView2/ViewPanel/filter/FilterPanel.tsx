@@ -15,7 +15,7 @@ export const FilterPanel = observer(() => {
 	// 	context.onLoad()
 	// }, [context.view.filters.list, context.view.sort.list])
 	return (
-		<div className={`flex items-center gap-2 p-1 transition-all overflow-hidden ${!active_view.filter_panel_status && 'h-0 !p-0'}`}>
+		<div className={`flex items-center gap-2 transition-all overflow-hidden ${!active_view.filter_panel_status ? 'h-0 p-0' : 'p-1'}`}>
 			{active_view.sort.map((sort, key) =>
 				<SortPopoverEditor key={key} sort={sort}>
 					<SortTag sort={sort}/>

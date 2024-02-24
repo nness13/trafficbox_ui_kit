@@ -8,6 +8,7 @@ import {StoreProvider, useViewContext} from "@/components/DatabaseView2/Views/Ta
 import {ViewState, ViewStore} from "@/components/DatabaseView2/Views/ViewStore";
 import {observer} from "mobx-react-lite";
 import {ColumnType, RowType} from "@/components/DatabaseView2/DatabaseViewTypes";
+import {ActiveViewState} from "@/components/DatabaseView2/DatabaseViewStore";
 
 
 const TableComponent = observer(() => {
@@ -45,9 +46,12 @@ type propsType = {
 	columns: ColumnType[]
 }
 export const TableView: FC<propsType> = observer((props) => {
+	const view = ActiveViewState()
 	useEffect(() => {
-		props.store.columns = props.columns
-		props.store.rows = props.rows
+		if(view) view.on_edit_view({
+			columns: props.columns,
+			rows: props.rows
+		})
 	}, [])
 
 	return (
