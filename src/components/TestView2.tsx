@@ -39,7 +39,7 @@ const StateProvider: FC<{children: React.ReactNode}> = ({ children }) => (
     </Context.Provider>
 );
 
-export const Test2View = () => (
+export const TestView2 = () => (
     <StateProvider>
         <Counter1 />
         <Counter2 />

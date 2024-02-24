@@ -1,5 +1,5 @@
-import React, {FC, memo} from 'react'
-import { createContext, useContextSelector } from 'use-context-selector';
+import React, {FC, memo, useContext, createContext} from 'react'
+// import { , useContextSelector } from 'use-context-selector';
 import {useSimpleReducer} from "use_reducer_simple_syntax";
 import produce from "immer";
 
@@ -22,26 +22,30 @@ export const useDatabaseViewReducer = () => useSimpleReducer(
 	actions
 )
 
-const Context = createContext({
-	...initialValues,
-	...actions
-})
+const TextViewContext = createContext<TestContextType | null>(null)
+const TextViewContextProvider = TextViewContext.Provider
+const useTextViewContext = () => {
+	const context = useContext(TextViewContext)
+	
+	if(!context) throw new Error("Can not 'useTextViewContext' outside of the 'TextViewContextProvider' ")
+	
+	return context
+}
 
 export const TestView: FC<any> = () => {
-	const reducer = useDatabaseViewReducer()
 
 	return (
-		<Context.Provider value={reducer}>
+		<TextViewContextProvider value={useDatabaseViewReducer()}>
 			<div>
 				<Counter1Container/>
 				<Counter2/>
 			</div>
-		</Context.Provider>
+		</TextViewContextProvider>
 	)
 }
 
 export const Counter1Container: FC<any> = memo(() => {
-	const set_counter1 = useContextSelector(Context, state => state.set_counter1)
+	const set_counter1 = useTextViewContext(TextViewContext, state => state.set_counter1)
 	console.log("Counter1Container")
 
 	return (
@@ -55,7 +59,7 @@ export const Counter1Container: FC<any> = memo(() => {
 })
 
 export const Counter1: FC<any> = memo(() => {
-	const counter1 = useContextSelector(Context, state => state.counter1)
+	const counter1 = useContextSelector(TextViewContext, state => state.counter1)
 	console.log("counter 1")
 	return (
 		<div>
@@ -65,8 +69,8 @@ export const Counter1: FC<any> = memo(() => {
 })
 
 export const Counter2: FC<any> = () => {
-	const counter2 = useContextSelector(Context, state => state.counter2)
-	const set_counter2 = useContextSelector(Context, state => state.set_counter2)
+	const counter2 = useContextSelector(TextViewContext, state => state.counter2)
+	const set_counter2 = useContextSelector(TextViewContext, state => state.set_counter2)
 	console.log("counter 2")
 	return (
 		<div>
