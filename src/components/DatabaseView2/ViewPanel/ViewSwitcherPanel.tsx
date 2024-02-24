@@ -1,13 +1,14 @@
-import { ViewPopoverEditor } from '@/components/DatabaseView/ViewPanel/ViewPopoverEditor'
-import { Tab } from '@/components/Buttons/Tab'
-import { ViewsIcon } from '@/components/DatabaseView/ViewIcon'
-import { ViewPopoverCreator } from '@/components/DatabaseView/ViewPanel/ViewPopoverCreator'
-import { HiPlus } from 'react-icons/hi2'
-import React, { memo } from 'react'
-import { useDatabaseViewStore } from '@/components/DatabaseView/DatabaseViewStore'
+import {ViewPopoverEditor} from '@/components/DatabaseView2/ViewPanel/ViewPopoverEditor'
+import {Tab} from '@/components/Buttons/Tab'
+import {ViewsIcon} from '@/components/DatabaseView2/ViewIcon'
+import {ViewPopoverCreator} from '@/components/DatabaseView2/ViewPanel/ViewPopoverCreator'
+import {HiPlus} from 'react-icons/hi2'
+import React, {memo} from 'react'
 import {DatabaseViewState} from "@/components/DatabaseView2/DatabaseViewStore";
+import {observer} from "mobx-react-lite";
 
-export const ViewSwitcherPanel = memo(() => {
+export const ViewSwitcherPanel = observer(() => {
+
 	return (
 		<div className="flex">
 			{DatabaseViewState.views.map(view => {

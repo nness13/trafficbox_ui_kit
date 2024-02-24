@@ -1,15 +1,15 @@
 import React from 'react'
 import ReactDragListView from 'react-drag-listview'
-import {GroupPopoverEditor} from '@/components/DatabaseView/ViewPanel/group/GroupPopoverEditor'
-import {GroupTag} from '@/components/DatabaseView/ViewPanel/group/GroupTag'
-import {GroupPopoverCreator} from '@/components/DatabaseView/ViewPanel/group/GroupPopoverCreator'
-import {GroupTagAdd} from '@/components/DatabaseView/ViewPanel/group/GroupTagAdd'
-import {useActiveViewPartial} from "@/components/DatabaseView/DatabaseViewStore";
-import {ActiveViewState} from "@/components/DatabaseView2/DatabaseViewStore";
+import {GroupPopoverEditor} from '@/components/DatabaseView2/ViewPanel/group/GroupPopoverEditor'
+import {GroupTag} from '@/components/DatabaseView2/ViewPanel/group/GroupTag'
+import {GroupPopoverCreator} from '@/components/DatabaseView2/ViewPanel/group/GroupPopoverCreator'
+import {GroupTagAdd} from '@/components/DatabaseView2/ViewPanel/group/GroupTagAdd'
+import {useViewContext} from "@/components/DatabaseView2/Views/TableView/ViewContext";
+import {observer} from "mobx-react-lite";
 
 
-export function GroupPanel () {
-	const active_view = ActiveViewState()
+export const GroupPanel = observer(() => {
+	const active_view = useViewContext()
 
 	const dragProps = {
 		onDragEnd(fromIndex: number, toIndex:number) {
@@ -38,4 +38,4 @@ export function GroupPanel () {
 			</GroupPopoverCreator>
 		</div>
 	)
-}
+})

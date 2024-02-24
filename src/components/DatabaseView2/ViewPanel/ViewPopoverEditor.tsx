@@ -1,22 +1,20 @@
-import React, { memo, useState } from 'react'
+import React, {memo, useState} from 'react'
 import {Input, Popover, PopoverContent, PopoverHandler} from '@material-tailwind/react'
-import { HiTrash } from 'react-icons/hi2'
-import { SimpleLightButton } from '@/components/Buttons/SimpleLightButton'
-import { useActiveViewSelector, useDatabaseViewStore } from '@/components/DatabaseView/DatabaseViewStore'
+import {HiTrash} from 'react-icons/hi2'
+import {SimpleLightButton} from '@/components/Buttons/SimpleLightButton'
+import {ActiveViewState, DatabaseViewState} from '@/components/DatabaseView2/DatabaseViewStore'
 import {InputOnBlur} from "@/components/Inputs/InputOnBlur";
-import {ActiveViewState, DatabaseViewState} from "@/components/DatabaseView2/DatabaseViewStore";
+import {observer} from "mobx-react-lite";
 
-export const ViewPopoverEditor = memo(( props: { children: React.ReactNode, isActive: boolean } ) => {
-	const on_edit_view = DatabaseViewState.on_edit_active_view
-	const active_view_name = ActiveViewState().name
-	const active_view_id = ActiveViewState().id
-	const on_delete_view_action = DatabaseViewState.on_delete_view
+export const ViewPopoverEditor = observer(( props: { children: React.ReactNode, isActive: boolean } ) => {
+	const { on_edit_active_view, on_delete_view: on_delete_view_action } = DatabaseViewState
+	const {name, id} = ActiveViewState()
 
 	const [status, set_status] = useState(false)
 
 	const on_delete_view = () => {
 		set_status(false)
-		on_delete_view_action(active_view_id)
+		on_delete_view_action(id)
 	}
 	const open = (e: any) => {
 		if(props.isActive){
@@ -41,11 +39,11 @@ export const ViewPopoverEditor = memo(( props: { children: React.ReactNode, isAc
 			</PopoverHandler>
 			<PopoverContent className="w-96 max-h-[800px] overflow-auto z-30 flex flex-col gap-5 p-2 bg-foreground border-none" placeholder={""}>
 				<div className="flex flex-row gap-2 items-center">
-					<InputOnBlur
+					<Input
 						name="name"
 						label="Name view"
-						value={active_view_name}
-						onDone={(value) => on_edit_view({ name: value })}
+						value={name}
+						onInput={(e) => on_edit_active_view({ name: e.currentTarget.value })}
 						crossOrigin={""}
 					/>
 					<SimpleLightButton onClick={on_delete_view}>

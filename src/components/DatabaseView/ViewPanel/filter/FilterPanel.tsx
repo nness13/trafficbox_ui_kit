@@ -6,9 +6,10 @@ import { FilterTag } from '@/components/DatabaseView/ViewPanel/filter/FilterTag'
 import { FilterTagAdd } from '@/components/DatabaseView/ViewPanel/filter/FilterTagAdd'
 import { FilterPopoverCreator } from '@/components/DatabaseView/ViewPanel/filter/FilterPopoverCreator'
 import {useActiveViewPartial, useDatabaseViewStore} from "@/components/DatabaseView/DatabaseViewStore";
+import {ActiveViewState} from "@/components/DatabaseView2/DatabaseViewStore";
 
 export function FilterPanel () {
-	const active_view = useActiveViewPartial()
+	const active_view = ActiveViewState()
 
 	// useEffect(() => {
 	// 	context.onLoad()
