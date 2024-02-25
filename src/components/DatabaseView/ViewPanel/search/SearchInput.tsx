@@ -2,13 +2,15 @@ import {HiMagnifyingGlass} from 'react-icons/hi2'
 import React, {useState} from 'react'
 import {Input} from '@material-tailwind/react'
 import {Tab} from '@/components/Buttons/Tab'
-import {useViewContextReducer} from "@/components/DatabaseView/Views/ViewStoreContext";
+import {useViewContext} from "@/components/DatabaseView/Views/TableView/ViewContext";
+import {observer} from "mobx-react-lite";
 
-export function SearchInput () {
-	const search_value = useViewContextReducer(state => state.search.value)
+export const SearchInput = observer(() => {
+	const viewStore = useViewContext()
+	const search_value = useViewContext(state => state.search.value)
 	const [status, set_status] = useState(true)
 	const on_search = (e: any) => {
-		// context.actions.set_search(e.currentTarget.value)
+		viewStore.set_search(e.currentTarget.value)
 	}
 
 	return (
@@ -38,10 +40,10 @@ export function SearchInput () {
 			}
 		</div>
 	)
-}
+})
 
-export function useDatabaseSearch (rows: any[]) {
-	const search_value = useViewContextReducer(state => state.search.value)
+export const useDatabaseSearch = observer((rows: any[]) => {
+	const search_value = useViewContext(state => state.search.value)
 
 	return rows.filter((row ) =>
 		Object.entries(row).find(([key, property]) => {
@@ -50,4 +52,4 @@ export function useDatabaseSearch (rows: any[]) {
 				: false
 		})
 	)
-}
+})

@@ -1,5 +1,5 @@
 import React, {createContext, useContext} from "react";
-import type {ViewStore} from "@/components/DatabaseView2/Views/ViewStore";
+import type {ViewStore} from "@/components/DatabaseView/Views/ViewStore";
 
 const ViewContext = createContext<ViewStore | null>(null);
 

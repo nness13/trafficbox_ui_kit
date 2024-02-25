@@ -1,35 +1,29 @@
-import React, { FC, memo, ReactNode } from 'react'
-import { Button } from '@/components/Button'
-import { HiChevronDown, HiEllipsisHorizontal } from 'react-icons/hi2'
-import { SortPopoverCreator } from '@/components/DatabaseView/ViewPanel/sort/SortPopoverCreator'
-import { SearchInput } from '@/components/DatabaseView/ViewPanel/search/SearchInput'
-import { GroupPopoverCreator } from '@/components/DatabaseView/ViewPanel/group/GroupPopoverCreator'
-import { Tab } from '@/components/Buttons/Tab'
+import React, {FC, memo, ReactNode} from 'react'
+import {Button} from '@/components/Button'
+import {HiChevronDown, HiEllipsisHorizontal} from 'react-icons/hi2'
+import {SortPopoverCreator} from '@/components/DatabaseView/ViewPanel/sort/SortPopoverCreator'
+import {SearchInput} from '@/components/DatabaseView/ViewPanel/search/SearchInput'
+import {GroupPopoverCreator} from '@/components/DatabaseView/ViewPanel/group/GroupPopoverCreator'
+import {Tab} from '@/components/Buttons/Tab'
 import {FilterPanel} from "@/components/DatabaseView/ViewPanel/filter/FilterPanel";
 import {GroupPanel} from "@/components/DatabaseView/ViewPanel/group/GroupPanel";
-import {useViewContextReducer} from "@/components/DatabaseView/Views/ViewStoreContext";
+import {useViewContext} from "@/components/DatabaseView/Views/TableView/ViewContext";
+import {observer} from "mobx-react-lite";
 
 export interface DatabaseViewPanelProps {
 	children?: ReactNode;
 }
 
-export const ViewPanel: FC<DatabaseViewPanelProps> = memo(() => {
-	const filter_panel_status = useViewContextReducer(state => state.filter_panel_status)
-	const toggle_filter_panel_status = useViewContextReducer(state => state.toggle_filter_panel_status)
-	const sort_panel_status = useViewContextReducer(state => state.sort_panel_status)
-	const groups = useViewContextReducer(state => state.groups)
-	const groups_panel_status = useViewContextReducer(state => state.groups_panel_status)
-	const toggle_group_panel_status = useViewContextReducer(state => state.toggle_group_panel_status)
+export const ViewPanel: FC<DatabaseViewPanelProps> = observer(() => {
+	const filter_panel_status = useViewContext(state => state.filter_panel_status)
+	const toggle_filter_panel_status = useViewContext(state => state.toggle_filter_panel_status)
+	const sort_panel_status = useViewContext(state => state.sort_panel_status)
+	const groups_panel_status = useViewContext(state => state.groups_panel_status)
+	const toggle_group_panel_status = useViewContext(state => state.toggle_group_panel_status)
+
 
 	return (
 		<div>
-			{/*<div*/}
-			{/*	onClick={() => setStatus(true)}*/}
-			{/*	className={"cursor-pointer"}*/}
-			{/*>*/}
-			{/*	Change name: {name}*/}
-			{/*</div>*/}
-
 			<div className="w-full flex justify-end border-b border-border_line">
 				<div className="flex">
 					<Tab
@@ -45,22 +39,14 @@ export const ViewPanel: FC<DatabaseViewPanelProps> = memo(() => {
 						</Tab>
 					</SortPopoverCreator>
 
-					{groups.length === 0
-						? <GroupPopoverCreator>
-							<Tab
-								className={`${groups_panel_status ? '!text-blue-500' : ''}`}
-								onClick={() => toggle_group_panel_status(!groups_panel_status)}
-							>
-								Group
-							</Tab>
-						</GroupPopoverCreator>
-						: <Tab
+					<GroupPopoverCreator>
+						<Tab
 							className={`${groups_panel_status ? '!text-blue-500' : ''}`}
 							onClick={() => toggle_group_panel_status(!groups_panel_status)}
 						>
 							Group
 						</Tab>
-					}
+					</GroupPopoverCreator>
 
 					<SearchInput/>
 

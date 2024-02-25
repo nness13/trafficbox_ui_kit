@@ -7,17 +7,18 @@ import {
 } from '@/components/DatabaseView/Views/TableView/TableContainers'
 import {ColumnValueTypeSwitcher} from '@/components/DatabaseView/Views/TableView/ColumnValueTypeSwitcher'
 import {ColumnType, RowType} from '@/components/DatabaseView/DatabaseViewTypes'
-import {useViewContextReducer} from "@/components/DatabaseView/Views/ViewStoreContext";
+import {useViewContext} from "@/components/DatabaseView/Views/TableView/ViewContext";
+import {observer} from "mobx-react-lite";
 
 type props_type = {
 	row: RowType
 	columns: ColumnType[]
 }
 
-export const TableRow = memo((props: props_type) => {
-	const onSelect = useViewContextReducer(state => state.onSelect)
-	const onEdit = useViewContextReducer(state => state.onEditRow)
-	const selected = useViewContextReducer(state => state.selected)
+export const TableRow = observer((props: props_type) => {
+	const onSelect = useViewContext(state => state.onSelect)
+	const onEdit = useViewContext(state => state.onEditRow)
+	const selected = useViewContext(state => state.selected)
 	const isSelected = !!selected.find(s => s === props.row.id)
 
 	const onSelected = (e: any) => {

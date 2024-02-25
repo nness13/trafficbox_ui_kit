@@ -6,20 +6,24 @@ import {
 	TableRowContainer
 } from '@/components/DatabaseView/Views/TableView/TableContainers'
 import {ColumnType} from '@/components/DatabaseView/DatabaseViewTypes'
-import {useViewContextReducer} from "@/components/DatabaseView/Views/ViewStoreContext";
+import {useViewContext} from "@/components/DatabaseView/Views/TableView/ViewContext";
+import {observer} from "mobx-react-lite";
 
 type props_type = {
 	columns: ColumnType[]
 }
-export const TableHeaderRow = memo((props: props_type) => {
-	const onSelect = useViewContextReducer(state => state.onSelect)
-	const selected = useViewContextReducer(state => state.selected)
-	const rows = useViewContextReducer(state => state.rows)
-	const column_case = useViewContextReducer(state => state.column_case)
+export const TableHeaderRow = observer((props: props_type) => {
+	const onSelect = useViewContext(state => state.onSelect)
+	const selected = useViewContext(state => state.selected)
+	const rows = useViewContext(state => state.rows)
+	const column_case = useViewContext(state => state.column_case)
 
 	function onSelectedAll () {
+		const id_list = rows.map(row => row.id)
 		onSelect(
-			selected.length > 0 ? [] : rows.map(row => row.id)
+			selected.length > 0
+				? []
+				: id_list
 		)
 	}
 

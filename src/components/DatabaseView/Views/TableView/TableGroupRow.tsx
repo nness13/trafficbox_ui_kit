@@ -10,7 +10,8 @@ import {getAllCount, getTrustItemID} from '@/components/DatabaseView/DatabaseVie
 import {HiChevronDown, HiChevronRight} from 'react-icons/hi2'
 import {ColumnValueTypeSwitcher} from '@/components/DatabaseView/Views/TableView/ColumnValueTypeSwitcher'
 import {ColumnType, RowType} from '@/components/DatabaseView/DatabaseViewTypes'
-import {useViewContextReducer} from "@/components/DatabaseView/Views/ViewStoreContext";
+import {useViewContext} from "@/components/DatabaseView/Views/TableView/ViewContext";
+import {observer} from "mobx-react-lite";
 
 type props_type = {
 	group_id: number
@@ -18,10 +19,10 @@ type props_type = {
 	columns: ColumnType[]
 }
 
-export const TableGroupRow = ((props: props_type) => {
-	const selected = useViewContextReducer(state => state.selected)
-	const onSelect = useViewContextReducer(state => state.onSelect)
-	const onEdit = useViewContextReducer(state => state.onEditRow)
+export const TableGroupRow = observer((props: props_type) => {
+	const selected = useViewContext(state => state.selected)
+	const onSelect = useViewContext(state => state.onSelect)
+	const onEdit = useViewContext(state => state.onEditRow)
 
 	const isSelected = !!selected.find(s => s === props.row.id)
 	const onSelected = (e: any) => {

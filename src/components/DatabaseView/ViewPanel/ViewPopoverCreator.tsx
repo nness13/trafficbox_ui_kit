@@ -2,12 +2,12 @@ import React, {memo, useState} from 'react'
 import {Input, ListItem, Popover, PopoverContent, PopoverHandler} from '@material-tailwind/react'
 import {ViewsIcon} from '@/components/DatabaseView/ViewIcon'
 import {ViewTypesType} from '@/components/DatabaseView/DatabaseViewTypes'
-import {useDatabaseViewStore} from "@/components/DatabaseView/DatabaseViewStore";
+import {DatabaseViewState} from "@/components/DatabaseView/DatabaseViewStore";
 import {views} from "@/components/DatabaseView/Views/views";
 
 export const ViewPopoverCreator = memo(( props: { children: React.ReactNode } ) => {
 	const [status, set_status] = useState(false)
-	const on_create_view_action = useDatabaseViewStore(state => state.on_create_view)
+	const on_create_view_action = DatabaseViewState.on_create_view
 	const on_create_view = (type: ViewTypesType ) => {
 		set_status(false)
 		on_create_view_action(type)

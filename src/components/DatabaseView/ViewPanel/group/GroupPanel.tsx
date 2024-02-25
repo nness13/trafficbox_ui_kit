@@ -4,12 +4,12 @@ import {GroupPopoverEditor} from '@/components/DatabaseView/ViewPanel/group/Grou
 import {GroupTag} from '@/components/DatabaseView/ViewPanel/group/GroupTag'
 import {GroupPopoverCreator} from '@/components/DatabaseView/ViewPanel/group/GroupPopoverCreator'
 import {GroupTagAdd} from '@/components/DatabaseView/ViewPanel/group/GroupTagAdd'
-import {useActiveViewPartial} from "@/components/DatabaseView/DatabaseViewStore";
-import {ActiveViewState} from "@/components/DatabaseView2/DatabaseViewStore";
+import {useViewContext} from "@/components/DatabaseView/Views/TableView/ViewContext";
+import {observer} from "mobx-react-lite";
 
 
-export function GroupPanel () {
-	const active_view = ActiveViewState()
+export const GroupPanel = observer(() => {
+	const active_view = useViewContext()
 
 	const dragProps = {
 		onDragEnd(fromIndex: number, toIndex:number) {
@@ -21,7 +21,7 @@ export function GroupPanel () {
 		nodeSelector: "ol"
 	};
 	return (
-		<div className={`flex items-center gap-2 p-1 transition-all overflow-hidden ${!active_view.groups_panel_status && 'h-0 !p-0'}`}>
+		<div className={`flex items-center gap-2 transition-all overflow-hidden ${!active_view.groups_panel_status ? 'h-0 p-0' : 'p-1'}`}>
 			<ReactDragListView.DragColumn {...dragProps}>
 				<div className="flex flex-row gap-2 items-center">
 					{active_view.groups.map((group, key) =>
@@ -38,4 +38,4 @@ export function GroupPanel () {
 			</GroupPopoverCreator>
 		</div>
 	)
-}
+})

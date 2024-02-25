@@ -1,76 +1,43 @@
-import {initialViewStore, useViewStore} from '@/components/DatabaseView/Views/ViewStore'
-import {
-	ColumnType,
-	DatabaseViewStateAndActionsType,
-	RowType,
-	ViewTypesType
-} from '@/components/DatabaseView/DatabaseViewTypes'
-import {create} from 'zustand'
-import {immer} from 'zustand/middleware/immer'
-import {devtools} from 'zustand/middleware'
-import {v4 as uuid_v4} from 'uuid'
+import {ColumnType, RowType} from '@/components/DatabaseView/DatabaseViewTypes'
+import {ViewStore} from "@/components/DatabaseView/Views/ViewStore";
+import {makeAutoObservable} from "mobx";
 
-const view1 = useViewStore()
+const view = new ViewStore()
+export class DatabaseViewStore {
+	selected_view: string | null = view.id
+	columns: ColumnType[] = []
+	rows: RowType[] = []
+	views: ViewStore[] = [
+		view
+	]
 
-export const useDatabaseViewStore = create<DatabaseViewStateAndActionsType>()(devtools(immer(
-	(set, getState, store) => ({
-		selected_view: view1.getState().id,
-		columns: [] as ColumnType[],
-		rows: [] as RowType[],
-		views: [
-			view1
-		],
+	constructor() {
+		makeAutoObservable(this);
+	}
 
-		on_select_view: (id: string) => set({ selected_view: id }),
-		on_create_view: (type: ViewTypesType) => set((state) => {
-			const view = useViewStore()
-			state.views.push( view )
-			state.selected_view= view.getState().id
-		}),
-		on_delete_view: (id: string) => set((state) => {
-			state.views = state.views.filter(view => view.getState().id !== id)
-			if(state.views.length > 0)
-				state.selected_view = state.views[0].getState().id
-		}),
-		on_edit_view: ({ name }) => set((state) => {
-			const active_view = useActiveViewSelector(state)
-			if(active_view) active_view.getState().name = name
-		}, false, "database/edit_view")
-
-	})
-), {
-	name: "DatabaseStore",
-}))
-
-export const useActiveViewSelector = (state: DatabaseViewStateAndActionsType) => {
-	if(state.views.length <= 0) return useViewStore()
-
-	const active_view = state.views.find(view =>
-		view.getState().id === state.selected_view
-	)
-	if(active_view) return active_view
-
-	return state.views[0]
+	on_select_view = (id: string) => {
+		this.selected_view = id
+	}
+	on_create_view = (type: ViewStore["type"]) => {
+		const new_view = new ViewStore(type)
+		this.views.push(new_view)
+		this.selected_view = new_view.id
+	}
+	on_delete_view = (id: string) => {
+		const view = this.views.find(view => view.id === this.selected_view)
+		if(!view) return;
+ 		const view_index = this.views.indexOf(view)
+		this.views.splice(view_index, 1)
+		if(this.views.length > 0) this.selected_view = this.views[0].id
+		else this.selected_view = null
+	}
+	on_edit_active_view = (data: Partial<ViewStore>) => {
+		const view = this.views.find(view => view.id === this.selected_view)
+		if(!view) return;
+		view.on_edit_view(data)
+	}
 }
-
-export const useActiveViewPartial = () => useDatabaseViewStore(useActiveViewSelector)
-
-
-
-
-
-
-
-
-// const state = getState()
-// console.log(state)
-// const first_view_state = state.views[0]
-// const newGetState = () => first_view_state
-// type first_view_state_type = typeof first_view_state
-// const new_set = (callback: (view_state: first_view_state_type) => first_view_state_type) => {
-// 	const new_view_state = callback(first_view_state)
-//
-// 	set((state) => {
-// 		state.views[0] = new_view_state
-// 	})
-// }
+export const DatabaseViewState = new DatabaseViewStore()
+export const ActiveViewState = () => {
+	return DatabaseViewState.views.find(view => view.id === DatabaseViewState.selected_view)
+}

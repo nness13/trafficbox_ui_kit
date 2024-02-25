@@ -1,69 +1,64 @@
-import { DefaultColumnCase } from '@/components/DatabaseView/ColumnCase'
-import { create, StateCreator } from 'zustand'
-import { ViewStateActions, ViewStateType } from '@/components/DatabaseView/Views/TableView/TableViewTypes'
-import { devtools } from 'zustand/middleware'
-import { immer } from 'zustand/middleware/immer'
 import {v4 as uuid_v4} from "uuid";
-import {ViewTypesType} from "@/components/DatabaseView/DatabaseViewTypes";
+import {DefaultColumnCase} from "@/components/DatabaseView/ColumnCase";
+import {ColumnCase, ColumnType, RowType, ViewTypesType} from "@/components/DatabaseView/DatabaseViewTypes";
+import {makeAutoObservable} from "mobx";
 
-type viewType = ViewStateType & ViewStateActions
-type stateCreate = StateCreator<viewType, [["zustand/devtools", never], ["zustand/immer", never]], []>
-
-export const initialViewStore = (type: ViewTypesType = "table"): viewType => ({
-	id: uuid_v4(),  // unique property
-	name: type,  // unique property
-	type: type,
-	column_case: DefaultColumnCase,
-	columns: [],
-	rows: [],
-	actionMenu: "",
-	search:  {
+export class ViewStore {
+	id: string = uuid_v4()  // unique property
+	name: string = "Table"  // unique property
+	type: ViewTypesType = "table"
+	column_case: ColumnCase = DefaultColumnCase
+	columns: ColumnType[] = []
+	rows: RowType[] = []
+	actionMenu: string = ""
+	search =  {
 		value: ""
-	},
-	filters: [],
-	sort: [],
-	groups: [],
-	selected: [],
-	pagination: {
+	}
+	filters: string[] = []
+	sort: string[] = []
+	groups: string[] = []
+	selected: string[] = []
+	pagination = {
 		total: 0,
 		current: 1,
 		position: "bottom",
 		pageSize: 10,
 		pageSizeOptions: [2, 10, 20, 50, 100, 200, 400, 500, 1000],
 		showSizeChanger: false,
-	},
+	}
 
-	filter_panel_status: false,
-	toggle_filter_panel_status: () => {},
+	filter_panel_status: boolean = false
 
-	sort_panel_status: false,
-	toggle_sort_panel_status: () => {},
+	sort_panel_status: boolean = false
 
-	groups_panel_status: false,
-	toggle_group_panel_status: () => {},
+	groups_panel_status: boolean = false
 
-	on_edit_view: () => {},
-	onSelect: () => {},
-	onEditRow: () => {},
-})
+	constructor(type?: ViewTypesType) {
+		makeAutoObservable(this);
+		if(type) this.type = type
+	}
 
-const initializedViewStore: stateCreate = (set) => ({
-	...initialViewStore(),
+	toggle_sort_panel_status = () => {}
 
-	on_edit_view: ({name}) => set((state) => {
-		state.name = name
-	}),
-	onSelect: (selected) => set((state) => {
-		state.selected = selected
-	}, false, "ViewStore/onSelect"),
-	toggle_filter_panel_status: (data) => set((state) => {
-		console.log(data)
-		state.filter_panel_status = data
-	})
-})
+	toggle_filter_panel_status = (value: boolean) => {
+		this.filter_panel_status = value
+	}
 
-export const useViewStore = () => create<viewType>()(devtools(immer(
-	initializedViewStore
-), {
-	name: "ViewStore"
-}))
+	toggle_group_panel_status = (value: boolean) => {
+		this.groups_panel_status = value
+	}
+
+	on_edit_view = (data: Partial<ViewStore>) => {
+		if(data.name) this.name = data.name
+		if(data.columns) this.columns = data.columns
+		if(data.rows) this.rows = data.rows
+	}
+	onSelect = (id_list: string[]) => {
+		this.selected = id_list
+	}
+	onEditRow = () => {}
+	set_search = (value: string) => {
+		this.search.value = value
+	}
+}
+export const ViewState = new ViewStore()

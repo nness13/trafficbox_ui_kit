@@ -1,10 +1,12 @@
-import React, {useEffect, useState} from 'react'
+import React, {FC, useEffect, useState} from 'react'
 import {v4 as uuidv4} from 'uuid'
 import {Input, ListItem, Popover, PopoverContent, PopoverHandler} from '@material-tailwind/react'
-import {useViewContextReducer} from "@/components/DatabaseView/Views/ViewStoreContext";
+import {useViewContext} from "@/components/DatabaseView/Views/TableView/ViewContext";
+import {observer} from "mobx-react-lite";
 
-export function GroupPopoverCreator ( props: { children: React.ReactNode } ) {
-	const columns = useViewContextReducer(state => state.columns)
+export const GroupPopoverCreator: FC<{ children: React.ReactNode }> = observer(( props  ) => {
+	const view_state = useViewContext()
+	const columns = useViewContext(state => state.columns)
 	const [status, set_status] = useState(false)
 	const [option_list, set_option_list] = useState(columns)
 	useEffect(() => {
@@ -21,10 +23,12 @@ export function GroupPopoverCreator ( props: { children: React.ReactNode } ) {
 			columns.filter(c => c.label.includes(e.currentTarget.value))
 		)
 	}
-
+	const handler = () => {
+		if(view_state.groups.length === 0 && view_state.groups_panel_status) set_status(!status)
+	}
 
 	return (
-		<Popover placement="bottom-start" open={status} handler={() => set_status(!status)}>
+		<Popover placement="bottom-start" open={status} handler={handler}>
 			<PopoverHandler>
 				<div>
 					{props.children}
@@ -50,4 +54,4 @@ export function GroupPopoverCreator ( props: { children: React.ReactNode } ) {
 			</PopoverContent>
 		</Popover>
 	)
-}
+})

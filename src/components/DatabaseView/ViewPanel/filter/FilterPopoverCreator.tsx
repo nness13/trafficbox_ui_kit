@@ -1,12 +1,11 @@
 import React, {useEffect, useState} from 'react'
 import {Input, ListItem, Popover, PopoverContent, PopoverHandler} from '@material-tailwind/react'
 import {v4 as uuidv4} from 'uuid';
-import {useActiveViewPartial} from "@/components/DatabaseView/DatabaseViewStore";
-import {ActiveViewState} from "@/components/DatabaseView2/DatabaseViewStore";
+import {useViewContext} from "@/components/DatabaseView/Views/TableView/ViewContext";
 
 
 export function FilterPopoverCreator ( props: { children: React.ReactNode } ) {
-	const active_view = ActiveViewState()
+	const active_view = useViewContext()
 	const [status, set_status] = useState(false)
 	const [option_list, set_option_list] = useState(active_view.columns)
 	useEffect(() => {
