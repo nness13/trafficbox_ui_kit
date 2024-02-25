@@ -16,7 +16,7 @@ export const TableHeaderRow = observer((props: props_type) => {
 	const onSelect = useViewContext(state => state.onSelect)
 	const selected = useViewContext(state => state.selected)
 	const rows = useViewContext(state => state.rows)
-	const column_case = useViewContext(state => state.column_case)
+	const column_case = useViewContext(state => state.column_case_handlers)
 
 	function onSelectedAll () {
 		const id_list = rows.map(row => row.id)

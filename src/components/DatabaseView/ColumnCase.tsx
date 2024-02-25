@@ -8,7 +8,7 @@ import { IoMdCheckboxOutline } from 'react-icons/io'
 import { RiLockPasswordFill } from 'react-icons/ri'
 import { BsCalendar2Date } from 'react-icons/bs'
 import { GrDocumentUpdate } from 'react-icons/gr'
-import { ColumnCase } from '@/components/DatabaseView/DatabaseViewTypes'
+import { ColumnCaseHandlers } from '@/components/DatabaseView/DatabaseViewTypes'
 
 export const DefaultColumnCase = {
 	id: {
@@ -74,4 +74,4 @@ export const DefaultColumnCase = {
 	updatedAt: {
 		Icon: MdUpdate
 	},
-} satisfies ColumnCase
+} satisfies ColumnCaseHandlers

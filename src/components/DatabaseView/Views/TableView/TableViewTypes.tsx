@@ -1,5 +1,5 @@
 import { ReactNode } from 'react'
-import {ColumnCase, ColumnType, ViewTypesType} from '@/components/DatabaseView/DatabaseViewTypes'
+import {ColumnCaseHandlers, ColumnType, ViewTypesType} from '@/components/DatabaseView/DatabaseViewTypes'
 
 export type TableViewProps = Partial<ViewStateType> & {
 	rows: Record<string, any>[]
@@ -10,7 +10,7 @@ export type ViewStateType = {
 	id: string, // unique property
 	name: string, // unique property
 	type: ViewTypesType,
-	column_case: ColumnCase,
+	column_case: ColumnCaseHandlers,
 	columns: ColumnType[]
 	rows: Record<string, any>[]
 	actionMenu: ReactNode

@@ -1,23 +1,29 @@
 import {v4 as uuid_v4} from "uuid";
 import {DefaultColumnCase} from "@/components/DatabaseView/ColumnCase";
-import {ColumnCase, ColumnType, RowType, ViewTypesType} from "@/components/DatabaseView/DatabaseViewTypes";
+import {
+	ColumnCaseHandlers,
+	ColumnType,
+	filterType, groupType,
+	RowType, sortType,
+	ViewTypesType
+} from "@/components/DatabaseView/DatabaseViewTypes";
 import {makeAutoObservable} from "mobx";
 
 export class ViewStore {
 	id: string = uuid_v4()  // unique property
 	name: string = "Table"  // unique property
 	type: ViewTypesType = "table"
-	column_case: ColumnCase = DefaultColumnCase
+	column_case_handlers: ColumnCaseHandlers = DefaultColumnCase
 	columns: ColumnType[] = []
 	rows: RowType[] = []
 	actionMenu: string = ""
 	search =  {
 		value: ""
 	}
-	filters: string[] = []
-	sort: string[] = []
-	groups: string[] = []
-	selected: string[] = []
+	filters: filterType[] = []
+	sort: sortType[] = []
+	groups: groupType[] = []
+	selected: Array<ViewStore["id"]> = []
 	pagination = {
 		total: 0,
 		current: 1,
