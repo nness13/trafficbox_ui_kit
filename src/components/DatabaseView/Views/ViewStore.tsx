@@ -1,10 +1,10 @@
 import {v4 as uuid_v4} from "uuid";
-import {DefaultColumnCase} from "@/components/DatabaseView/ColumnCase";
+import {DefaultColumnCase} from "@/components/DatabaseView/Views/ColumnCase";
 import {
 	ColumnCaseHandlers,
-	ColumnType,
+	ColumnType, createFilterType, createGroupType, createSortType,
 	filterType, groupType,
-	RowType, sortType,
+	RowType, sortType, updateFilterType, updateGroupType, updateSortType,
 	ViewTypesType
 } from "@/components/DatabaseView/DatabaseViewTypes";
 import {makeAutoObservable} from "mobx";
@@ -65,6 +65,60 @@ export class ViewStore {
 	onEditRow = () => {}
 	set_search = (value: string) => {
 		this.search.value = value
+	}
+	add_filter = (filter: createFilterType) => {
+		this.filters.push({
+			id: uuid_v4(),
+			...filter
+		})
+	}
+	update_filter = (filter: updateFilterType) => {
+		const find_filter = this.filters.find(f => f.id === filter.id)
+		if(!find_filter) return;
+		// Object.keys(filter).map(key => find_filter[key] = filter[key] )
+		if(filter.column) find_filter.column = filter.column
+		if(filter.condition) find_filter.condition = filter.condition
+		if(filter.value) find_filter.value = filter.value
+	}
+	remove_filter = (id: filterType["id"]) => {
+		const index = this.filters.findIndex(filter => filter.id === id)
+		this.filters.splice(index, 1)
+	}
+	add_group = (group: createGroupType) => {
+		this.groups.push({
+			id: uuid_v4(),
+			...group
+		})
+	}
+	update_group = (group: updateGroupType) => {
+		const find_group = this.groups.find(f => f.id === group.id)
+		if(!find_group) return;
+		if(group.column) find_group.column = group.column
+	}
+	remove_group = (id: groupType["id"]) => {
+		const index = this.groups.findIndex(group => group.id === id)
+		this.groups.splice(index, 1)
+	}
+	set_group = (groups: groupType[]) => {
+		this.groups = groups
+	}
+	add_sort = (group: createSortType) => {
+		this.sort.push({
+			id: uuid_v4(),
+			...group
+		})
+	}
+	update_sort = (sort: updateSortType) => {
+		const find_sort = this.sort.find(f => f.id === sort.id)
+		if(!find_sort) return;
+		if(sort.column) find_sort.column = sort.column
+	}
+	remove_sort = (id: sortType["id"]) => {
+		const index = this.sort.findIndex(sort => sort.id === id)
+		this.sort.splice(index, 1)
+	}
+	set_sort = (sort: sortType[]) => {
+		this.sort = sort
 	}
 }
 export const ViewState = new ViewStore()

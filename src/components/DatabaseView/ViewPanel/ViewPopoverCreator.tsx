@@ -1,6 +1,6 @@
 import React, {memo, useState} from 'react'
 import {Input, ListItem, Popover, PopoverContent, PopoverHandler} from '@material-tailwind/react'
-import {ViewsIcon} from '@/components/DatabaseView/ViewIcon'
+import {ViewsIcon} from '@/components/DatabaseView/Views/ViewIcon'
 import {ViewTypesType} from '@/components/DatabaseView/DatabaseViewTypes'
 import {DatabaseViewState} from "@/components/DatabaseView/DatabaseViewStore";
 import {views} from "@/components/DatabaseView/Views/views";

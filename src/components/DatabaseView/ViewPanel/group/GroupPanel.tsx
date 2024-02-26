@@ -16,7 +16,7 @@ export const GroupPanel = observer(() => {
 			const group_list = [...active_view.groups];
 			const item = group_list.splice(fromIndex, 1)[0];
 			group_list.splice(toIndex, 0, item);
-			// dispatch(context.reducer.actions.set_group(group_list))
+			active_view.set_group(group_list)
 		},
 		nodeSelector: "ol"
 	};

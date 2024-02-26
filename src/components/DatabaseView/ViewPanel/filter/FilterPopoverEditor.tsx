@@ -1,13 +1,17 @@
 import React from 'react'
 import {Popover, PopoverContent, PopoverHandler} from '@material-tailwind/react'
 import {FilterEditorSwitcher} from '@/components/DatabaseView/ViewPanel/filter/FilterEditorSwitcher'
+import {useViewContext} from "@/components/DatabaseView/Views/TableView/ViewContext";
+import {observer} from "mobx-react-lite";
+import {filterType, updateFilterType} from "@/components/DatabaseView/DatabaseViewTypes";
 
-export function FilterPopoverEditor ( props: { children: React.ReactNode, filter: any } ) {
-	const update_filter = (filter: any) => {
-		// dispatch( context.actions.update_filter(filter) )
+export const FilterPopoverEditor = observer(( props: { children: React.ReactNode, filter: filterType } ) => {
+	const active_view = useViewContext()
+	const update_filter = (filter: updateFilterType) => {
+		active_view.update_filter(filter)
 	}
 	const delete_filter = (id: string) => {
-		// dispatch( context.actions.remove_filter({id}) )
+		active_view.remove_filter(id)
 	}
 
 	return (
@@ -22,4 +26,4 @@ export function FilterPopoverEditor ( props: { children: React.ReactNode, filter
 			</PopoverContent>
 		</Popover>
 	)
-}
+})

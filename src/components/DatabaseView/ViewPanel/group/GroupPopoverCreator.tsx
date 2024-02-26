@@ -5,7 +5,7 @@ import {useViewContext} from "@/components/DatabaseView/Views/TableView/ViewCont
 import {observer} from "mobx-react-lite";
 
 export const GroupPopoverCreator: FC<{ children: React.ReactNode }> = observer(( props  ) => {
-	const view_state = useViewContext()
+	const active_view = useViewContext()
 	const columns = useViewContext(state => state.columns)
 	const [status, set_status] = useState(false)
 	const [option_list, set_option_list] = useState(columns)
@@ -14,7 +14,7 @@ export const GroupPopoverCreator: FC<{ children: React.ReactNode }> = observer((
 	}, [columns])
 	const on_create_group = (group: any) => {
 		set_status(false)
-		// dispatch(context.actions.add_group(group))
+		active_view.add_group(group)
 	}
 	const [group_text, set_group_text] = useState("")
 	const onGroup = (e: any) => {
@@ -24,7 +24,7 @@ export const GroupPopoverCreator: FC<{ children: React.ReactNode }> = observer((
 		)
 	}
 	const handler = () => {
-		if(view_state.groups.length === 0 && view_state.groups_panel_status) set_status(!status)
+		set_status(active_view.groups_panel_status && !status)
 	}
 
 	return (
@@ -41,11 +41,12 @@ export const GroupPopoverCreator: FC<{ children: React.ReactNode }> = observer((
 						<ListItem
 							key={el.key}
 							onClick={() => on_create_group({
-								_id: uuidv4(),
 								column: el,
 							})}
+							className={"flex gap-2"}
 							placeholder={""}
 						>
+							{active_view.column_case_handlers[el.type.type].Icon({className: "w-4 h-4"})}
 							{/*<IconColumnType type={el.type.type}/>*/}
 							<div>{el.label}</div>
 						</ListItem>

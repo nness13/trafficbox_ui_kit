@@ -1,6 +1,6 @@
 import {ViewPopoverEditor} from '@/components/DatabaseView/ViewPanel/ViewPopoverEditor'
 import {Tab} from '@/components/Buttons/Tab'
-import {ViewsIcon} from '@/components/DatabaseView/ViewIcon'
+import {ViewsIcon} from '@/components/DatabaseView/Views/ViewIcon'
 import {ViewPopoverCreator} from '@/components/DatabaseView/ViewPanel/ViewPopoverCreator'
 import {HiPlus} from 'react-icons/hi2'
 import React, {memo} from 'react'
