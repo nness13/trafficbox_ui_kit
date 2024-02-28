@@ -8,7 +8,7 @@ import {observer} from "mobx-react-lite";
 
 export const ViewPopoverEditor = observer(( props: { children: React.ReactNode, isActive: boolean } ) => {
 	const { on_edit_active_view, on_delete_view: on_delete_view_action } = DatabaseViewState
-	const {name, id} = ActiveViewState()
+	const {name, id} = ActiveViewState()!
 
 	const [status, set_status] = useState(false)
 

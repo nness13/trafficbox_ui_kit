@@ -8,6 +8,7 @@ import {
 import {ColumnType} from '@/components/DatabaseView/DatabaseViewTypes'
 import {useViewContext} from "@/components/DatabaseView/Views/TableView/ViewContext";
 import {observer} from "mobx-react-lite";
+import {useColumnCaseContext} from "@/components/DatabaseView/Views/ColumnCaseContext";
 
 type props_type = {
 	columns: ColumnType[]
@@ -16,7 +17,7 @@ export const TableHeaderRow = observer((props: props_type) => {
 	const onSelect = useViewContext(state => state.onSelect)
 	const selected = useViewContext(state => state.selected)
 	const rows = useViewContext(state => state.rows)
-	const column_case = useViewContext(state => state.column_case_handlers)
+	const column_case_handlers = useColumnCaseContext()
 
 	function onSelectedAll () {
 		const id_list = rows.map(row => row.id)
@@ -39,7 +40,7 @@ export const TableHeaderRow = observer((props: props_type) => {
 				</TableCellItem>
 			</TableCell>
 			{props.columns.map(column => {
-				const { Icon } = column_case[column.type.type]
+				const { Icon } = column_case_handlers[column.type.type]
 				return (
 					<TableCell key={column.key}>
 						<TableCellItem>

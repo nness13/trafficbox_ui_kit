@@ -4,7 +4,7 @@ import {ViewSwitcherPanel} from '@/components/DatabaseView/ViewPanel/ViewSwitche
 import {views} from "@/components/DatabaseView/Views/views";
 import {ActiveViewState} from "@/components/DatabaseView/DatabaseViewStore";
 import {observer} from "mobx-react-lite";
-
+import '../../globals.css'
 
 export const DatabaseView: FC<DatabaseViewProps> = observer((props) => {
 	const view = ActiveViewState()

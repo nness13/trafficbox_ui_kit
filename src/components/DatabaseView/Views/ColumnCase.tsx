@@ -8,70 +8,103 @@ import { IoMdCheckboxOutline } from 'react-icons/io'
 import { RiLockPasswordFill } from 'react-icons/ri'
 import { BsCalendar2Date } from 'react-icons/bs'
 import { GrDocumentUpdate } from 'react-icons/gr'
-import { ColumnCaseHandlers } from '@/components/DatabaseView/DatabaseViewTypes'
+import {ColumnCaseHandlers, filterType, RowType} from '@/components/DatabaseView/DatabaseViewTypes'
+import moment from "moment";
+
+export const DefaultFilter: ColumnCaseHandlers[string]["filter"] = (row, filter)=> {
+	const value = row[filter.column.key]
+	switch (filter.condition) {
+		case "is": return value === filter.value
+		case "is_not": return value !== filter.value
+		case "contain": return value.includes(filter.value)
+		case "is_not_contain": return !value.includes(filter.value)
+		case "within": return moment(value).isBetween(moment(filter.from), moment(filter.to))
+	}
+}
 
 export const DefaultColumnCase = {
 	id: {
-		Icon: HiHashtag
+		Icon: HiHashtag,
+		filter: DefaultFilter
 	},
 	number: {
-		Icon: TbSquareRoundedNumber7Filled
+		Icon: TbSquareRoundedNumber7Filled,
+		filter: DefaultFilter
 	},
 	text: {
-		Icon: IoText
+		Icon: IoText,
+		filter: DefaultFilter
 	},
 	json: {
-		Icon: TbJson
+		Icon: TbJson,
+		filter: DefaultFilter
 	},
 	email: {
-		Icon: MdAlternateEmail
+		Icon: MdAlternateEmail,
+		filter: DefaultFilter
 	},
 	phone: {
-		Icon: HiPhone
+		Icon: HiPhone,
+		filter: DefaultFilter
 	},
 	url: {
-		Icon: FaLink
+		Icon: FaLink,
+		filter: DefaultFilter
 	},
 	image: {
-		Icon: FaImage
+		Icon: FaImage,
+		filter: DefaultFilter
 	},
 	file: {
-		Icon: FaFileAlt
+		Icon: FaFileAlt,
+		filter: DefaultFilter
 	},
 	checkbox: {
-		Icon: IoMdCheckboxOutline
+		Icon: IoMdCheckboxOutline,
+		filter: DefaultFilter
 	},
 	country: {
-		Icon: FaLandmarkFlag
+		Icon: FaLandmarkFlag,
+		filter: DefaultFilter
 	},
 	country_multiply: {
-		Icon: FaLandmarkFlag
+		Icon: FaLandmarkFlag,
+		filter: DefaultFilter
 	},
 	country_name: {
-		Icon: FaLandmarkFlag
+		Icon: FaLandmarkFlag,
+		filter: DefaultFilter
 	},
 	person: {
-		Icon: IoPersonCircleSharp
+		Icon: IoPersonCircleSharp,
+		filter: DefaultFilter
 	},
 	password: {
-		Icon: RiLockPasswordFill
+		Icon: RiLockPasswordFill,
+		filter: DefaultFilter
 	},
 	dateView: {
-		Icon: BsCalendar2Date
+		Icon: BsCalendar2Date,
+		filter: DefaultFilter
 	},
 	timeView: {
-		Icon: MdOutlineAccessTime
+		Icon: MdOutlineAccessTime,
+		filter: DefaultFilter
 	},
 	createdBy: {
-		Icon: FaUser
+		Icon: FaUser,
+		filter: DefaultFilter
 	},
 	updatedBy: {
-		Icon: FaUserCog
+		Icon: FaUserCog,
+		filter: DefaultFilter
 	},
 	createdAt: {
-		Icon: GrDocumentUpdate
+		Icon: GrDocumentUpdate,
+		filter: DefaultFilter
 	},
 	updatedAt: {
-		Icon: MdUpdate
+		Icon: MdUpdate,
+		filter: DefaultFilter
 	},
 } satisfies ColumnCaseHandlers

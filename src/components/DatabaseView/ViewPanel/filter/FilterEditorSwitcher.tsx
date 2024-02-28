@@ -4,13 +4,15 @@ import { Input } from '@material-tailwind/react'
 import { LightBlueTag } from '@/components/Buttons/LightBlueTag'
 import { SimpleLightButton } from '@/components/Buttons/SimpleLightButton'
 import { HiEllipsisVertical, HiTrash } from 'react-icons/hi2'
+import {filterType, updateFilterType} from "@/components/DatabaseView/DatabaseViewTypes";
+import {observer} from "mobx-react-lite";
+import {useViewContext} from "@/components/DatabaseView/Views/TableView/ViewContext";
+import {select_option_type, SelectWithBorder} from "@/components/Inputs/Select";
 
 type props_type = {
-	filter: any,
-	update_filter: (filter: any) => void
-	delete_filter: (id: string) => void
+	filter: filterType,
 }
-export function FilterEditorSwitcher (props: props_type) {
+export const FilterEditorSwitcher = (props: props_type) => {
 	switch (props.filter.column.type.type) {
 		case "text":
 			return <TextFilterEditor {...props}/>;
@@ -26,22 +28,46 @@ export function FilterEditorSwitcher (props: props_type) {
 }
 
 
-export function TextFilterEditor (props: props_type) {
-	const filter = props.filter as any
+export const TextFilterEditor = observer((props: props_type) => {
+	const active_view = useViewContext()
+	const filter = props.filter
+	const condition_options: Array<filterType["condition"]> = [
+		"is",
+		"is_not",
+		"contain",
+		"is_not_contain",
+	]
+	const condition_select_option: select_option_type[] = condition_options.map(condition => ({
+		key: condition,
+		label: condition,
+		value: condition,
+	}))
 
 	return (
 		<div className="flex flex-col gap-2">
 			<div className="flex flex-row justify-between">
 				<div className="flex flex-row gap-2 items-center">
 					<div>{filter.column.label}</div>
-					<LightBlueTag>{filter.condition}</LightBlueTag>
+					{/*<LightBlueTag>{filter.condition}</LightBlueTag>*/}
+
+					<SelectWithBorder
+						multiply={false}
+						options={condition_select_option}
+						value={condition_select_option.filter(c => c.key === filter.condition)}
+						onSelect={(data) => {
+							active_view.update_filter({
+								id: filter.id,
+								condition: (data[0]?.key as typeof filter.condition) || "is"
+							})
+						}}
+					/>
 					<div>{filter.value}</div>
 				</div>
 				<div className="flex flex-row">
 					<SimpleLightButton>
 						<HiEllipsisVertical className="h-5 w-5"/>
 					</SimpleLightButton>
-					<SimpleLightButton onClick={() => props.delete_filter(filter._id)}>
+					<SimpleLightButton onClick={() => active_view.remove_filter(filter.id)}>
 						<HiTrash className="h-5 w-5"/>
 					</SimpleLightButton>
 				</div>
@@ -50,15 +76,16 @@ export function TextFilterEditor (props: props_type) {
 				type="search"
 				name="search"
 				value={filter.value as string}
-				onInput={(e) => props.update_filter({_id: filter._id, value: e.currentTarget.value })}
+				onInput={(e) => active_view.update_filter({id: filter.id, value: e.currentTarget.value })}
 				label="change_value"
 				crossOrigin={undefined}
 			/>
 		</div>
 	)
-}
+})
 
-export function DateFilterEditor (props: props_type) {
+export const DateFilterEditor = observer((props: props_type) => {
+	const active_view = useViewContext()
 	const filter = props.filter
 	const condition_options: Array<any> = [
 		'is', 'is not', 'within'
@@ -86,7 +113,7 @@ export function DateFilterEditor (props: props_type) {
 					<SimpleLightButton>
 						<HiEllipsisVertical className="h-5 w-5"/>
 					</SimpleLightButton>
-					<SimpleLightButton onClick={() => props.delete_filter(filter._id)}>
+					<SimpleLightButton onClick={() => active_view.remove_filter(filter.id)}>
 						<HiTrash className="h-5 w-5"/>
 					</SimpleLightButton>
 				</div>
@@ -115,9 +142,10 @@ export function DateFilterEditor (props: props_type) {
 
 		</div>
 	)
-}
+})
 
-export function SelectFilterEditor (props: props_type) {
+export const SelectFilterEditor = observer((props: props_type) => {
+	const active_view = useViewContext()
 	const filter = props.filter
 
 	const options = filter.column.options?.map((option: any) => ({
@@ -126,8 +154,8 @@ export function SelectFilterEditor (props: props_type) {
 		label: option.label,
 	})) || []
 	const onUpdate =  ( data: any[] ) => {
-		props.update_filter({
-			_id: filter._id,
+		active_view.update_filter({
+			id: filter.id,
 			value: data.map(el => el.value as string)
 		})
 	}
@@ -143,7 +171,7 @@ export function SelectFilterEditor (props: props_type) {
 					<SimpleLightButton>
 						<HiEllipsisVertical className="h-5 w-5"/>
 					</SimpleLightButton>
-					<SimpleLightButton onClick={() => props.delete_filter(filter._id)}>
+					<SimpleLightButton onClick={() => active_view.remove_filter(filter.id)}>
 						<HiTrash className="h-5 w-5"/>
 					</SimpleLightButton>
 				</div>
@@ -161,4 +189,4 @@ export function SelectFilterEditor (props: props_type) {
 
 		</div>
 	)
-}
+})

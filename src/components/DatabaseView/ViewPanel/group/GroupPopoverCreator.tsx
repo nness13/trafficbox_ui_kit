@@ -3,9 +3,11 @@ import {v4 as uuidv4} from 'uuid'
 import {Input, ListItem, Popover, PopoverContent, PopoverHandler} from '@material-tailwind/react'
 import {useViewContext} from "@/components/DatabaseView/Views/TableView/ViewContext";
 import {observer} from "mobx-react-lite";
+import {useColumnCaseContext} from "@/components/DatabaseView/Views/ColumnCaseContext";
 
 export const GroupPopoverCreator: FC<{ children: React.ReactNode }> = observer(( props  ) => {
 	const active_view = useViewContext()
+	const column_case_handlers = useColumnCaseContext()
 	const columns = useViewContext(state => state.columns)
 	const [status, set_status] = useState(false)
 	const [option_list, set_option_list] = useState(columns)
@@ -46,7 +48,7 @@ export const GroupPopoverCreator: FC<{ children: React.ReactNode }> = observer((
 							className={"flex gap-2"}
 							placeholder={""}
 						>
-							{active_view.column_case_handlers[el.type.type].Icon({className: "w-4 h-4"})}
+							{column_case_handlers[el.type.type]?.Icon({className: "w-4 h-4"})}
 							{/*<IconColumnType type={el.type.type}/>*/}
 							<div>{el.label}</div>
 						</ListItem>

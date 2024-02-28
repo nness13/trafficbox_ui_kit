@@ -4,10 +4,12 @@ import {v4 as uuidv4} from 'uuid';
 import {useViewContext} from "@/components/DatabaseView/Views/TableView/ViewContext";
 import {createFilterType, filterType} from "@/components/DatabaseView/DatabaseViewTypes";
 import {observer} from "mobx-react-lite";
+import {useColumnCaseContext} from "@/components/DatabaseView/Views/ColumnCaseContext";
 
 
-export const FilterPopoverCreator = observer(( props: { children: React.ReactNode } ) => {
+export const FilterPopoverCreator = observer(( props: { children: React.ReactNode, variant: "v1" | "v2" } ) => {
 	const active_view = useViewContext()
+	const column_case_handlers = useColumnCaseContext()
 	const [status, set_status] = useState(false)
 	const [option_list, set_option_list] = useState(active_view.columns)
 	useEffect(() => {
@@ -24,9 +26,18 @@ export const FilterPopoverCreator = observer(( props: { children: React.ReactNod
 			active_view.columns.filter(c => c.label.includes(e.currentTarget.value))
 		)
 	}
+	const handler = () => {
+		if(props.variant === "v1") {
+			active_view.toggle_filter_panel_status(!active_view.filter_panel_status && !status)
+			set_status(active_view.filter_panel_status && !status)
+		}
+		if(props.variant === "v2") {
+			set_status(!status)
+		}
+	}
 
 	return (
-		<Popover placement="bottom-start" open={status} handler={() => set_status(!status)}>
+		<Popover placement="bottom-start" open={status} handler={handler}>
 			<PopoverHandler>
 				<div>
 					{props.children}
@@ -46,7 +57,7 @@ export const FilterPopoverCreator = observer(( props: { children: React.ReactNod
 								condition: "is"
 							})}
 						>
-							{active_view.column_case_handlers[el.type.type].Icon({className: "w-4 h-4"})}
+							{column_case_handlers[el.type.type]?.Icon({className: "w-4 h-4"})}
 							{/*<IconColumnType type={el.type.type}/>*/}
 							<div>{el.label}</div>
 						</ListItem>

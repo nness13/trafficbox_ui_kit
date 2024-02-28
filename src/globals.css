@@ -1,0 +1,81 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* Main Colors */
+  --foreground: #ffffff;
+  --secondary: #111011;
+  --primary: rgb(246, 27, 17);
+  --primary2: rgba(246, 27, 17, 0.8);
+  --passive: #7e868c;
+  --passive2: #585858;
+  --text_passive: rgba(55,53,47,0.65);
+  --btn_text: #ffffff;
+  --border_line: rgb(224 224 224 / 1);
+
+  /* Chunk Colors */
+  --foreground-rgb: 0, 0, 0;
+  --background-start-rgb: 214, 219, 220;
+  --background-end-rgb: 255, 255, 255;
+
+  /* Sizes */
+  /*LeftPanel*/
+  --sizes-left_panel-open-width: 200px;
+  --sizes-left_panel-close-width: 50px;
+  --sizes-left_panel-open-height: auto;
+  --sizes-left_panel-close-height: auto;
+  /*TopPanel*/
+  --sizes-top_panel-close-width: auto;
+  --sizes-top_panel-open-height: 50px;
+
+  /* Shadows */
+  --shadow-left_panel: 0 -10px 10px rgba(0,0,0,0.1),0 -10px 10px rgba(0,0,0,0);
+  --shadow-top_panel: 0px 10px 10px -7px rgba(0,0,0,0.2), 5px 5px 15px 5px rgba(0,0,0,0);
+  --shadow-tooltip: 0px 0px 20px 4px rgba(0,0,0,0.5);
+  --shadow-card: 0 0 5px 0 rgba(0,0,0,0.25);
+}
+
+:root.dark {
+  --foreground: rgb(25, 25, 25);
+  --secondary: #ffffff;
+  --primary: rgb(246, 27, 17);
+  --primary2: rgb(246, 27, 17);
+  /*--primary: #ffdb70;*/
+  --passive: #7e868c;
+  --passive2: #282828;
+  --text_passive: #7e868c;
+  --btn_text: #ffffff;
+  --border_line: #4e4d4b;
+
+  --foreground-rgb: 0, 0, 0;
+  --background-start-rgb: 214, 219, 220;
+  --background-end-rgb: 255, 255, 255;
+
+  --shadow-left_panel: 0 -10px 10px rgba(255,255,255,0.1),0 -10px 10px rgba(255,255,255,0);
+  --shadow-top_panel: 0px 10px 10px -7px rgba(255,255,255,0.2), 5px 5px 15px 5px rgba(255,255,255,0);
+  --shadow-tooltip: 0px 0px 20px 4px rgba(255,255,255,0.5);
+  --shadow-card: 0 0 5px 0 rgba(255,255,255,0.25);
+}
+
+
+@media (max-width: 780px) {
+  :root{
+    /* Left Panel */
+    --sizes-left_panel-open-width: 100%;
+    --sizes-left_panel-close-width: 100%;
+    --sizes-left_panel-open-height: 50px;
+    --sizes-left_panel-close-height: 50px;
+  }
+}
+
+svg{
+  height: 0;
+}
+a{
+  outline: none;
+}
+
+.overflow-wrap-anywhere {
+  overflow-wrap: anywhere
+}

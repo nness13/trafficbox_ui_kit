@@ -1,52 +1,77 @@
-import React, {FC, memo, ReactNode} from 'react'
+import React, {FC, ReactNode, useEffect} from 'react'
+import {autorun} from "mobx";
+import {observer} from "mobx-react-lite";
 import {Button} from '@/components/Button'
+import {Badge} from "@material-tailwind/react";
 import {HiChevronDown, HiEllipsisHorizontal} from 'react-icons/hi2'
-import {SortPopoverCreator} from '@/components/DatabaseView/ViewPanel/sort/SortPopoverCreator'
 import {SearchInput} from '@/components/DatabaseView/ViewPanel/search/SearchInput'
-import {GroupPopoverCreator} from '@/components/DatabaseView/ViewPanel/group/GroupPopoverCreator'
 import {Tab} from '@/components/Buttons/Tab'
 import {FilterPanel} from "@/components/DatabaseView/ViewPanel/filter/FilterPanel";
 import {GroupPanel} from "@/components/DatabaseView/ViewPanel/group/GroupPanel";
 import {useViewContext} from "@/components/DatabaseView/Views/TableView/ViewContext";
-import {observer} from "mobx-react-lite";
+import {SortPanel} from "@/components/DatabaseView/ViewPanel/sort/SortPanel";
+import {useColumnCaseContext} from "@/components/DatabaseView/Views/ColumnCaseContext";
+import {ColumnCaseHandlers, filterType, RowType} from "@/components/DatabaseView/DatabaseViewTypes";
 
 export interface DatabaseViewPanelProps {
 	children?: ReactNode;
 }
 
 export const ViewPanel: FC<DatabaseViewPanelProps> = observer(() => {
-	const filter_panel_status = useViewContext(state => state.filter_panel_status)
-	const toggle_filter_panel_status = useViewContext(state => state.toggle_filter_panel_status)
-	const sort_panel_status = useViewContext(state => state.sort_panel_status)
-	const groups_panel_status = useViewContext(state => state.groups_panel_status)
-	const toggle_group_panel_status = useViewContext(state => state.toggle_group_panel_status)
-
-
+	const viewContext = useViewContext()
+	const defaultColumnCase = useColumnCaseContext()
+	useEffect(() => autorun(() => {
+		console.log("changed filters")
+		const filtered_rows = use_filters(viewContext.init_rows, viewContext.filters, defaultColumnCase)
+		viewContext.on_edit_view({
+			rows: filtered_rows
+		})
+	}), []);
 	return (
 		<div>
 			<div className="w-full flex justify-end border-b border-border_line">
 				<div className="flex">
 					<Tab
-						className={`${filter_panel_status ? '!text-blue-500' : ''}`}
-						onClick={() => toggle_filter_panel_status(!filter_panel_status)}
+						style={viewContext.filter_panel_status ? {color: "rgb(33 150 243)" } : {}}
+						onClick={() => viewContext.toggle_filter_panel_status(!viewContext.filter_panel_status)}
 					>
-						Filter
+						{viewContext.filters.length
+							? <Badge content={viewContext.filters.length}>
+								Filters
+							</Badge>
+							: <div>
+								Filters
+							</div>
+						}
 					</Tab>
 
-					<SortPopoverCreator>
-						<Tab className={`${sort_panel_status ? "!text-blue-500" : ''}`}>
-							Sort
-						</Tab>
-					</SortPopoverCreator>
+					<Tab
+						style={viewContext.sort_panel_status ? {color: "rgb(33 150 243)" } : {}}
+						onClick={() => viewContext.toggle_sort_panel_status(!viewContext.sort_panel_status)}
+					>
+						{viewContext.sort.length
+							? <Badge content={viewContext.sort.length}>
+								Sort
+							</Badge>
+							: <div>
+								Sort
+							</div>
+						}
+					</Tab>
 
-					<GroupPopoverCreator>
-						<Tab
-							className={`${groups_panel_status ? '!text-blue-500' : ''}`}
-							onClick={() => toggle_group_panel_status(!groups_panel_status)}
-						>
-							Group
-						</Tab>
-					</GroupPopoverCreator>
+					<Tab
+						style={viewContext.groups_panel_status ? {color: "rgb(33 150 243)" } : {}}
+						onClick={() => viewContext.toggle_group_panel_status(!viewContext.groups_panel_status)}
+					>
+						{viewContext.groups.length
+							? <Badge content={viewContext.groups.length}>
+								Group
+							</Badge>
+							: <div>
+								Group
+							</div>
+						}
+					</Tab>
 
 					<SearchInput/>
 
@@ -73,8 +98,18 @@ export const ViewPanel: FC<DatabaseViewPanelProps> = observer(() => {
 					{/*</ActionMenuPopover>*/}
 				</div>
 			</div>
+			<SortPanel/>
 			<FilterPanel/>
 			<GroupPanel/>
 		</div>
 	);
 });
+
+
+export const use_filters = (rows: RowType[], filters: filterType[], DefaultColumnCase: ColumnCaseHandlers, rows2?: RowType[]) => {
+	return rows.filter(row => {
+		return filters.every(filter => {
+			return DefaultColumnCase[filter.column.type.type].filter(row, filter)
+		})
+	})
+}

@@ -1,19 +1,27 @@
 import {v4 as uuid_v4} from "uuid";
-import {DefaultColumnCase} from "@/components/DatabaseView/Views/ColumnCase";
 import {
-	ColumnCaseHandlers,
-	ColumnType, createFilterType, createGroupType, createSortType,
-	filterType, groupType,
-	RowType, sortType, updateFilterType, updateGroupType, updateSortType,
+	ColumnType,
+	createFilterType,
+	createGroupType,
+	createSortType,
+	filterType,
+	groupType,
+	RowType,
+	sortType,
+	updateFilterType,
+	updateGroupType,
+	updateSortType,
 	ViewTypesType
 } from "@/components/DatabaseView/DatabaseViewTypes";
 import {makeAutoObservable} from "mobx";
+
 
 export class ViewStore {
 	id: string = uuid_v4()  // unique property
 	name: string = "Table"  // unique property
 	type: ViewTypesType = "table"
-	column_case_handlers: ColumnCaseHandlers = DefaultColumnCase
+	init_columns: ColumnType[] = []
+	init_rows: RowType[] = []
 	columns: ColumnType[] = []
 	rows: RowType[] = []
 	actionMenu: string = ""
@@ -39,12 +47,19 @@ export class ViewStore {
 
 	groups_panel_status: boolean = false
 
-	constructor(type?: ViewTypesType) {
+	constructor(props?: Partial<ViewStore>) {
 		makeAutoObservable(this);
-		if(type) this.type = type
+		if(props) {
+			Object.keys(props)
+				.map(key =>
+					(this as any)[key] = (props as any)[key]
+				)
+		}
 	}
 
-	toggle_sort_panel_status = () => {}
+	toggle_sort_panel_status = (value: boolean) => {
+		this.sort_panel_status = value
+	}
 
 	toggle_filter_panel_status = (value: boolean) => {
 		this.filter_panel_status = value
@@ -55,9 +70,7 @@ export class ViewStore {
 	}
 
 	on_edit_view = (data: Partial<ViewStore>) => {
-		if(data.name) this.name = data.name
-		if(data.columns) this.columns = data.columns
-		if(data.rows) this.rows = data.rows
+		Object.keys(data).map(key => (this as any)[key] = (data as any)[key] )
 	}
 	onSelect = (id_list: string[]) => {
 		this.selected = id_list
@@ -75,10 +88,7 @@ export class ViewStore {
 	update_filter = (filter: updateFilterType) => {
 		const find_filter = this.filters.find(f => f.id === filter.id)
 		if(!find_filter) return;
-		// Object.keys(filter).map(key => find_filter[key] = filter[key] )
-		if(filter.column) find_filter.column = filter.column
-		if(filter.condition) find_filter.condition = filter.condition
-		if(filter.value) find_filter.value = filter.value
+		Object.keys(filter).map(key => (find_filter as any)[key] = (filter as any)[key] )
 	}
 	remove_filter = (id: filterType["id"]) => {
 		const index = this.filters.findIndex(filter => filter.id === id)
@@ -102,16 +112,17 @@ export class ViewStore {
 	set_group = (groups: groupType[]) => {
 		this.groups = groups
 	}
-	add_sort = (group: createSortType) => {
+	add_sort = (sort: createSortType) => {
 		this.sort.push({
 			id: uuid_v4(),
-			...group
+			...sort
 		})
 	}
 	update_sort = (sort: updateSortType) => {
 		const find_sort = this.sort.find(f => f.id === sort.id)
 		if(!find_sort) return;
 		if(sort.column) find_sort.column = sort.column
+		if(sort.value) find_sort.value = sort.value
 	}
 	remove_sort = (id: sortType["id"]) => {
 		const index = this.sort.findIndex(sort => sort.id === id)
