@@ -8,7 +8,7 @@ import { IoMdCheckboxOutline } from 'react-icons/io'
 import { RiLockPasswordFill } from 'react-icons/ri'
 import { BsCalendar2Date } from 'react-icons/bs'
 import { GrDocumentUpdate } from 'react-icons/gr'
-import {ColumnCaseHandlers, filterType, RowType} from '@/components/DatabaseView/DatabaseViewTypes'
+import {ColumnCaseHandlers, filterType, RowType, sortType} from '@/components/DatabaseView/DatabaseViewTypes'
 import moment from "moment";
 
 export const DefaultFilter: ColumnCaseHandlers[string]["filter"] = (row, filter)=> {
@@ -21,90 +21,179 @@ export const DefaultFilter: ColumnCaseHandlers[string]["filter"] = (row, filter)
 		case "within": return moment(value).isBetween(moment(filter.from), moment(filter.to))
 	}
 }
+export const TextSort: ColumnCaseHandlers[string]["sort"] = (rows, sort) => {
+	return rows.sort((a, b) => {
+		const a_value = sort.value === "ascending" ? a[sort.column.key] : b[sort.column.key]
+		const b_value = sort.value === "ascending" ? b[sort.column.key] : a[sort.column.key]
+
+		if(a_value < b_value) return -1
+		if(a_value > b_value) return 1
+		return 0
+	})
+}
+export const NumberSort: ColumnCaseHandlers[string]["sort"] = (rows, sort) => {
+	return rows.sort((a, b) => {
+		const a_value = sort.value === "ascending" ? a[sort.column.key] : b[sort.column.key]
+		const b_value = sort.value === "ascending" ? b[sort.column.key] : a[sort.column.key]
+
+		return a_value-b_value
+	})
+}
+export const ArraySort: ColumnCaseHandlers[string]["sort"] = (rows, sort) => {
+	return rows.sort((a, b) => {
+		const a_value = sort.value === "ascending" ? a[sort.column.key] : b[sort.column.key]
+		const b_value = sort.value === "ascending" ? b[sort.column.key] : a[sort.column.key]
+
+		return a_value.length-b_value.length
+	})
+}
+export const BooleanSort: ColumnCaseHandlers[string]["sort"] = (rows, sort) => {
+	return rows.sort((a, b) => {
+		const a_value = sort.value === "ascending" ? a[sort.column.key] : b[sort.column.key]
+		const b_value = sort.value === "ascending" ? b[sort.column.key] : a[sort.column.key]
+
+		if(a_value && !b_value) return -1
+		if(!a_value && b_value) return 1
+		return 0
+	})
+}
+export const DatetimeSort: ColumnCaseHandlers[string]["sort"] = (rows, sort) => {
+	return rows.sort((a, b) => {
+		const a_value = sort.value === "ascending" ? moment(a[sort.column.key]) : moment(b[sort.column.key])
+		const b_value = sort.value === "ascending" ? moment(b[sort.column.key]) : moment(a[sort.column.key])
+
+		return a_value.diff(b_value)
+	})
+}
+export const TextSearch: ColumnCaseHandlers[string]["search"] = (rowValue: string, searchValue) => {
+	return rowValue.includes(searchValue)
+}
 
 export const DefaultColumnCase = {
 	id: {
 		Icon: HiHashtag,
-		filter: DefaultFilter
+		filter: DefaultFilter,
+		sort: TextSort,
+		search: TextSearch,
 	},
 	number: {
 		Icon: TbSquareRoundedNumber7Filled,
-		filter: DefaultFilter
+		filter: DefaultFilter,
+		sort: NumberSort,
+		search: TextSearch,
 	},
 	text: {
 		Icon: IoText,
-		filter: DefaultFilter
+		filter: DefaultFilter,
+		sort: TextSort,
+		search: TextSearch,
 	},
 	json: {
 		Icon: TbJson,
-		filter: DefaultFilter
+		filter: DefaultFilter,
+		sort: TextSort,
+		search: TextSearch,
 	},
 	email: {
 		Icon: MdAlternateEmail,
-		filter: DefaultFilter
+		filter: DefaultFilter,
+		sort: TextSort,
+		search: TextSearch,
 	},
 	phone: {
 		Icon: HiPhone,
-		filter: DefaultFilter
+		filter: DefaultFilter,
+		sort: TextSort,
+		search: TextSearch,
 	},
 	url: {
 		Icon: FaLink,
-		filter: DefaultFilter
+		filter: DefaultFilter,
+		sort: TextSort,
+		search: TextSearch,
 	},
 	image: {
 		Icon: FaImage,
-		filter: DefaultFilter
+		filter: DefaultFilter,
+		sort: TextSort,
+		search: TextSearch,
 	},
 	file: {
 		Icon: FaFileAlt,
-		filter: DefaultFilter
+		filter: DefaultFilter,
+		sort: TextSort,
+		search: TextSearch,
 	},
 	checkbox: {
 		Icon: IoMdCheckboxOutline,
-		filter: DefaultFilter
+		filter: DefaultFilter,
+		sort: BooleanSort,
+		search: TextSearch,
 	},
 	country: {
 		Icon: FaLandmarkFlag,
-		filter: DefaultFilter
+		filter: DefaultFilter,
+		sort: TextSort,
+		search: TextSearch,
 	},
 	country_multiply: {
 		Icon: FaLandmarkFlag,
-		filter: DefaultFilter
+		filter: DefaultFilter,
+		sort: ArraySort,
+		search: TextSearch,
 	},
 	country_name: {
 		Icon: FaLandmarkFlag,
-		filter: DefaultFilter
+		filter: DefaultFilter,
+		sort: TextSort,
+		search: TextSearch,
 	},
 	person: {
 		Icon: IoPersonCircleSharp,
-		filter: DefaultFilter
+		filter: DefaultFilter,
+		sort: TextSort,
+		search: TextSearch,
 	},
 	password: {
 		Icon: RiLockPasswordFill,
-		filter: DefaultFilter
+		filter: DefaultFilter,
+		sort: TextSort,
+		search: TextSearch,
 	},
 	dateView: {
 		Icon: BsCalendar2Date,
-		filter: DefaultFilter
+		filter: DefaultFilter,
+		sort: DatetimeSort,
+		search: TextSearch,
 	},
 	timeView: {
 		Icon: MdOutlineAccessTime,
-		filter: DefaultFilter
+		filter: DefaultFilter,
+		sort: DatetimeSort,
+		search: TextSearch,
 	},
 	createdBy: {
 		Icon: FaUser,
-		filter: DefaultFilter
+		filter: DefaultFilter,
+		sort: TextSort,
+		search: TextSearch,
 	},
 	updatedBy: {
 		Icon: FaUserCog,
-		filter: DefaultFilter
+		filter: DefaultFilter,
+		sort: TextSort,
+		search: TextSearch,
 	},
 	createdAt: {
 		Icon: GrDocumentUpdate,
-		filter: DefaultFilter
+		filter: DefaultFilter,
+		sort: DatetimeSort,
+		search: TextSearch,
 	},
 	updatedAt: {
 		Icon: MdUpdate,
-		filter: DefaultFilter
+		filter: DefaultFilter,
+		sort: DatetimeSort,
+		search: TextSearch,
 	},
 } satisfies ColumnCaseHandlers

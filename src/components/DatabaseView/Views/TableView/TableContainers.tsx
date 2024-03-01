@@ -2,6 +2,7 @@ import React from 'react'
 import { Checkbox, CheckboxProps } from '@material-tailwind/react'
 
 type propsType = React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivElement>, HTMLDivElement>
+type propsType2 = React.DetailedHTMLProps<React.HTMLAttributes<HTMLOListElement>, HTMLOListElement>
 
 export const TableContainer = ({ className = '', ...rest_props }: propsType) =>
 	<div
@@ -23,19 +24,21 @@ export const TableRowContainer = ({ className = '', ...rest_props }: propsType) 
 		`}
 	/>
 
-export const TableCell = ({ className = '', ...rest_props }: propsType) =>
-	<div
-		{...rest_props}
-		className={className+`
-			table-cell
-			border-b
-			border-r
-			border-border_line
-			px-2
-			h-full
-			align-top
-		`}
-	/>
+export const TableCell = ({ className = '', ...rest_props }: propsType2) =>
+	React.createElement('ol', {
+		...rest_props,
+		className: className+
+			`
+				table-cell
+				border-b
+				border-r
+				border-border_line
+				cursor-pointer
+				px-2
+				h-full
+				align-top
+			`
+})
 
 export const TableCellItem = ({ className = '', ...rest_props }: propsType) =>
 	<div

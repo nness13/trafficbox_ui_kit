@@ -6,7 +6,7 @@ import {
 	TableRowContainer
 } from '@/components/DatabaseView/Views/TableView/TableContainers'
 import {TableRow} from '@/components/DatabaseView/Views/TableView/TableRow'
-import {getAllCount, getTrustItemID} from '@/components/DatabaseView/DatabaseView.utils'
+import {getAllCount, getSelectPureId} from '@/components/DatabaseView/DatabaseView.utils'
 import {HiChevronDown, HiChevronRight} from 'react-icons/hi2'
 import {ColumnValueTypeSwitcher} from '@/components/DatabaseView/Views/TableView/ColumnValueTypeSwitcher'
 import {ColumnType, RowType} from '@/components/DatabaseView/DatabaseViewTypes'
@@ -23,16 +23,14 @@ export const TableGroupRow = observer((props: props_type) => {
 	const selected = useViewContext(state => state.selected)
 	const onSelect = useViewContext(state => state.onSelect)
 	const onEdit = useViewContext(state => state.onEditRow)
+	const isSelected = selected.filter(s => getSelectPureId([props.row], 0).includes(s) ).length > 0
 
-	const isSelected = !!selected.find(s => s === props.row.id)
 	const onSelected = (e: any) => {
-		const selected_id = [
-			props.row.id,
-			...getTrustItemID(props.row.children, 0)
-		]
+		const selected_id = getSelectPureId([props.row], 0)
+
 		onSelect(
 			isSelected
-				? selected.filter(s => !selected_id.includes(s))
+				? selected.filter(s => !selected_id.includes(s) )
 				: [...selected, ...selected_id]
 		)
 	}

@@ -3,50 +3,48 @@ import {TableContainer} from '@/components/DatabaseView/Views/TableView/TableCon
 import {TableGroupRow} from '@/components/DatabaseView/Views/TableView/TableGroupRow'
 import {TableRow} from '@/components/DatabaseView/Views/TableView/TableRow'
 import {TableHeaderRow} from '@/components/DatabaseView/Views/TableView/TableHeaderRow'
-import {ViewPanel} from '@/components/DatabaseView/ViewPanel/ViewPanel'
+import {use_view_effects, ViewPanel} from '@/components/DatabaseView/ViewPanel/ViewPanel'
 import {StoreProvider, useViewContext} from "@/components/DatabaseView/Views/TableView/ViewContext";
 import {ViewState, ViewStore} from "@/components/DatabaseView/Views/ViewStore";
 import {observer} from "mobx-react-lite";
 import {ColumnType, RowType} from "@/components/DatabaseView/DatabaseViewTypes";
 import {ActiveViewState} from "@/components/DatabaseView/DatabaseViewStore";
 import {ColumnCaseProvider, useColumnCaseContext} from "@/components/DatabaseView/Views/ColumnCaseContext";
-import {use_filters} from "@/components/DatabaseView/ViewPanel/filter/FilterPanel";
 import {DefaultColumnCase} from "@/components/DatabaseView/Views/ColumnCase";
 
 
 const TableComponent = observer(() => {
-	const view = useViewContext()
+	const viewContext = useViewContext()
 	const defaultColumnCase = useColumnCaseContext()
 
 	useEffect(() => {
-		console.log("set rows")
-		if(view) {
-			const filtered_rows = use_filters(view.init_rows, view.filters, defaultColumnCase)
-			view.on_edit_view({
-				columns: view.init_columns,
-				rows: filtered_rows
+		if(viewContext) {
+			const {rows, columns} = use_view_effects( viewContext, defaultColumnCase )
+			viewContext.on_edit_view({
+				columns,
+				rows
 			})
 		}
-	}, [view.init_columns, view.init_rows])
+	}, [viewContext.init_columns, viewContext.init_rows])
 
 	return (
 		<div>
 			<ViewPanel/>
 			<div className="overflow-auto max-h-[900px] min-h-[700px]">
 				<TableContainer>
-					<TableHeaderRow columns={view.columns}/>
-					{view.rows.map((row, key) => (
+					<TableHeaderRow columns={viewContext.columns}/>
+					{viewContext.rows.map((row, key) => (
 						row?.children
 							? <TableGroupRow
 								group_id={0}
 								key={key}
 								row={row}
-								columns={view.columns}
+								columns={viewContext.columns}
 							/>
 							: <TableRow
 								key={key}
 								row={row}
-								columns={view.columns}
+								columns={viewContext.columns}
 							/>
 					))}
 				</TableContainer>
@@ -66,7 +64,6 @@ export const TableView: FC<propsType> = observer((props) => {
 	if(!view) return null
 
 	useEffect(() => {
-		console.log("set init rows")
 		if(view) {
 			view.on_edit_view({
 				init_columns: props.columns,
@@ -74,26 +71,6 @@ export const TableView: FC<propsType> = observer((props) => {
 			})
 		}
 	}, [props.columns, props.rows])
-
-
-	// useEffect(() => autorun(() => {
-	// 	console.log("set init rows")
-	// 	if(view) {
-	// 		view.on_edit_view({
-	// 			init_columns: props.columns,
-	// 			init_rows: props.rows
-	// 		})
-	// 	}
-	// }), [])
-	// useEffect(() => autorun(() => {
-	// 	if(view) {
-	// 		console.log("set rows")
-	// 		view.on_edit_view({
-	// 			columns: view.init_columns,
-	// 			rows: view.init_rows
-	// 		})
-	// 	}
-	// }), [])
 
 	return (
 		<StoreProvider store={props.store}>

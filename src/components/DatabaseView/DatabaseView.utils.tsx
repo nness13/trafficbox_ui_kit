@@ -60,6 +60,8 @@
 // }
 
 
+import {RowType} from "@/components/DatabaseView/DatabaseViewTypes";
+
 export function getAllCount(data: any[], index: number): number {
 	return data?.reduce(
 		(accum, element) => {
@@ -70,18 +72,18 @@ export function getAllCount(data: any[], index: number): number {
 		0
 	);
 }
-export function getTrustItemID(data: any[], index: number): number[] {
+export function getSelectPureId(data: RowType[], index: number): string[] {
 	return data.reduce(
 		(accum, element) => {
 			if(!element.hasOwnProperty('children')) accum.push(element.id)
 			else {
-				accum.push(element.id)
+				// accum.push(element.id)
 				accum.push(
-					...getTrustItemID(element.children, index + 1)
+					...getSelectPureId(element.children, index + 1)
 				)
 			}
 			return accum
 		},
-		[]
+		[] as string[]
 	);
 }

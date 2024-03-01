@@ -1,5 +1,6 @@
 import {FC} from 'react'
 import {views} from "@/components/DatabaseView/Views/views";
+import {ViewStore} from "@/components/DatabaseView/Views/ViewStore";
 
 export type DatabaseViewProps = Partial<DatabaseViewStateType> & {
 	rows: RowType[]
@@ -48,6 +49,8 @@ export type ViewTypesType = keyof typeof views
 export type ColumnCaseHandlers = Record<string, {
 	Icon: FC<any>
 	filter: (row: RowType, filter: filterType) => boolean
+	sort: (rows: RowType[], sort: sortType) => RowType[]
+	search: (rowValue: RowType[string], searchValue: ViewStore["search"]["value"]) => boolean
 }>
 
 export type DatabaseViewStateType = {
