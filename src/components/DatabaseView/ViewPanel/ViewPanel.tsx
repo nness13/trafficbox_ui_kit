@@ -20,7 +20,7 @@ import {
 } from "@/components/DatabaseView/DatabaseViewTypes";
 import {ViewStore} from "@/components/DatabaseView/Views/ViewStore";
 import _ from "lodash"
-import {v4 as uuidv4} from "uuid"
+import {PaginationPanel} from "@/components/DatabaseView/ViewPanel/PaginationView";
 
 export interface DatabaseViewPanelProps {
 	children?: ReactNode;
@@ -34,9 +34,11 @@ export const ViewPanel: FC<DatabaseViewPanelProps> = observer(() => {
 		const {rows, columns} = use_view_effects( viewContext, defaultColumnCase )
 		viewContext.on_edit_view({rows, columns})
 	}, [viewContext.filters, viewContext.sort, viewContext.groups, viewContext.search.value]);
+
 	return (
 		<div>
-			<div className="w-full flex justify-end border-b border-border_line">
+			<div className="w-full flex justify-between border-b border-border_line">
+				<PaginationPanel/>
 				<div className="flex">
 					<Tab
 						style={viewContext.filter_panel_status ? {color: "rgb(33 150 243)" } : {}}
@@ -85,17 +87,6 @@ export const ViewPanel: FC<DatabaseViewPanelProps> = observer(() => {
 					<Tab>
 						<HiEllipsisHorizontal className="h-5 w-5"/>
 					</Tab>
-					{/*<Tab*/}
-					{/*	onClick={() => context.onLoad()}*/}
-					{/*	className={select_view?.viewChanged ? "bg-light-green-600 hover:bg-light-green-700 hover:bg-opacity-100" : ""}*/}
-					{/*>*/}
-					{/*	<Tooltip content={`Остання загрузка: ${moment(context.last_load_database_datetime).format(date_format)}`}>*/}
-					{/*		{select_view?.viewChanged*/}
-					{/*			? <HiCheck className="h-5 w-5 text-white"/>*/}
-					{/*			: <HiArrowPath className="h-5 w-5"/>*/}
-					{/*		}*/}
-					{/*	</Tooltip>*/}
-					{/*</Tab>*/}
 
 					{/*<ActionMenuPopover>*/}
 					<Button className="w-fit">
@@ -138,11 +129,11 @@ export const use_view_effects = (viewContext: ViewStore, defaultColumnCase: Colu
 	const columns = viewContext.groups.length > 0
 		? [
 			...viewContext.groups.map(group => group.column),
-			...viewContext.columns.filter(c =>
+			...viewContext.init_columns.filter(c =>
 				!viewContext.groups.find(group => c.key === group.column.key)
 			)
 		]
-		: viewContext.columns
+		: viewContext.init_columns
 
 	const group_rows = viewContext.groups.length > 0
 		? groupByGroups(viewContext.groups, rows_after_sort)

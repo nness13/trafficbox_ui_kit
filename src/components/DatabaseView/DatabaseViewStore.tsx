@@ -2,10 +2,13 @@ import {ColumnType, RowType} from '@/components/DatabaseView/DatabaseViewTypes'
 import {ViewStore} from "@/components/DatabaseView/Views/ViewStore";
 import {autorun, makeAutoObservable} from "mobx";
 import {injectStores} from "@mobx-devtools/tools";
+import moment from "moment";
 
 const view = new ViewStore()
 export class DatabaseViewStore {
 	selected_view: string | null = view.id
+	last_load_database_datetime: string = moment().toISOString()
+	viewChanged: boolean = false
 	columns: ColumnType[] = []
 	rows: RowType[] = []
 	views: ViewStore[] = [
@@ -17,6 +20,11 @@ export class DatabaseViewStore {
 		makePersistable("DatabaseViewStore", this)
 	}
 
+	set_init_values = (data: {columns: ColumnType[], rows: RowType[]}) => {
+		this.last_load_database_datetime = moment().toISOString()
+		this.columns = data.columns
+		this.rows = data.rows
+	}
 	on_select_view = (id: string) => {
 		this.selected_view = id
 	}
@@ -43,6 +51,7 @@ export const DatabaseViewState = new DatabaseViewStore()
 export const ActiveViewState = () => {
 	return DatabaseViewState.views.find(view => view.id === DatabaseViewState.selected_view)
 }
+
 injectStores({
 	DatabaseViewState
 });

@@ -1,10 +1,12 @@
 import {FC} from 'react'
 import {views} from "@/components/DatabaseView/Views/views";
 import {ViewStore} from "@/components/DatabaseView/Views/ViewStore";
+import {DatabaseViewStore} from "@/components/DatabaseView/DatabaseViewStore";
 
 export type DatabaseViewProps = Partial<DatabaseViewStateType> & {
 	rows: RowType[]
 	columns: ColumnType[]
+	handle?: (state: DatabaseViewStore) => void
 }
 
 export type RowType = {

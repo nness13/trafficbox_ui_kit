@@ -1,14 +1,25 @@
-import React, {FC} from 'react'
+import React, {FC, useEffect} from 'react'
 import {DatabaseViewProps} from '@/components/DatabaseView/DatabaseViewTypes'
 import {ViewSwitcherPanel} from '@/components/DatabaseView/ViewPanel/ViewSwitcherPanel'
 import {views} from "@/components/DatabaseView/Views/views";
-import {ActiveViewState} from "@/components/DatabaseView/DatabaseViewStore";
+import {ActiveViewState, DatabaseViewState, DatabaseViewStore} from "@/components/DatabaseView/DatabaseViewStore";
 import {observer} from "mobx-react-lite";
 import '../../globals.css'
 
 export const DatabaseView: FC<DatabaseViewProps> = observer((props) => {
 	const view = ActiveViewState()
 	const View = views[view?.type!]
+	useEffect(() => {
+		if(props.handle) props.handle(DatabaseViewState)
+	}, [])
+	useEffect(() => {
+		if(view) {
+			DatabaseViewState.set_init_values({
+				columns: props.columns,
+				rows: props.rows
+			})
+		}
+	}, [props.columns, props.rows])
 
 	return (
 		<>

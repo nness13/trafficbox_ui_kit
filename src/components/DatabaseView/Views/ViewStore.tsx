@@ -56,6 +56,10 @@ export class ViewStore {
 		}
 	}
 
+	set_pagination = (pagination: Partial<ViewStore["pagination"]>) => {
+		Object.keys(pagination).map(key => (this as any).pagination[key] = (pagination as any)[key] )
+
+	}
 	toggle_sort_panel_status = (value: boolean) => {
 		this.sort_panel_status = value
 	}
