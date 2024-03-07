@@ -8,7 +8,7 @@ import {
 import {TableRow} from '@/components/DatabaseView/Views/TableView/TableRow'
 import {getAllCount, getSelectPureId} from '@/components/DatabaseView/DatabaseView.utils'
 import {HiChevronDown, HiChevronRight} from 'react-icons/hi2'
-import {ColumnValueTypeSwitcher} from '@/components/DatabaseView/Views/TableView/ColumnValueTypeSwitcher'
+import {ColumnValueTypeSwitcher} from '@/components/DatabaseView/Views/ColumnValueTypeSwitcher'
 import {ColumnType, RowType} from '@/components/DatabaseView/DatabaseViewTypes'
 import {useViewContext} from "@/components/DatabaseView/Views/TableView/ViewContext";
 import {observer} from "mobx-react-lite";
@@ -20,18 +20,16 @@ type props_type = {
 }
 
 export const TableGroupRow = observer((props: props_type) => {
-	const selected = useViewContext(state => state.selected)
-	const onSelect = useViewContext(state => state.onSelect)
-	const onEdit = useViewContext(state => state.onEditRow)
-	const isSelected = selected.filter(s => getSelectPureId([props.row], 0).includes(s) ).length > 0
+	const viewContext = useViewContext()
+	const isSelected = viewContext.selected.filter(s => getSelectPureId([props.row], 0).includes(s) ).length > 0
 
 	const onSelected = (e: any) => {
 		const selected_id = getSelectPureId([props.row], 0)
 
-		onSelect(
+		viewContext.onSelect(
 			isSelected
-				? selected.filter(s => !selected_id.includes(s) )
-				: [...selected, ...selected_id]
+				? viewContext.selected.filter(s => !selected_id.includes(s) )
+				: [...viewContext.selected, ...selected_id]
 		)
 	}
 
@@ -68,13 +66,11 @@ export const TableGroupRow = observer((props: props_type) => {
 				</TableCell>
 				{props.columns.map((column, key) =>
 					<TableCell key={key}>
-						<TableCellItem>
 							<ColumnValueTypeSwitcher
 								column={column}
 								row={props.row}
-								onEdit={onEdit}
+								onEdit={viewContext.onEditRow}
 							/>
-						</TableCellItem>
 					</TableCell>
 				)}
 			</TableRowContainer>

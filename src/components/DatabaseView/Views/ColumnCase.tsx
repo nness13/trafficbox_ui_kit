@@ -8,69 +8,25 @@ import { IoMdCheckboxOutline } from 'react-icons/io'
 import { RiLockPasswordFill } from 'react-icons/ri'
 import { BsCalendar2Date } from 'react-icons/bs'
 import { GrDocumentUpdate } from 'react-icons/gr'
-import {ColumnCaseHandlers, filterType, RowType, sortType} from '@/components/DatabaseView/DatabaseViewTypes'
-import moment from "moment";
-
-export const DefaultFilter: ColumnCaseHandlers[string]["filter"] = (row, filter)=> {
-	const value = row[filter.column.key]
-	switch (filter.condition) {
-		case "is": return value === filter.value
-		case "is_not": return value !== filter.value
-		case "contain": return value.includes(filter.value)
-		case "is_not_contain": return !value.includes(filter.value)
-		case "within": return moment(value).isBetween(moment(filter.from), moment(filter.to))
-	}
-}
-export const TextSort: ColumnCaseHandlers[string]["sort"] = (rows, sort) => {
-	return rows.sort((a, b) => {
-		const a_value = sort.value === "ascending" ? a[sort.column.key] : b[sort.column.key]
-		const b_value = sort.value === "ascending" ? b[sort.column.key] : a[sort.column.key]
-
-		if(a_value < b_value) return -1
-		if(a_value > b_value) return 1
-		return 0
-	})
-}
-export const NumberSort: ColumnCaseHandlers[string]["sort"] = (rows, sort) => {
-	return rows.sort((a, b) => {
-		const a_value = sort.value === "ascending" ? a[sort.column.key] : b[sort.column.key]
-		const b_value = sort.value === "ascending" ? b[sort.column.key] : a[sort.column.key]
-
-		return a_value-b_value
-	})
-}
-export const ArraySort: ColumnCaseHandlers[string]["sort"] = (rows, sort) => {
-	return rows.sort((a, b) => {
-		const a_value = sort.value === "ascending" ? a[sort.column.key] : b[sort.column.key]
-		const b_value = sort.value === "ascending" ? b[sort.column.key] : a[sort.column.key]
-
-		return a_value.length-b_value.length
-	})
-}
-export const BooleanSort: ColumnCaseHandlers[string]["sort"] = (rows, sort) => {
-	return rows.sort((a, b) => {
-		const a_value = sort.value === "ascending" ? a[sort.column.key] : b[sort.column.key]
-		const b_value = sort.value === "ascending" ? b[sort.column.key] : a[sort.column.key]
-
-		if(a_value && !b_value) return -1
-		if(!a_value && b_value) return 1
-		return 0
-	})
-}
-export const DatetimeSort: ColumnCaseHandlers[string]["sort"] = (rows, sort) => {
-	return rows.sort((a, b) => {
-		const a_value = sort.value === "ascending" ? moment(a[sort.column.key]) : moment(b[sort.column.key])
-		const b_value = sort.value === "ascending" ? moment(b[sort.column.key]) : moment(a[sort.column.key])
-
-		return a_value.diff(b_value)
-	})
-}
-export const TextSearch: ColumnCaseHandlers[string]["search"] = (rowValue: string, searchValue) => {
-	return rowValue.includes(searchValue)
-}
+import { ColumnCaseHandlers } from '@/components/DatabaseView/DatabaseViewTypes'
+import { DefaultFilter } from '@/components/DatabaseView/ViewPanel/filter/filter.case.utils'
+import {
+	ArraySort,
+	BooleanSort,
+	DatetimeSort,
+	NumberSort,
+	TextSort
+} from '@/components/DatabaseView/ViewPanel/sort/sort.case.utils'
+import { TextSearch } from '@/components/DatabaseView/ViewPanel/search/search.case.utils'
 
 export const DefaultColumnCase = {
 	id: {
+		Icon: HiHashtag,
+		filter: DefaultFilter,
+		sort: TextSort,
+		search: TextSearch,
+	},
+	relation_id: {
 		Icon: HiHashtag,
 		filter: DefaultFilter,
 		sort: TextSort,

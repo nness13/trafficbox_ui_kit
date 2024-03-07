@@ -9,9 +9,11 @@ import '../../globals.css'
 export const DatabaseView: FC<DatabaseViewProps> = observer((props) => {
 	const view = ActiveViewState()
 	const View = views[view?.type!]
+
 	useEffect(() => {
-		if(props.handle) props.handle(DatabaseViewState)
+		if(props.handleChange) props.handleChange(DatabaseViewState)
 	}, [])
+
 	useEffect(() => {
 		if(view) {
 			DatabaseViewState.set_init_values({
@@ -28,8 +30,7 @@ export const DatabaseView: FC<DatabaseViewProps> = observer((props) => {
 				? <View
 					key={view.id}
 					store={view}
-					rows={props.rows}
-					columns={props.columns}
+					{...props}
 				/>
 				: null
 			}

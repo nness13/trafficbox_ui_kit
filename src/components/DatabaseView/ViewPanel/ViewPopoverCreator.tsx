@@ -7,10 +7,10 @@ import {views} from "@/components/DatabaseView/Views/views";
 
 export const ViewPopoverCreator = memo(( props: { children: React.ReactNode } ) => {
 	const [status, set_status] = useState(false)
-	const on_create_view_action = DatabaseViewState.on_create_view
+
 	const on_create_view = (type: ViewTypesType ) => {
 		set_status(false)
-		on_create_view_action(type)
+		DatabaseViewState.on_create_view(type)
 	}
 
 	return (

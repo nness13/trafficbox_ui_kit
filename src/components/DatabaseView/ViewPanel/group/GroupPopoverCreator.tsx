@@ -4,11 +4,11 @@ import {Input, ListItem, Popover, PopoverContent, PopoverHandler} from '@materia
 import {useViewContext} from "@/components/DatabaseView/Views/TableView/ViewContext";
 import {observer} from "mobx-react-lite";
 import {useColumnCaseContext} from "@/components/DatabaseView/Views/ColumnCaseContext";
+import { ColumnCaseIcon } from '@/components/DatabaseView/Views/ColumnCaseIcon'
 
 export const GroupPopoverCreator: FC<{ children: React.ReactNode }> = observer(( props  ) => {
 	const active_view = useViewContext()
-	const column_case_handlers = useColumnCaseContext()
-	const columns = useViewContext(state => state.columns)
+	const columns = active_view.columns
 	const [status, set_status] = useState(false)
 	const [option_list, set_option_list] = useState(columns)
 	useEffect(() => {
@@ -39,18 +39,17 @@ export const GroupPopoverCreator: FC<{ children: React.ReactNode }> = observer((
 			<PopoverContent className="w-96 max-h-[800px] overflow-auto z-30 flex flex-col gap-5 p-2 bg-foreground border-none" placeholder={""}>
 				<div>
 					<Input type={"search"} name="search" value={group_text} onInput={onGroup} label="Group by ..." crossOrigin={undefined}/>
-					{option_list.map((el: any) => (
+					{option_list.map((column: any) => (
 						<ListItem
-							key={el.key}
+							key={column.key}
 							onClick={() => on_create_group({
-								column: el,
+								column: column,
 							})}
 							className={"flex gap-2"}
 							placeholder={""}
 						>
-							{column_case_handlers[el.type.type]?.Icon({className: "w-4 h-4"})}
-							{/*<IconColumnType type={el.type.type}/>*/}
-							<div>{el.label}</div>
+							<ColumnCaseIcon column={column}/>
+							<div>{column.label}</div>
 						</ListItem>
 					))}
 				</div>

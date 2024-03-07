@@ -34,7 +34,6 @@ export const TableCell = ({ className = '', ...rest_props }: propsType2) =>
 				border-r
 				border-border_line
 				cursor-pointer
-				px-2
 				h-full
 				align-top
 			`
@@ -50,6 +49,7 @@ export const TableCellItem = ({ className = '', ...rest_props }: propsType) =>
 			gap-2
 			h-full
 		  min-h-[24px]
+		  px-2
 		`}
 	/>
 

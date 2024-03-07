@@ -4,10 +4,10 @@ import {useViewContext} from "@/components/DatabaseView/Views/TableView/ViewCont
 import {createSortType} from "@/components/DatabaseView/DatabaseViewTypes";
 import {observer} from "mobx-react-lite";
 import {useColumnCaseContext} from "@/components/DatabaseView/Views/ColumnCaseContext";
+import { ColumnCaseIcon } from '@/components/DatabaseView/Views/ColumnCaseIcon'
 
 export const SortPopoverCreator = observer(( props: { children: React.ReactNode, variant: "v1" | "v2" } ) => {
 	const active_view = useViewContext()
-	const column_case_handlers = useColumnCaseContext()
 	const [status, set_status] = useState(false)
 	const on_create_sort = (sort: createSortType) => {
 		set_status(false)
@@ -33,19 +33,18 @@ export const SortPopoverCreator = observer(( props: { children: React.ReactNode,
 			<PopoverContent className="w-96 max-h-[800px] overflow-auto z-30 flex flex-col gap-5 p-2 bg-foreground border-none" placeholder={""}>
 				<div>
 					<Input type={"search"} name="search" label="Filter by ..." crossOrigin={undefined}/>
-					{active_view.columns.map((el: any) => (
+					{active_view.columns.map((column: any) => (
 						<ListItem
 							placeholder={""}
-							key={el.key}
+							key={column.key}
 							onClick={() => on_create_sort({
-								column: el,
+								column: column,
 								value: "ascending",
 							})}
 							className={"flex gap-2"}
 						>
-							{column_case_handlers[el.type.type]?.Icon({className: "w-4 h-4"})}
-							{/*<IconColumnType type={el.type.type}/>*/}
-							<div>{el.label}</div>
+							<ColumnCaseIcon column={column}/>
+							<div>{column.label}</div>
 						</ListItem>
 					))}
 				</div>

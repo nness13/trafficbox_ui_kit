@@ -11,21 +11,19 @@ import {observer} from "mobx-react-lite";
 import {useColumnCaseContext} from "@/components/DatabaseView/Views/ColumnCaseContext";
 import ReactDragListView from 'trafficbox-drag-listview'
 import {getSelectPureId} from "@/components/DatabaseView/DatabaseView.utils";
+import { ColumnCaseIcon } from '@/components/DatabaseView/Views/ColumnCaseIcon'
 
 type props_type = {
     columns: ColumnType[]
 }
 export const TableHeaderRow = observer((props: props_type) => {
     const active_view = useViewContext()
-    const onSelect = useViewContext(state => state.onSelect)
-    const selected = useViewContext(state => state.selected)
-    const rows = useViewContext(state => state.rows)
     const column_case_handlers = useColumnCaseContext()
 
     function onSelectedAll() {
         const selected_id = getSelectPureId(active_view.rows, 0)
-        onSelect(
-            selected.length > 0
+        active_view.onSelect(
+          active_view.selected.length > 0
                 ? []
                 : selected_id
         )
@@ -48,20 +46,21 @@ export const TableHeaderRow = observer((props: props_type) => {
                 <TableCell>
                     <TableCellItem>
                         <TableCheckbox
-                            checked={selected?.length! > 0}
-                            onChange={onSelectedAll}
+                          checked={active_view.selected?.length! > 0}
+                          onChange={onSelectedAll}
                         />
-                        {selected.length}
+                        {active_view.selected.length}
                     </TableCellItem>
                 </TableCell>
 
                 {props.columns.map(column => {
-                    const {Icon} = column_case_handlers[column.type.type]
                     return (
                         <TableCell key={column.key}>
                             <TableCellItem>
-                                <Icon className={"w-4 h-4"}/>
-                                <div className="whitespace-nowrap">{column.label}</div>
+                                <ColumnCaseIcon column={column}/>
+                                <div className="whitespace-nowrap">
+                                    {column.label}
+                                </div>
                             </TableCellItem>
                         </TableCell>
                     )

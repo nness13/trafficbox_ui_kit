@@ -5,10 +5,11 @@ import {
 	TableCheckbox,
 	TableRowContainer
 } from '@/components/DatabaseView/Views/TableView/TableContainers'
-import {ColumnValueTypeSwitcher} from '@/components/DatabaseView/Views/TableView/ColumnValueTypeSwitcher'
+import {ColumnValueTypeSwitcher} from '@/components/DatabaseView/Views/ColumnValueTypeSwitcher'
 import {ColumnType, RowType} from '@/components/DatabaseView/DatabaseViewTypes'
 import {useViewContext} from "@/components/DatabaseView/Views/TableView/ViewContext";
 import {observer} from "mobx-react-lite";
+import {v4 as uuidv4} from "uuid"
 
 type props_type = {
 	row: RowType
@@ -16,16 +17,14 @@ type props_type = {
 }
 
 export const TableRow = observer((props: props_type) => {
-	const onSelect = useViewContext(state => state.onSelect)
-	const onEdit = useViewContext(state => state.onEditRow)
-	const selected = useViewContext(state => state.selected)
-	const isSelected = !!selected.find(s => s === props.row.id)
+	const active_view = useViewContext()
+	const isSelected = !!active_view.selected.find(s => s === props.row.id)
 
 	const onSelected = (e: any) => {
-		onSelect(
+		active_view.onSelect(
 			isSelected
-				? selected.filter(s => s !== props.row.id)
-				: [...selected, props.row.id]
+				? active_view.selected.filter(s => s !== props.row.id)
+				: [...active_view.selected, props.row.id]
 		)
 	}
 
@@ -42,21 +41,19 @@ export const TableRow = observer((props: props_type) => {
 		>
 			<TableCell>
 				<TableCellItem>
-					<TableCheckbox
-						checked={isSelected}
-						onChange={onSelected}
-					/>
+						<TableCheckbox
+							checked={isSelected}
+							onChange={onSelected}
+						/>
 				</TableCellItem>
 			</TableCell>
 			{props.columns.map(column =>
 				<TableCell key={props.row.id + column.key}>
-					<TableCellItem>
-						<ColumnValueTypeSwitcher
-							column={column}
-							row={props.row}
-							onEdit={onEdit}
-						/>
-					</TableCellItem>
+					<ColumnValueTypeSwitcher
+						column={column}
+						row={props.row}
+						onEdit={active_view.onEditRow}
+					/>
 				</TableCell>
 			)}
 		</TableRowContainer>

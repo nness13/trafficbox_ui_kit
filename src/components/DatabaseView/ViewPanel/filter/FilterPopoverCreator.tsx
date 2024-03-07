@@ -5,6 +5,7 @@ import {useViewContext} from "@/components/DatabaseView/Views/TableView/ViewCont
 import {createFilterType, filterType} from "@/components/DatabaseView/DatabaseViewTypes";
 import {observer} from "mobx-react-lite";
 import {useColumnCaseContext} from "@/components/DatabaseView/Views/ColumnCaseContext";
+import { ColumnCaseIcon } from '@/components/DatabaseView/Views/ColumnCaseIcon'
 
 
 export const FilterPopoverCreator = observer(( props: { children: React.ReactNode, variant: "v1" | "v2" } ) => {
@@ -46,20 +47,19 @@ export const FilterPopoverCreator = observer(( props: { children: React.ReactNod
 			<PopoverContent className="w-96 max-h-[800px] overflow-auto z-30 flex flex-col gap-5 p-2 bg-foreground border-none" placeholder={""}>
 				<div>
 					<Input type={"search"} name="search" value={filter_text} onInput={onFilter} label="Filter by ..." crossOrigin={undefined}/>
-					{option_list.map((el: any) => (
+					{option_list.map((column: any) => (
 						<ListItem
 							placeholder={""}
-							key={el.key}
+							key={column.key}
 							className={"flex gap-2"}
 							onClick={() => on_create_filter({
 								value: "",
-								column: el,
+								column: column,
 								condition: "is"
 							})}
 						>
-							{column_case_handlers[el.type.type]?.Icon({className: "w-4 h-4"})}
-							{/*<IconColumnType type={el.type.type}/>*/}
-							<div>{el.label}</div>
+							<ColumnCaseIcon column={column}/>
+							<div>{column.label}</div>
 						</ListItem>
 					))}
 				</div>

@@ -6,13 +6,13 @@ import {observer} from "mobx-react-lite";
 import {useViewContext} from "@/components/DatabaseView/Views/TableView/ViewContext";
 import {filterType} from "@/components/DatabaseView/DatabaseViewTypes";
 import {useColumnCaseContext} from "@/components/DatabaseView/Views/ColumnCaseContext";
+import { ColumnCaseIcon } from '@/components/DatabaseView/Views/ColumnCaseIcon'
 // import { DateView } from '@/app/[components]/DateView'
 
 type props_type = {
 	filter: filterType
 }
 export const FilterTag = observer((props: props_type) => {
-	const column_case_handlers = useColumnCaseContext()
 
 	let filter_value: string | React.ReactNode = ""
 	if(props.filter.condition !== "within") {
@@ -51,7 +51,7 @@ export const FilterTag = observer((props: props_type) => {
 
 	return (
 		<LightBlueTag>
-			{column_case_handlers[props.filter.column.type.type].Icon({className: "w-4 h-4"})}
+			<ColumnCaseIcon column={props.filter.column}/>
 			{props.filter.column.label}
 			<div>{props.filter.condition}</div>
 			{filter_value}

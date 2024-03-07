@@ -3,11 +3,16 @@ import {views} from "@/components/DatabaseView/Views/views";
 import {ViewStore} from "@/components/DatabaseView/Views/ViewStore";
 import {DatabaseViewStore} from "@/components/DatabaseView/DatabaseViewStore";
 
+export type editContext = {
+	createRow?: (item: any) => Promise<boolean>
+	updateRow?: (item: RowType) => Promise<boolean>
+	deleteRow?: (id_list: string[]) => Promise<boolean>
+}
 export type DatabaseViewProps = Partial<DatabaseViewStateType> & {
 	rows: RowType[]
 	columns: ColumnType[]
-	handle?: (state: DatabaseViewStore) => void
-}
+	handleChange?: (state: DatabaseViewStore) => void
+} & editContext
 
 export type RowType = {
 	id: string
@@ -23,6 +28,15 @@ export type ColumnType = {
 	label: string;
 	type: ColumnCaseType;
 	options?: any[]
+}
+export type RowActionHistoryType = {
+	id: string,
+	type: "create" | "update" | "delete",
+	row_id: string,
+	column: ColumnType,
+	prevValue: any
+	newValue: any
+	api_sync: boolean
 }
 export type filterType = {
 	id: string,

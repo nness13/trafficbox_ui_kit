@@ -7,14 +7,13 @@ import {InputOnBlur} from "@/components/Inputs/InputOnBlur";
 import {observer} from "mobx-react-lite";
 
 export const ViewPopoverEditor = observer(( props: { children: React.ReactNode, isActive: boolean } ) => {
-	const { on_edit_active_view, on_delete_view: on_delete_view_action } = DatabaseViewState
 	const {name, id} = ActiveViewState()!
 
 	const [status, set_status] = useState(false)
 
 	const on_delete_view = () => {
 		set_status(false)
-		on_delete_view_action(id)
+		DatabaseViewState.on_delete_view(id)
 	}
 	const open = (e: any) => {
 		if(props.isActive){
@@ -43,7 +42,7 @@ export const ViewPopoverEditor = observer(( props: { children: React.ReactNode, 
 						name="name"
 						label="Name view"
 						value={name}
-						onInput={(e) => on_edit_active_view({ name: e.currentTarget.value })}
+						onInput={(e) => DatabaseViewState.on_edit_active_view({ name: e.currentTarget.value })}
 						crossOrigin={""}
 					/>
 					<SimpleLightButton onClick={on_delete_view}>
