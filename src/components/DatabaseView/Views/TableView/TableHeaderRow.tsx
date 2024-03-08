@@ -8,10 +8,10 @@ import {
 import {ColumnType} from '@/components/DatabaseView/DatabaseViewTypes'
 import {useViewContext} from "@/components/DatabaseView/Views/TableView/ViewContext";
 import {observer} from "mobx-react-lite";
-import {useColumnCaseContext} from "@/components/DatabaseView/Views/ColumnCaseContext";
+import {useColumnCaseContext} from "@/components/DatabaseView/Views/ColumnCase/ColumnCaseContext";
 import ReactDragListView from 'trafficbox-drag-listview'
 import {getSelectPureId} from "@/components/DatabaseView/DatabaseView.utils";
-import { ColumnCaseIcon } from '@/components/DatabaseView/Views/ColumnCaseIcon'
+import { ColumnCaseIcon } from '@/components/DatabaseView/Views/ColumnCase/ColumnCaseIcon'
 
 type props_type = {
     columns: ColumnType[]

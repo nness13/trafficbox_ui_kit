@@ -2,16 +2,18 @@ import {FC} from 'react'
 import {views} from "@/components/DatabaseView/Views/views";
 import {ViewStore} from "@/components/DatabaseView/Views/ViewStore";
 import {DatabaseViewStore} from "@/components/DatabaseView/DatabaseViewStore";
+import { TableViewProps } from '@/components/DatabaseView/Views/TableView/TableViewTypes'
 
 export type editContext = {
+	loadData?: () => any
 	createRow?: (item: any) => Promise<boolean>
 	updateRow?: (item: RowType) => Promise<boolean>
 	deleteRow?: (id_list: string[]) => Promise<boolean>
 }
 export type DatabaseViewProps = Partial<DatabaseViewStateType> & {
-	rows: RowType[]
-	columns: ColumnType[]
 	handleChange?: (state: DatabaseViewStore) => void
+	rows: RowType[]
+	columns: ColumnType[],
 } & editContext
 
 export type RowType = {
@@ -64,11 +66,16 @@ export type updateGroupType = Pick<groupType, "id"> & DeepPartialWithOptionalRoo
 export type ViewTypesType = keyof typeof views
 export type ColumnCaseHandlers = Record<string, {
 	Icon: FC<any>
+	ValueCase: FC<ValueCasePropsType>
 	filter: (row: RowType, filter: filterType) => boolean
 	sort: (rows: RowType[], sort: sortType) => RowType[]
 	search: (rowValue: RowType[string], searchValue: ViewStore["search"]["value"]) => boolean
 }>
-
+export type ValueCasePropsType = {
+	column: TableViewProps["columns"][number]
+	row: TableViewProps["rows"][number]
+	onEdit: Function
+}
 export type DatabaseViewStateType = {
 	selected_view: string,
 	columns: ColumnType[],

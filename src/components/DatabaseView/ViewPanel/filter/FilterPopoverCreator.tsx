@@ -4,8 +4,8 @@ import {v4 as uuidv4} from 'uuid';
 import {useViewContext} from "@/components/DatabaseView/Views/TableView/ViewContext";
 import {createFilterType, filterType} from "@/components/DatabaseView/DatabaseViewTypes";
 import {observer} from "mobx-react-lite";
-import {useColumnCaseContext} from "@/components/DatabaseView/Views/ColumnCaseContext";
-import { ColumnCaseIcon } from '@/components/DatabaseView/Views/ColumnCaseIcon'
+import {useColumnCaseContext} from "@/components/DatabaseView/Views/ColumnCase/ColumnCaseContext";
+import { ColumnCaseIcon } from '@/components/DatabaseView/Views/ColumnCase/ColumnCaseIcon'
 
 
 export const FilterPopoverCreator = observer(( props: { children: React.ReactNode, variant: "v1" | "v2" } ) => {

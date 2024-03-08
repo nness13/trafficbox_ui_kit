@@ -9,7 +9,7 @@ import {FilterPanel} from "@/components/DatabaseView/ViewPanel/filter/FilterPane
 import {GroupPanel} from "@/components/DatabaseView/ViewPanel/group/GroupPanel";
 import {useViewContext} from "@/components/DatabaseView/Views/TableView/ViewContext";
 import {SortPanel} from "@/components/DatabaseView/ViewPanel/sort/SortPanel";
-import {useColumnCaseContext} from "@/components/DatabaseView/Views/ColumnCaseContext";
+import {useColumnCaseContext} from "@/components/DatabaseView/Views/ColumnCase/ColumnCaseContext";
 import {
 	ColumnCaseHandlers,
 	ColumnType,

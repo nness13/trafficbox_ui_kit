@@ -5,8 +5,8 @@ import { DateView } from '@/components/DateView'
 import {observer} from "mobx-react-lite";
 import {useViewContext} from "@/components/DatabaseView/Views/TableView/ViewContext";
 import {filterType} from "@/components/DatabaseView/DatabaseViewTypes";
-import {useColumnCaseContext} from "@/components/DatabaseView/Views/ColumnCaseContext";
-import { ColumnCaseIcon } from '@/components/DatabaseView/Views/ColumnCaseIcon'
+import {useColumnCaseContext} from "@/components/DatabaseView/Views/ColumnCase/ColumnCaseContext";
+import { ColumnCaseIcon } from '@/components/DatabaseView/Views/ColumnCase/ColumnCaseIcon'
 // import { DateView } from '@/app/[components]/DateView'
 
 type props_type = {

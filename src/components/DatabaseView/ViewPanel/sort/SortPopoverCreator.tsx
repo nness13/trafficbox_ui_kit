@@ -3,8 +3,8 @@ import {Input, ListItem, Popover, PopoverContent, PopoverHandler} from '@materia
 import {useViewContext} from "@/components/DatabaseView/Views/TableView/ViewContext";
 import {createSortType} from "@/components/DatabaseView/DatabaseViewTypes";
 import {observer} from "mobx-react-lite";
-import {useColumnCaseContext} from "@/components/DatabaseView/Views/ColumnCaseContext";
-import { ColumnCaseIcon } from '@/components/DatabaseView/Views/ColumnCaseIcon'
+import {useColumnCaseContext} from "@/components/DatabaseView/Views/ColumnCase/ColumnCaseContext";
+import { ColumnCaseIcon } from '@/components/DatabaseView/Views/ColumnCase/ColumnCaseIcon'
 
 export const SortPopoverCreator = observer(( props: { children: React.ReactNode, variant: "v1" | "v2" } ) => {
 	const active_view = useViewContext()

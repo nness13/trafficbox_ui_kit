@@ -8,7 +8,7 @@ import {
 import {TableRow} from '@/components/DatabaseView/Views/TableView/TableRow'
 import {getAllCount, getSelectPureId} from '@/components/DatabaseView/DatabaseView.utils'
 import {HiChevronDown, HiChevronRight} from 'react-icons/hi2'
-import {ColumnValueTypeSwitcher} from '@/components/DatabaseView/Views/ColumnValueTypeSwitcher'
+import {ColumnValueTypeSwitcher} from '@/components/DatabaseView/Views/ColumnCase/ColumnValueTypeSwitcher'
 import {ColumnType, RowType} from '@/components/DatabaseView/DatabaseViewTypes'
 import {useViewContext} from "@/components/DatabaseView/Views/TableView/ViewContext";
 import {observer} from "mobx-react-lite";

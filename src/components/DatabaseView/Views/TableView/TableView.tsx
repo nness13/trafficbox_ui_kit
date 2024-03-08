@@ -9,8 +9,8 @@ import {ViewState, ViewStore} from "@/components/DatabaseView/Views/ViewStore";
 import {observer} from "mobx-react-lite";
 import { ColumnType, editContext, RowType } from '@/components/DatabaseView/DatabaseViewTypes'
 import {ActiveViewState} from "@/components/DatabaseView/DatabaseViewStore";
-import {ColumnCaseProvider, useColumnCaseContext} from "@/components/DatabaseView/Views/ColumnCaseContext";
-import {DefaultColumnCase} from "@/components/DatabaseView/Views/ColumnCase";
+import {ColumnCaseProvider, useColumnCaseContext} from "@/components/DatabaseView/Views/ColumnCase/ColumnCaseContext";
+import {DefaultColumnCase} from "@/components/DatabaseView/Views/ColumnCase/ColumnCase";
 import { EditProvider } from '@/components/DatabaseView/Views/EditContext'
 import { useDatabaseSearch } from '@/components/DatabaseView/ViewPanel/search/SearchInput'
 import { autorun } from 'mobx'

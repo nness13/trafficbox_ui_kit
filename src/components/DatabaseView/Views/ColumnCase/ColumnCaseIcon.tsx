@@ -1,5 +1,5 @@
 import React from "react"
-import { useColumnCaseContext } from '@/components/DatabaseView/Views/ColumnCaseContext'
+import { useColumnCaseContext } from '@/components/DatabaseView/Views/ColumnCase/ColumnCaseContext'
 import { ColumnType } from '@/components/DatabaseView/DatabaseViewTypes'
 
 export const ColumnCaseIcon = (props: {column: ColumnType}) => {

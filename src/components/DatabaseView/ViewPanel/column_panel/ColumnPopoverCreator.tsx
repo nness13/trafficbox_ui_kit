@@ -3,8 +3,8 @@ import {v4 as uuidv4} from 'uuid'
 import {Input, ListItem, Popover, PopoverContent, PopoverHandler} from '@material-tailwind/react'
 import {useViewContext} from "@/components/DatabaseView/Views/TableView/ViewContext";
 import {observer} from "mobx-react-lite";
-import {useColumnCaseContext} from "@/components/DatabaseView/Views/ColumnCaseContext";
-import { ColumnCaseIcon } from '@/components/DatabaseView/Views/ColumnCaseIcon'
+import {useColumnCaseContext} from "@/components/DatabaseView/Views/ColumnCase/ColumnCaseContext";
+import { ColumnCaseIcon } from '@/components/DatabaseView/Views/ColumnCase/ColumnCaseIcon'
 
 export const ColumnPopoverCreator: FC<{ children: React.ReactNode }> = observer((props  ) => {
 	const active_view = useViewContext()

@@ -5,7 +5,7 @@ import {
 	TableCheckbox,
 	TableRowContainer
 } from '@/components/DatabaseView/Views/TableView/TableContainers'
-import {ColumnValueTypeSwitcher} from '@/components/DatabaseView/Views/ColumnValueTypeSwitcher'
+import {ColumnValueTypeSwitcher} from '@/components/DatabaseView/Views/ColumnCase/ColumnValueTypeSwitcher'
 import {ColumnType, RowType} from '@/components/DatabaseView/DatabaseViewTypes'
 import {useViewContext} from "@/components/DatabaseView/Views/TableView/ViewContext";
 import {observer} from "mobx-react-lite";
