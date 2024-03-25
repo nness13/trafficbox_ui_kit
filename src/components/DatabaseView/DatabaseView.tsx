@@ -5,6 +5,7 @@ import {views} from "@/components/DatabaseView/Views/views";
 import {ActiveViewState, DatabaseViewState, DatabaseViewStore} from "@/components/DatabaseView/DatabaseViewStore";
 import {observer} from "mobx-react-lite";
 import '../../globals.css'
+import { ActionMenuProvider } from '@/components/DatabaseView/Views/ColumnCase/ActionMenuContext'
 
 export const DatabaseView: FC<DatabaseViewProps> = observer((props) => {
 	const view = ActiveViewState()
@@ -25,7 +26,14 @@ export const DatabaseView: FC<DatabaseViewProps> = observer((props) => {
 
 	return (
 		<>
-			<ViewSwitcherPanel/>
+			<ActionMenuProvider store={{
+				loadData: props.loadData,
+				createRow: props.createRow,
+				updateRow: props.updateRow,
+				deleteRow: props.deleteRow,
+			}}>
+				<ViewSwitcherPanel/>
+			</ActionMenuProvider>
 			{view && View
 				? <View
 					key={view.id}

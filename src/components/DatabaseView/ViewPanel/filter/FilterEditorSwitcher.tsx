@@ -32,10 +32,14 @@ export const TextFilterEditor = observer((props: props_type) => {
 	const active_view = useViewContext()
 	const filter = props.filter
 	const condition_options: Array<filterType["condition"]> = [
-		"is",
-		"is_not",
+		"equal",
+		"not_equal",
 		"contain",
-		"is_not_contain",
+		"not_contain",
+		"lt",
+		"lte",
+		"gt",
+		"gte",
 	]
 	const condition_select_option: select_option_type[] = condition_options.map(condition => ({
 		key: condition,
@@ -119,7 +123,7 @@ export const DateFilterEditor = observer((props: props_type) => {
 				</div>
 			</div>
 
-			{filter.condition === "within"
+			{filter.condition === "lte"
 				? <div>
 					{/*<DateInputView*/}
 					{/*	label={"from"}*/}

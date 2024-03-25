@@ -55,7 +55,7 @@ export const FilterPopoverCreator = observer(( props: { children: React.ReactNod
 							onClick={() => on_create_filter({
 								value: "",
 								column: column,
-								condition: "is"
+								condition: "equal"
 							})}
 						>
 							<ColumnCaseIcon column={column}/>

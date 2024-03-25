@@ -3,14 +3,33 @@ import {Tab} from '@/components/Buttons/Tab'
 import {ViewsIcon} from '@/components/DatabaseView/Views/ViewIcon'
 import {ViewPopoverCreator} from '@/components/DatabaseView/ViewPanel/ViewPopoverCreator'
 import {HiArrowPath, HiCheck, HiPlus} from 'react-icons/hi2'
-import React, {memo} from 'react'
-import {DatabaseViewState} from "@/components/DatabaseView/DatabaseViewStore";
+import React, { memo, useEffect } from 'react'
+import { ActiveViewState, DatabaseViewState } from '@/components/DatabaseView/DatabaseViewStore'
 import {observer} from "mobx-react-lite";
 import {Tooltip} from "@material-tailwind/react";
 import {date_format, datetime_format} from "@/config/consts";
 import moment from "moment";
+import { useActionMenuContext } from '@/components/DatabaseView/Views/ColumnCase/ActionMenuContext'
+import { paginationType } from '@/components/DatabaseView/DatabaseViewTypes'
+import { toJS } from 'mobx'
 
 export const ViewSwitcherPanel = observer(() => {
+    const actionMenuContext = useActionMenuContext()
+    const view = ActiveViewState()
+    const onLoad = () => {
+        if(actionMenuContext.loadData && view) {
+            const pagination: paginationType = {
+                current_page: view.pagination.current,
+                page_size: view.pagination.pageSize,
+                filters: view.filters,
+                sort: view.sort
+            }
+            actionMenuContext.loadData(pagination)
+        }
+    }
+    useEffect(() => {
+        onLoad()
+    }, [])
 
     return (
         <div className="flex justify-between">
@@ -40,7 +59,7 @@ export const ViewSwitcherPanel = observer(() => {
             </div>
 			<div>
 				<Tab
-					onClick={() => {} }// onLoad
+					onClick={onLoad}// onLoad
 					className={DatabaseViewState.viewChanged ? "bg-light-green-600 hover:bg-light-green-700 hover:bg-opacity-100" : ""}
 				>
 					<Tooltip content={`Остання загрузка: ${moment(DatabaseViewState.last_load_database_datetime).format(datetime_format)}`}>

@@ -15,12 +15,12 @@ type props_type = {
 export const FilterTag = observer((props: props_type) => {
 
 	let filter_value: string | React.ReactNode = ""
-	if(props.filter.condition !== "within") {
+	if(props.filter.condition !== "lte") {
 		filter_value = <div>
 			{props.filter.value}
 		</div>
 	}
-	if(props.filter.condition === "within") {
+	if(props.filter.condition === "lte") {
 		filter_value = <div>
 			<DateView
 				date={props.filter.from!}
@@ -35,7 +35,7 @@ export const FilterTag = observer((props: props_type) => {
 	}
 
 
-	if(props.filter.condition !== "within" && typeof props.filter.value === 'string') {
+	if(props.filter.condition !== "lte" && typeof props.filter.value === 'string') {
 		switch (props.filter.column.type.type){
 			case "createdAt":
 				filter_value = moment(props.filter.value).format('YYYY-MM-DD HH:mm:ss')
@@ -45,7 +45,7 @@ export const FilterTag = observer((props: props_type) => {
 
 		}
 	}
-	if( props.filter.condition !== "within" && Array.isArray(props.filter.value) ) {
+	if( props.filter.condition !== "lte" && Array.isArray(props.filter.value) ) {
 		filter_value = props.filter.value?.map((el: any) => el).join(', ')
 	}
 

@@ -3,7 +3,7 @@ import {
 	ColumnType,
 	createFilterType,
 	createGroupType,
-	createSortType,
+	createSortType, DeepPartial,
 	filterType,
 	groupType, RowActionHistoryType,
 	RowType,
@@ -14,6 +14,8 @@ import {
 	ViewTypesType
 } from '@/components/DatabaseView/DatabaseViewTypes'
 import {makeAutoObservable} from "mobx";
+import _ from 'lodash'
+import { merge } from '@/components/DatabaseView/DatabaseView.utils'
 
 
 export class ViewStore {
@@ -81,8 +83,17 @@ export class ViewStore {
 		this.groups_panel_status = value
 	}
 
-	on_edit_view (data: Partial<ViewStore>) {
-		Object.keys(data).map(key => (this as any)[key] = (data as any)[key] )
+	on_edit_view (data: DeepPartial<ViewStore>) {
+		merge<ViewStore>(this, data)
+		// Object.keys(data).map(key => (this as any)[key] = (data as any)[key] )
+		// console.log(data)
+		// if(data.init_rows) this.init_rows = data.init_rows
+		// if(data.init_columns) this.init_columns = data.init_columns
+		// if(data.rows) this.rows = data.rows
+		// if(data.columns) this.columns = data.columns
+		// if(data.pagination) {
+		// 	if(data.pagination.total) this.pagination.total = data.pagination.total
+		// }
 	}
 	onSelect (id_list: string[]) {
 		this.selected = id_list

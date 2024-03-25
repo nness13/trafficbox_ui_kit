@@ -1,20 +1,28 @@
-import {FC} from 'react'
+import React, {FC} from 'react'
 import {views} from "@/components/DatabaseView/Views/views";
 import {ViewStore} from "@/components/DatabaseView/Views/ViewStore";
 import {DatabaseViewStore} from "@/components/DatabaseView/DatabaseViewStore";
 import { TableViewProps } from '@/components/DatabaseView/Views/TableView/TableViewTypes'
 
-export type editContext = {
-	loadData?: () => any
+export type actionContext = {
+	loadData?: (pagination?: paginationType) => any
 	createRow?: (item: any) => Promise<boolean>
 	updateRow?: (item: RowType) => Promise<boolean>
 	deleteRow?: (id_list: string[]) => Promise<boolean>
+	actionMenu?: React.FC<ViewStore>
+}
+export type paginationType = {
+	current_page: number,
+	page_size: number,
+	filters: filterType[],
+	sort: sortType[]
 }
 export type DatabaseViewProps = Partial<DatabaseViewStateType> & {
 	handleChange?: (state: DatabaseViewStore) => void
 	rows: RowType[]
 	columns: ColumnType[],
-} & editContext
+    totalRowCount?: number,
+} & actionContext
 
 export type RowType = {
 	id: string
@@ -43,7 +51,7 @@ export type RowActionHistoryType = {
 export type filterType = {
 	id: string,
 	column: ColumnType,
-	condition: "is" | "is_not" | "contain" | "is_not_contain" | "within",
+	condition: "equal" | "not_equal" | "contain" | "not_contain" | "lte" | "lt" | "gte" | "gt",
 	value?: string | number | string[],
 	from?: string,
 	to?: string,
@@ -81,6 +89,18 @@ export type DatabaseViewStateType = {
 	columns: ColumnType[],
 	rows: RowType[],
 }
+
+export type DeepPartial2<T> = {
+	[P in keyof T]?: T[P] extends object ? DeepPartial<T[P]> : T[P];
+};
+
+export type DeepPartial<T> = T extends object
+	? T extends Array<infer U>
+		? Array<U> | undefined
+		: {
+			[P in keyof T]?: DeepPartial<T[P]>;
+		}
+	: T;
 
 type OmitId<T> = T extends { id: string } ? Omit<T, "id"> : T;
 // type DeepPartialWithOptionalRoot<T> = T extends { id: string }

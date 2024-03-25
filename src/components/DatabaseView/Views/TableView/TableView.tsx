@@ -1,24 +1,25 @@
-import React, {FC, memo, useEffect} from 'react'
-import {TableContainer} from '@/components/DatabaseView/Views/TableView/TableContainers'
-import {TableGroupRow} from '@/components/DatabaseView/Views/TableView/TableGroupRow'
-import {TableRow} from '@/components/DatabaseView/Views/TableView/TableRow'
-import {TableHeaderRow} from '@/components/DatabaseView/Views/TableView/TableHeaderRow'
-import {use_view_effects, ViewPanel} from '@/components/DatabaseView/ViewPanel/ViewPanel'
-import {StoreProvider, useViewContext} from "@/components/DatabaseView/Views/TableView/ViewContext";
-import {ViewState, ViewStore} from "@/components/DatabaseView/Views/ViewStore";
-import {observer} from "mobx-react-lite";
-import { ColumnType, editContext, RowType } from '@/components/DatabaseView/DatabaseViewTypes'
-import {ActiveViewState} from "@/components/DatabaseView/DatabaseViewStore";
-import {ColumnCaseProvider, useColumnCaseContext} from "@/components/DatabaseView/Views/ColumnCase/ColumnCaseContext";
-import {DefaultColumnCase} from "@/components/DatabaseView/Views/ColumnCase/ColumnCase";
-import { EditProvider } from '@/components/DatabaseView/Views/EditContext'
-import { useDatabaseSearch } from '@/components/DatabaseView/ViewPanel/search/SearchInput'
-import { autorun } from 'mobx'
+import React, { FC, memo, useEffect } from 'react'
+import { TableContainer } from '@/components/DatabaseView/Views/TableView/TableContainers'
+import { TableGroupRow } from '@/components/DatabaseView/Views/TableView/TableGroupRow'
+import { TableRow } from '@/components/DatabaseView/Views/TableView/TableRow'
+import { TableHeaderRow } from '@/components/DatabaseView/Views/TableView/TableHeaderRow'
+import { ViewPanel } from '@/components/DatabaseView/ViewPanel/ViewPanel'
+import { StoreProvider, useViewContext } from '@/components/DatabaseView/Views/TableView/ViewContext'
+import { ViewState, ViewStore } from '@/components/DatabaseView/Views/ViewStore'
+import { observer } from 'mobx-react-lite'
+import { ColumnType, actionContext, RowType } from '@/components/DatabaseView/DatabaseViewTypes'
+import { ActiveViewState } from '@/components/DatabaseView/DatabaseViewStore'
+import { ColumnCaseProvider, useColumnCaseContext } from '@/components/DatabaseView/Views/ColumnCase/ColumnCaseContext'
+import { DefaultColumnCase } from '@/components/DatabaseView/Views/ColumnCase/ColumnCase'
+import { ActionMenuProvider, useActionMenuContext } from '@/components/DatabaseView/Views/ColumnCase/ActionMenuContext'
+import { toJS } from 'mobx'
+import { use_view_effects } from '@/components/DatabaseView/ViewPanel/ViewPanel.utils'
 
 
-const TableComponent = observer((props: editContext) => {
+const TableComponent = observer(() => {
 	const viewContext = useViewContext()
 	const defaultColumnCase = useColumnCaseContext()
+	const editProps = useActionMenuContext()
 
 	useEffect(() => {
 		if(viewContext) {
@@ -32,8 +33,8 @@ const TableComponent = observer((props: editContext) => {
 
 	useEffect(() => {
 		viewContext.row_action_history.map(action => {
-			if(props.updateRow && action.type === "update") {
-				props.updateRow({
+			if(editProps.updateRow && action.type === "update") {
+				editProps.updateRow({
 					id: action.row_id,
 					[action.column.key]: action.newValue
 				}).then(status => {
@@ -93,10 +94,11 @@ type propsType = {
 	store: ViewStore,
 	rows: RowType[],
 	columns: ColumnType[]
-} & editContext
-export const TableView: FC<propsType> = observer(({ updateRow, createRow, deleteRow, ...props }) => {
+	totalRowCount?: number,
+} & actionContext
+export const TableView: FC<propsType> = observer(({ loadData, updateRow, createRow, deleteRow, actionMenu, ...props }) => {
 	const view = ActiveViewState()
-	const editProps = { createRow, updateRow, deleteRow }
+	const editProps = { loadData, createRow, updateRow, deleteRow, actionMenu }
 
 	if(!view) return null
 
@@ -104,16 +106,22 @@ export const TableView: FC<propsType> = observer(({ updateRow, createRow, delete
 		if(view) {
 			view.on_edit_view({
 				init_columns: props.columns,
-				init_rows: props.rows
+				init_rows: props.rows,
+				pagination: {
+					total: props.totalRowCount || 0
+				}
 			})
 		}
 	}, [props.columns, props.rows])
 
+	console.log(toJS(view))
 	return (
 		<StoreProvider store={props.store}>
-				<ColumnCaseProvider store={DefaultColumnCase}>
-					<TableComponent {...editProps}/>
-				</ColumnCaseProvider>
+				<ActionMenuProvider store={editProps}>
+					<ColumnCaseProvider store={DefaultColumnCase}>
+						<TableComponent/>
+					</ColumnCaseProvider>
+				</ActionMenuProvider>
 		</StoreProvider>
 	)
 })
